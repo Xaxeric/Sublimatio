@@ -1,16 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Sublimatio</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sublimatio</title>
-</head>
-
-<body>
+  <body>
     <header>
-        Sync. Sublimate. Vanish.
+      <h1>Login into Sublimatio</h1>
+      <p>Please use login using your preconfigured credential</p>
     </header>
-</body>
+    <main>
+      <form action="/dashboard" method="POST">
+        <label for="username_id">Username</label>
+        <input type="text" name="username" id="username_id" />
+        <label for="password_id">Password</label>
+        <input type="password" name="password_input" id="password_id" />
 
+        <button type="button">Cancel</button>
+        <button type="submit">Login</button>
+      </form>
+    </main>
+  </body>
 </html>
