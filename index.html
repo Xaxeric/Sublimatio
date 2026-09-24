@@ -12,11 +12,16 @@
       <p>Please use login using your preconfigured credential</p>
     </header>
     <main>
-      <form action="/dashboard" method="POST">
+      <form action="/dashboard.html" method="POST">
         <label for="username_id">Username</label>
         <input type="text" name="username" id="username_id" />
         <label for="password_id">Password</label>
-        <input type="password" name="password_input" id="password_id" />
+        <input
+          type="password"
+          name="password_input"
+          id="password_id"
+          required
+        />
 
         <button type="button">Cancel</button>
         <button type="submit">Login</button>
