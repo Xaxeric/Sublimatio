@@ -28,7 +28,7 @@ body {
 }
 
 h1 {
-  text-align: center;
+  text-align: left;
   font-family: Chakra Petch;
   font-size: 24px;
   letter-spacing: 1.6px;
@@ -39,7 +39,7 @@ h1 {
 }
 
 h2 {
-  text-align: center;
+  text-align: left;
   font-family: Chakra Petch;
   font-size: 13px;
   letter-spacing: 1.1px;
@@ -90,7 +90,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 13px;
+  gap: 20px;
 
   /* height: 100vh; */
   width: 100%;
@@ -100,7 +100,7 @@ main {
     display: flex;
     width: 100%;
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
   }
 
   form {
@@ -155,7 +155,7 @@ main {
     outline: none;
 
     &:hover {
-      filter: brightness(1.3);
+      color: #afb8e9;
     }
   }
 
@@ -166,6 +166,9 @@ main {
     &:focus-visible {
       border-width: 1.3px;
       border-color: #1a39ed;
+    }
+    &:valid {
+      filter: brightness(1.3);
     }
   }
 }
