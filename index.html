@@ -1,34 +1,50 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Sublimatio</title>
-</head>
+    <link rel="stylesheet" type="text/css" href="./style/login.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-    <header>
-        <h1>Sublimatio</h1>
-        <h2>Sync. Sublimate. Vanish.</p>
-            <br />
-            <h3>Login into Sublimatio</h1>
-                <p>Please use login using your preconfigured credential</p>
-    </header>
+  <body>
     <main>
+      <section id="container">
+        <header>
+          <h1>Login into Sublimatio</h1>
+          <h2>Sync. Sublimate. Vanish.</h2>
+        </header>
         <form action="./dashboard.html" method="POST">
+          <p>Please use login using your preconfigured credential</p>
+          <div>
             <label for="username_id">Username</label>
-            <input type="text" name="username" id="username_id" />
-            <br>
-
+            <input
+              type="text"
+              name="username"
+              id="username_id"
+              placeholder="Input your username"
+            />
+          </div>
+          <div>
             <label for="password_id">Password</label>
-            <input type="password" name="password_input" id="password_id" required />
-            <br>
-
-            <button type="button">Cancel</button>
-            <button type="submit">Login</button>
+            <input
+              type="password"
+              name="password_input"
+              id="password_id"
+              required
+              placeholder="Input your password here"
+            />
+          </div>
+          <!-- <button type="button">Cancel</button> -->
+          <button type="submit" class="submit-button clikable">Login</button>
         </form>
+      </section>
     </main>
-</body>
-
+  </body>
 </html>
