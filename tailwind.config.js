@@ -21,10 +21,8 @@ module.exports = {
           text: "#c6cfff",
           subtle: "#a1a9d9",
           muted: "#6e78a7",
-          cyan: "#00f0ff",
           amber: "#f59e0b",
-          rose: "#F32626",
-          emerald: "#10b981",
+          red: "#F32626",
         },
       },
       animation: {
