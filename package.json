@@ -7,9 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --minify",
-    "watch": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --watch",
-    "dev": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --watch"
+    "build": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --minify",
+    "watch": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --watch",
+    "dev": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --watch"
   },
   "keywords": [],
   "type": "commonjs",
