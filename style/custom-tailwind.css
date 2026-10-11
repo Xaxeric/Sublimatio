@@ -6,9 +6,11 @@
   .circular-progress-ring {
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-    transition: stroke-dashoffset 1s linear, stroke 0.5s ease;
+    transition:
+      stroke-dashoffset 1s linear,
+      stroke 0.5s ease;
   }
-  
+
   .glass-card {
     background: linear-gradient(
       to left,
@@ -17,14 +19,15 @@
       hsla(230, 63%, 11%, 0.6)
     );
     backdrop-filter: blur(12px);
-    border: 1px solid #0a102e;
+    border: 2px solid #0a102e;
   }
 
   .glass-card-hover {
     transition: all 0.25s ease;
   }
+
   .glass-card-hover:hover {
-    border-color: #1a2868;
+    border-color: #1a39ed;
     box-shadow: 0 0 20px rgba(26, 57, 237, 0.15);
   }
 }
