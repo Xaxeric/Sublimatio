@@ -1,0 +1,20 @@
+{
+  "name": "experimental",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --watch",
+    "dev": "tailwindcss -i ./src/input.css -o ./style/tailwind.css --watch"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "autoprefixer": "^10.6.1",
+    "tailwindcss": "^3.4.17"
+  }
+}
