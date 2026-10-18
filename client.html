@@ -3,29 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sublimatio</title>
+    <title>Sublimatio - Client Send</title>
+    <link rel="stylesheet" type="text/css" href="./style/tailwind.css" />
+    <link rel="stylesheet" type="text/css" href="./style/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Kode+Mono:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <header>
-      <h1>Sublimatio</h1>
-    </header>
-    <main>
-      <form>
-        <label for="fileupload_id">Upload Image:</label>
-        <input
-          type="file"
-          name="image_upload"
-          id="fileupload_id"
-          accept="image/png, image/jpeg"
-        />
-        <br />
-        <label for="textform_id">Text Send:</label>
-        <textarea id="textform_id" rows="5"></textarea>
+  <body
+    class="bg-[#070b1f] text-[#c6cfff] font-rajdhani min-h-screen flex items-center justify-center p-4"
+  >
+    <div class="grid-img-decoration mask-img-w-radial"></div>
 
-        <br />
-        <button type="button">Cancel</button>
-        <button type="submit">Login</button>
+    <section
+      id="container"
+      class="glass-card max-w-lg w-full p-6 border border-[#0a102e] shadow-2xl space-y-6"
+    >
+      <form action="./dashboard.html" method="GET" class="space-y-4">
+        <div>
+          <label
+            for="fileupload_id"
+            class="block text-xs font-chakra uppercase tracking-wider text-slate-300 mb-2"
+          >
+            Upload File
+          </label>
+          <input
+            type="file"
+            name="image_upload"
+            id="fileupload_id"
+            accept="image/png, image/jpeg, application/pdf"
+            class="w-full px-3 py-2 bg-[#080d24] border border-[#0a102e] text-xs font-mono text-slate-400 file:mr-3 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-xs file:font-chakra file:bg-blue-900/60 file:text-cyan-300"
+          />
+        </div>
+
+        <div>
+          <label
+            for="textform_id"
+            class="block text-xs font-chakra uppercase tracking-wider text-slate-300 mb-2"
+          >
+            Text / Clipboard Content:
+          </label>
+          <textarea
+            id="textform_id"
+            rows="4"
+            placeholder="Type or paste payload here..."
+            class="w-full px-3 py-2 bg-[#080d24] border border-[#0a102e] text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <button
+            type="submit"
+            class="px-6 py-2 g-blue-600 hover:bg-blue-500 border border-blue-400 text-white text-xs font-chakra uppercase font-bold tracking-wider shadow-lg transition-all"
+          >
+            Transmit to Buffer
+          </button>
+        </div>
       </form>
-    </main>
+    </section>
   </body>
 </html>
