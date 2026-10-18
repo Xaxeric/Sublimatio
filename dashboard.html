@@ -388,39 +388,50 @@
             </div>
           </div>
 
-          <!-- Description -->
-          <div>
-            <span
-              class="block text-[11px] font-chakra uppercase tracking-wider text-slate-400 mb-1"
-              >Description</span
-            >
-            <p
-              id="inspect-desc"
-              class="text-xs font-rajdhani text-slate-300 leading-relaxed bg-black/20 p-2.5 border border-[#0a102e]"
-            ></p>
-          </div>
-
-          <!-- SHA256 Hash -->
-          <div>
+          <!-- SHA256 Fingerprint (File Only) -->
+          <div id="inspect-hash-container" style="display: none">
             <span
               class="block text-[11px] font-chakra uppercase tracking-wider text-slate-400 mb-1"
               >SHA-256 Fingerprint</span
             >
             <p
               id="inspect-hash"
-              class="text-[11px] font-mono text-indigo-300 break-all bg-black/40 p-2 border-[#0a102e]"
+              class="text-[11px] font-mono text-indigo-300 break-all bg-black/40 p-2.5 border border-[#0a102e]"
             ></p>
           </div>
 
-          <!-- Raw Payload View -->
+          <!-- Raw Payload View with Top-Right Copy Button in Header Bar -->
           <div>
-            <span
-              class="block text-[11px] font-chakra uppercase tracking-wider text-slate-400 mb-1"
-              >Payload Content</span
-            >
+            <div class="flex items-center justify-between mb-1.5">
+              <span
+                class="block text-[11px] font-chakra uppercase tracking-wider text-slate-400"
+                >Payload Content</span
+              >
+              <button
+                type="button"
+                id="btn-copy-inspect-content"
+                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-[11px] font-chakra uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md"
+                title="Copy payload content to clipboard"
+              >
+                <svg
+                  class="w-3.5 h-3.5 text-cyan-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                  />
+                </svg>
+                <span id="copy-inspect-label">Copy</span>
+              </button>
+            </div>
             <pre
               id="inspect-content"
-              class="text-xs font-mono text-slate-200 bg-black/60 p-3 border border-[#0a102e] max-h-48 overflow-y-auto whitespace-pre-wrap break-all"
+              class="text-xs sm:text-sm font-mono text-slate-200 bg-black/60 p-3.5 border border-[#0a102e] max-h-56 overflow-y-auto whitespace-pre-wrap break-all"
             ></pre>
           </div>
         </div>
@@ -444,7 +455,13 @@
       class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"
     ></div>
 
-    <!-- Dashboard Core Script -->
-    <script src="./js/dashboard.js"></script>
+    <!-- jQuery Library (CDN with local fallback) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      window.jQuery ||
+        document.write('<script src="./js/jquery-3.7.1.min.js"><\/script>');
+    </script>
+
+    <script src="./js/script.js"></script>
   </body>
 </html>
