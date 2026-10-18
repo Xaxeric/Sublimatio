@@ -108,7 +108,10 @@
       </div>
     </aside>
 
-    <main id="dashboard" class="relative z-10 space-y-8">
+    <main
+      id="dashboard"
+      class="relative z-10 flex flex-col min-h-screen space-y-6"
+    >
       <div
         class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#0a102e]"
       >
@@ -135,15 +138,23 @@
             id="btn-open-modal"
             class="px-4 py-2 bg-sublimatio-accent hover:bg-blue-600 text-white border border-blue-400 text-xs font-chakra uppercase font-bold tracking-wider transition-all shadow-[0_0_15px_rgba(26,57,237,0.4)] flex items-center gap-2"
           >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
             </svg>
             Transmit Payload
           </button>
         </div>
       </div>
-
-
 
       <!-- Filter Controls & Search Toolbar -->
       <div
@@ -324,16 +335,194 @@
             </button>
           </div>
         </div>
-        <div id="audit-list" class="divide-y divide-[#0a102e]/60">
-          <!-- Populated by dashboard.js -->
+        <!-- Audit List Container for jQuery slideToggle -->
+        <div id="audit-list-container" class="mt-3">
+          <div id="audit-list" class="divide-y divide-[#0a102e]/60"></div>
         </div>
       </section>
     </main>
 
-    <!-- Modal: Inspect Item Details -->
+    <!-- Modal: Add / Transmit Payload (jQuery fadeIn/fadeOut) -->
+    <div
+      id="modal-add"
+      class="fixed inset-0 z-50 items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      style="display: none"
+    >
+      <div
+        class="glass-card max-w-lg w-full p-6 border border-sublimatio-accent shadow-2xl relative space-y-5"
+      >
+        <!-- Modal Header -->
+        <div
+          class="flex items-center justify-between pb-3 border-b border-[#0a102e]"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              class="w-2.5 h-2.5 bg-sublimatio-accent shadow-[0_0_8px_#1a39ed]"
+            ></span>
+            <h3 class="font-chakra text-lg font-bold text-white tracking-wider">
+              Transmit New Payload
+            </h3>
+          </div>
+          <button
+            type="button"
+            class="modal-close text-slate-400 hover:text-white text-xl p-1 leading-none"
+          >
+            &times;
+          </button>
+        </div>
+
+        <!-- Validation Error Alert Box (Controlled via jQuery slideDown / slideUp) -->
+        <div
+          id="form-error"
+          class="p-3 bg-sublimatio-red/20 border border-sublimatio-red/50 text-sublimatio-red text-xs font-chakra rounded flex items-center gap-2"
+          style="display: none"
+        >
+          <svg
+            class="w-4 h-4 flex-shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <span id="form-error-msg">Validation error message</span>
+        </div>
+
+        <!-- Add Form with jQuery Validation -->
+        <form id="form-add-item" class="space-y-4">
+          <!-- Payload Type -->
+          <div>
+            <label
+              for="add-type"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              Payload Type
+            </label>
+            <select
+              id="add-type"
+              class="w-full px-3.5 py-2.5 bg-[#080d24] border border-[#0a102e] text-sm font-chakra text-white focus:outline-none focus:border-sublimatio-accent"
+            >
+              <option value="text">Text Snippet / Clipboard</option>
+              <option value="link">Web Link / URL</option>
+              <option value="file">File Upload / Transfer</option>
+            </select>
+          </div>
+
+          <!-- Label Name -->
+          <div>
+            <label
+              for="add-name"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              Item Identifier / Name <span class="text-sublimatio-red">*</span>
+            </label>
+            <input
+              type="text"
+              id="add-name"
+              placeholder="e.g., API Secret Token, Staging DB URL"
+              class="w-full px-3.5 py-2.5 bg-[#080d24] border border-[#0a102e] text-sm font-rajdhani text-white placeholder-slate-500 focus:outline-none focus:border-sublimatio-accent transition-colors"
+            />
+          </div>
+
+          <!-- Dynamic Input Groups -->
+          <!-- Group: Text -->
+          <div id="group-text">
+            <label
+              for="add-text-input"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              Text Payload Content <span class="text-sublimatio-red">*</span>
+            </label>
+            <textarea
+              id="add-text-input"
+              rows="4"
+              placeholder="Paste sensitive text, credentials, or notes..."
+              class="w-full px-3.5 py-2.5 bg-[#080d24] border border-[#0a102e] text-sm font-mono text-white placeholder-slate-500 focus:outline-none focus:border-sublimatio-accent"
+            ></textarea>
+          </div>
+
+          <!-- Group: Link (Hidden by default) -->
+          <div id="group-url" style="display: none">
+            <label
+              for="add-url-input"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              Target URL <span class="text-sublimatio-red">*</span>
+            </label>
+            <input
+              type="url"
+              id="add-url-input"
+              placeholder="https://example.com/temporary-room"
+              class="w-full px-3.5 py-2.5 bg-[#080d24] border border-[#0a102e] text-sm font-mono text-white placeholder-slate-500 focus:outline-none focus:border-sublimatio-accent"
+            />
+          </div>
+
+          <!-- Group: File (Hidden by default) -->
+          <div id="group-file" style="display: none">
+            <label
+              for="add-file-input"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              Choose File
+            </label>
+            <input
+              type="file"
+              id="add-file-input"
+              class="w-full px-3.5 py-2 bg-[#080d24] border border-[#0a102e] text-sm font-mono text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-chakra file:bg-blue-900/60 file:text-cyan-300"
+            />
+          </div>
+
+          <!-- TTL Expiration (Full width, device origin removed) -->
+          <div>
+            <label
+              for="add-ttl"
+              class="block text-xs font-chakra uppercase tracking-wider text-slate-300 font-semibold mb-1.5"
+            >
+              TTL Expiration
+            </label>
+            <select
+              id="add-ttl"
+              class="w-full px-3.5 py-2.5 bg-[#080d24] border border-[#0a102e] text-sm font-chakra text-white focus:outline-none focus:border-sublimatio-accent"
+            >
+              <option value="15">15 Seconds (Fast Test)</option>
+              <option value="30">30 Seconds</option>
+              <option value="60">1 Minute</option>
+              <option value="300" selected>5 Minutes</option>
+              <option value="900">15 Minutes</option>
+            </select>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div
+            class="flex items-center justify-end gap-3 pt-3 border-t border-[#0a102e]"
+          >
+            <button
+              type="button"
+              class="modal-close px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-chakra uppercase tracking-wider transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-5 py-2 bg-sublimatio-accent hover:bg-blue-600 text-white text-xs font-chakra uppercase font-bold tracking-wider transition-all shadow-[0_0_15px_rgba(26,57,237,0.4)]"
+            >
+              Transmit to Buffer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Inspect Item Details (jQuery fadeIn/fadeOut) -->
     <div
       id="modal-inspect"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden"
+      class="fixed inset-0 z-50 items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      style="display: none"
     >
       <div
         class="glass-card max-w-xl w-full p-6 border border-blue-900/60 shadow-2xl relative space-y-5"
@@ -352,7 +541,7 @@
           </div>
           <button
             type="button"
-            class="modal-close text-slate-400 hover:text-white text-xl p-1"
+            class="modal-close text-slate-400 hover:text-white text-xl p-1 leading-none"
           >
             &times;
           </button>
