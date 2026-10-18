@@ -127,161 +127,23 @@
             expiry.
           </p>
         </div>
-      </div>
 
-      <!-- Real-Time Metrics Overview Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Active Items Card -->
-        <div class="glass-card p-4 sm:p-5 flex items-center justify-between">
-          <div>
-            <p
-              class="text-[11px] font-chakra font-semibold text-sublimatio-tertiary tracking-wider uppercase"
-            >
-              Active In Buffer
-            </p>
-            <p
-              id="stat-active"
-              class="text-2xl sm:text-3xl font-chakra font-bold text-white mt-1"
-            >
-              7
-            </p>
-            <span
-              class="text-[11px] font-mono text-sublimatio-accent flex items-center gap-1 mt-0.5"
-            >
-              <span class="w-1.5 h-1.5 bg-sublimatio-accent animate-pulse"></span>
-              Transient
-            </span>
-          </div>
-          <div
-            class="w-10 h-10 bg-blue-950/40 border border-blue-900/40 flex items-center justify-center text-sublimatio-accent"
+        <!-- Action Control Buttons (jQuery Interactivity) -->
+        <div class="flex items-center gap-2.5">
+          <button
+            type="button"
+            id="btn-open-modal"
+            class="px-4 py-2 bg-sublimatio-accent hover:bg-blue-600 text-white border border-blue-400 text-xs font-chakra uppercase font-bold tracking-wider transition-all shadow-[0_0_15px_rgba(26,57,237,0.4)] flex items-center gap-2"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.8"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
-          </div>
-        </div>
-
-        <!-- Expiring Soon Card -->
-        <div class="glass-card p-4 sm:p-5 flex items-center justify-between">
-          <div>
-            <p
-              class="text-[11px] font-chakra font-semibold text-sublimatio-tertiary tracking-wider uppercase"
-            >
-              Expiring (&lt;60s)
-            </p>
-            <p
-              id="stat-expiring"
-              class="text-2xl sm:text-3xl font-chakra font-bold text-sublimatio-red mt-1"
-            >
-              1
-            </p>
-            <span class="text-[11px] font-mono text-sublimatio-red mt-0.5 block"
-              >Circular Load Active</span
-            >
-          </div>
-          <div
-            class="w-10 h-10 bg-sublimatio-red/20 border border-sublimatio-red/40 flex items-center justify-center text-sublimatio-red"
-          >
-            <svg
-              class="w-5 h-5 animate-pulse"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.8"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-        </div>
-
-        <!-- Sublimated / Deleted Card -->
-        <div class="glass-card p-4 sm:p-5 flex items-center justify-between">
-          <div>
-            <p
-              class="text-[11px] font-chakra font-semibold text-sublimatio-tertiary tracking-wider uppercase"
-            >
-              Sublimated (Wiped)
-            </p>
-            <p
-              id="stat-sublimated"
-              class="text-2xl sm:text-3xl font-chakra font-bold text-slate-200 mt-1"
-            >
-              2
-            </p>
-            <span class="text-[11px] font-mono text-slate-400 mt-0.5 block"
-              >Zero Forensics Left</span
-            >
-          </div>
-          <div
-            class="w-10 h-10 bg-slate-900/60 border border-slate-800 flex items-center justify-center text-slate-400"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.8"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
-          </div>
-        </div>
-
-        <!-- RAM Allocation Card -->
-        <div class="glass-card p-4 sm:p-5 flex items-center justify-between">
-          <div>
-            <p
-              class="text-[11px] font-chakra font-semibold text-sublimatio-tertiary tracking-wider uppercase"
-            >
-              Buffer Size
-            </p>
-            <p
-              id="stat-storage"
-              class="text-2xl sm:text-3xl font-chakra font-bold text-indigo-300 mt-1"
-            >
-              7.9 MB
-            </p>
-            <span class="text-[11px] font-mono text-slate-400 mt-0.5 block"
-              >RAM Volatile Memory</span
-            >
-          </div>
-          <div
-            class="w-10 h-10 bg-indigo-950/40 border border-indigo-900/40 flex items-center justify-center text-indigo-400"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.8"
-                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-              />
-            </svg>
-          </div>
+            Transmit Payload
+          </button>
         </div>
       </div>
+
+
 
       <!-- Filter Controls & Search Toolbar -->
       <div
@@ -321,17 +183,25 @@
           </button>
         </div>
 
-        <!-- Search Bar -->
-        <div class="relative w-full sm:w-72">
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <!-- Controls: Sort & Search Bar -->
+        <div class="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+          <!-- Sort Dropdown (Pure JS sort function) -->
+          <div class="flex items-center gap-2">
+            <label
+              for="sort-select"
+              class="text-xs font-chakra uppercase tracking-wider text-sublimatio-tertiary hidden sm:inline"
+              >Sort:</label
             >
+            <select
+              id="sort-select"
+              class="px-2.5 py-2 bg-[#080d24]/90 border border-[#0a102e] text-xs font-chakra text-white focus:outline-none focus:border-sublimatio-accent"
+            >
+              <option value="ttl-asc">TTL: Expiring Soonest</option>
+              <option value="ttl-desc">TTL: Longest First</option>
+              <option value="name-asc">Name: A to Z</option>
+              <option value="name-desc">Name: Z to A</option>
+            </select>
+          </div>
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
