@@ -202,20 +202,33 @@
               <option value="name-desc">Name: Z to A</option>
             </select>
           </div>
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+
+          <!-- Search Bar -->
+          <div class="relative w-full sm:w-64">
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search items by name or content..."
+              class="w-full pl-9 pr-4 py-2 bg-[#080d24]/90 border border-[#0a102e] text-xs font-rajdhani text-white placeholder-slate-500 focus:outline-none focus:border-sublimatio-accent transition-colors"
+            />
           </div>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Search items by name or content..."
-            class="w-full pl-9 pr-4 py-2 bg-[#080d24]/90 border border-[#0a102e] text-xs font-rajdhani text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
-          />
         </div>
       </div>
 
