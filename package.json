@@ -1,20 +1,25 @@
 {
-  "name": "experimental",
+  "name": "sublimatio-payload-buffer",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "Sublimatio - Ephemeral Payload Buffer (React + Vite frontend)",
+  "type": "module",
   "scripts": {
-    "build": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --minify",
-    "watch": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --watch",
-    "dev": "tailwindcss -i ./style/custom-tailwind.css -o ./style/tailwind.css --watch"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
-  "type": "commonjs",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
   "devDependencies": {
-    "autoprefixer": "^10.6.1",
-    "tailwindcss": "^3.4.17"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.11"
   }
 }
