@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Rajdhani, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+
+  html {
+    background: linear-gradient(to bottom, #070b1f, #040714);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "Chakra Petch", sans-serif;
+    text-transform: uppercase;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .circular-progress-ring {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition:
+      stroke-dashoffset 1s linear,
+      stroke 0.5s ease;
+  }
+
+  .glass-card {
+    background: linear-gradient(
+      to left,
+      hsla(230, 63%, 11%, 0.6),
+      hsla(0, 0%, 0%, 0.6),
+      hsla(230, 63%, 11%, 0.6)
+    );
+    backdrop-filter: blur(12px);
+    border: 2px solid #0a102e;
+  }
+
+  .glass-card-hover {
+    transition: all 0.25s ease;
+  }
+
+  .glass-card-hover:hover {
+    border-color: #1a39ed;
+    box-shadow: 0 0 20px rgba(26, 57, 237, 0.15);
+  }
+
+  .grid-img-decoration {
+    background: url("/assets/grid-pattern.png");
+    background-position: center;
+    background-size: auto;
+    background-repeat: repeat;
+    filter: blur(5px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .mask-img-w-radial {
+    mask-image: radial-gradient(black 10%, transparent);
+    mask-repeat: no-repeat;
+    mask-size: auto;
+    mask-position: center;
+  }
+}

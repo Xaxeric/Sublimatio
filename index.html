@@ -3,97 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Sublimatio</title>
-    <link rel="stylesheet" type="text/css" href="./style/tailwind.css" />
-    <link rel="stylesheet" type="text/css" href="./style/style.css" />
+    <title>Sublimatio - Ephemeral Payload Buffer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Kode+Mono:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
-
   <body>
-    <main>
-      <section id="container">
-        <header>
-          <h1>Authentication</h1>
-          <h2>Sublimatio - Sync. Sublimate. Vanish.</h2>
-        </header>
-        <!-- Validation alert message -->
-        <div
-          id="login-error"
-          class="p-2.5 my-2 bg-sublimatio-red/20 border border-sublimatio-red/50 text-sublimatio-red text-xs font-chakra rounded"
-          style="display: none"
-        >
-          <span id="login-error-msg">Username and password required</span>
-        </div>
-
-        <form id="login-form" action="./dashboard.html" method="GET">
-          <p>Please use login using your preconfigured credential</p>
-          <div>
-            <label for="username_id">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username_id"
-              placeholder="Input your username"
-            />
-          </div>
-          <div>
-            <label for="password_id">Password</label>
-            <input
-              type="password"
-              name="password_input"
-              id="password_id"
-              placeholder="Input your password here"
-            />
-          </div>
-          <div>
-            <button type="button" id="btn-cancel-login">Cancel</button>
-            <button type="submit" class="submit-button clikable">Login</button>
-          </div>
-        </form>
-      </section>
-    </main>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
-      window.jQuery ||
-        document.write('<script src="./js/jquery-3.7.1.min.js"><\/script>');
-    </script>
-    <script>
-      $(document).ready(function () {
-        $("#login-form").on("submit", function (e) {
-          e.preventDefault();
-          const user = $("#username_id").val().trim();
-          const pass = $("#password_id").val().trim();
-
-          if (!user || !pass) {
-            $("#login-error-msg").text(
-              "Username and password must be fill before login!",
-            );
-            $("#login-error").slideDown(200);
-            if (!user) $("#username_id").focus();
-            else $("#password_id").focus();
-            return false;
-          }
-
-          $("#login-error").slideUp(150);
-          $(".submit-button").text("Authenticating...").prop("disabled", true);
-
-          setTimeout(function () {
-            window.location.href = "./dashboard.html";
-          }, 400);
-        });
-
-        $("#btn-cancel-login").on("click", function () {
-          $("#username_id").val("");
-          $("#password_id").val("");
-          $("#login-error").slideUp(150);
-        });
-      });
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
