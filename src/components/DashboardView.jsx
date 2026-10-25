@@ -29,6 +29,12 @@ export default function DashboardView({
   const [filter, setFilter] = useState("all");
   const [sortBy, setSortBy] = useState("ttl-asc");
   const [query, setQuery] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth > 768;
+    }
+    return true;
+  });
 
   // Pick up payloads transmitted from the Client view (localStorage handoff).
   useEffect(() => {
@@ -46,14 +52,26 @@ export default function DashboardView({
     <div className="relative min-h-screen">
       <div className="grid-img-decoration mask-img-w-radial" />
 
-      <Sidebar />
+      <Sidebar
+        payloads={payloads}
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen((prev) => !prev)}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      <main className="relative z-10 ml-[233px] flex min-h-screen flex-col gap-6 p-6 sm:p-8">
+      <main
+        className={
+          "relative z-10 flex min-h-screen flex-col gap-6 p-6 sm:p-8 transition-all duration-300 ease-in-out " +
+          (sidebarOpen ? "md:ml-[240px]" : "ml-0")
+        }
+      >
         <AppHeader
           title="Buffer"
           subtitle="Temporary data sync buffer between devices. Every file, link, and text payload contains an active circular countdown and will automatically sublimate (permanently delete from RAM) upon TTL expiry."
           actionLabel="Transmit Payload"
           onAction={() => setShowForm(true)}
+          onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+          sidebarOpen={sidebarOpen}
         />
 
         <PayloadStats payloads={payloads} />
