@@ -10,6 +10,7 @@ import PayloadList from "./PayloadList.jsx";
 import PayloadStats from "./PayloadStats.jsx";
 import Sidebar from "./Sidebar.jsx";
 import SublimationLog from "./SublimationLog.jsx";
+import ExternalApiSync from "./ExternalApiSync.jsx";
 
 /**
  * Dashboard view. Receives the Payload array owned by App.jsx and composes the
@@ -100,6 +101,8 @@ export default function DashboardView({
             onInspect={setInspectId}
           />
         </section>
+
+        <ExternalApiSync onImportPayload={onAddPayload} />
 
         <SublimationLog logs={logs} />
       </main>
