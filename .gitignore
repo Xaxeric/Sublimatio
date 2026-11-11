@@ -4,3 +4,4 @@ dist/
 .worktrees/
 Project_Vault_knowledge
 legacy/
+*.tsbuildinfo
