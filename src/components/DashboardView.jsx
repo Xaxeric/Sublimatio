@@ -10,7 +10,7 @@ import PayloadList from "./PayloadList.jsx";
 import PayloadStats from "./PayloadStats.jsx";
 import Sidebar from "./Sidebar.jsx";
 import SublimationLog from "./SublimationLog.jsx";
-import ExternalApiSync from "./ExternalApiSync.jsx";
+import EditPayloadModal from "./EditPayloadModal.jsx";
 
 /**
  * Dashboard view. Receives the Payload array owned by App.jsx and composes the
@@ -20,13 +20,25 @@ export default function DashboardView({
   payloads,
   logs,
   onAddPayload,
+  onUpdatePayload,
   onSublimate,
   onCopy,
   onDownload,
   onConsumePending,
 }) {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search).get("modal") === "form";
+    }
+    return false;
+  });
   const [inspectId, setInspectId] = useState(null);
+  const [editingPayload, setEditingPayload] = useState(() => {
+    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("modal") === "edit") {
+      return payloads[0] || null;
+    }
+    return null;
+  });
   const [filter, setFilter] = useState("all");
   const [sortBy, setSortBy] = useState("ttl-asc");
   const [query, setQuery] = useState("");
@@ -41,6 +53,17 @@ export default function DashboardView({
   useEffect(() => {
     onConsumePending();
   }, [onConsumePending]);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("modal") === "edit" &&
+      !editingPayload &&
+      payloads.length > 0
+    ) {
+      setEditingPayload(payloads[0]);
+    }
+  }, [payloads, editingPayload]);
 
   const visiblePayloads = useMemo(
     () => sortPayloads(filterPayloads(payloads, filter, query), sortBy),
@@ -99,10 +122,9 @@ export default function DashboardView({
             onCopy={onCopy}
             onDownload={onDownload}
             onInspect={setInspectId}
+            onEdit={setEditingPayload}
           />
         </section>
-
-        <ExternalApiSync onImportPayload={onAddPayload} />
 
         <SublimationLog logs={logs} />
       </main>
@@ -111,6 +133,14 @@ export default function DashboardView({
         <PayloadForm
           onAddPayload={onAddPayload}
           onClose={() => setShowForm(false)}
+        />
+      )}
+
+      {editingPayload && (
+        <EditPayloadModal
+          payload={editingPayload}
+          onUpdatePayload={onUpdatePayload}
+          onClose={() => setEditingPayload(null)}
         />
       )}
 
