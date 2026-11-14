@@ -15,6 +15,7 @@ export default function PayloadList({
   onCopy,
   onDownload,
   onInspect,
+  onEdit,
 }) {
   if (payloads.length === 0) {
     return <EmptyState entityName={entityName} />;
@@ -30,6 +31,7 @@ export default function PayloadList({
           onCopy={onCopy}
           onDownload={onDownload}
           onInspect={onInspect}
+          onEdit={onEdit}
         />
       ))}
     </div>

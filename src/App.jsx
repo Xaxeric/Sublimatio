@@ -2,6 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { INITIAL_LOGS, INITIAL_PAYLOADS } from "./data/payloads.js";
+import {
+  createPayloadApi,
+  deletePayloadApi,
+  fetchPayloadsApi,
+  updatePayloadApi,
+} from "./api/payloads.js";
 import ClientView from "./components/ClientView.jsx";
 import ConnectView from "./components/ConnectView.jsx";
 import DashboardView from "./components/DashboardView.jsx";
@@ -37,6 +43,31 @@ export default function App() {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
+  // Fetch initial payloads from NestJS backend API on component mount
+  useEffect(() => {
+    let mounted = true;
+    fetchPayloadsApi()
+      .then((data) => {
+        if (mounted && Array.isArray(data) && data.length > 0) {
+          setPayloads(data);
+          pushToast(
+            `Terhubung ke Backend NestJS (${data.length} payload aktif dimuat)`,
+            "info",
+            "NestJS Backend Synced",
+          );
+        }
+      })
+      .catch((err) => {
+        console.warn(
+          "NestJS backend offline atau tidak dapat dijangkau, menggunakan fallback data lokal:",
+          err.message,
+        );
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [pushToast]);
+
   // Records a payload into the LOG section and shows the purge notification.
   const recordSublimation = useCallback(
     (payload, reason) => {
@@ -64,24 +95,79 @@ export default function App() {
     [pushToast],
   );
 
-  // Add a new payload to the buffer (used by the controlled form).
+  // Add a new payload to the buffer (calls POST /payloads on backend)
   const addPayload = useCallback(
-    (payload) => {
-      setPayloads((prev) => [payload, ...prev]);
-      pushToast(
-        `Berhasil mempublikasikan payload "${payload.name}" ke memori buffer!`,
-        "success",
-        "Payload Transmitted",
-      );
+    async (payload) => {
+      try {
+        const created = await createPayloadApi({
+          name: payload.name,
+          type: payload.type,
+          content: payload.content,
+          url: payload.url,
+          device: payload.device || "Workstation (Desktop)",
+          totalTTL: payload.totalTTL || 300,
+          remainingTTL: payload.remainingTTL || payload.totalTTL || 300,
+          size: payload.size,
+          mime: payload.mime,
+          isPinned: payload.isPinned ?? false,
+        });
+
+        setPayloads((prev) => [created, ...prev]);
+        pushToast(
+          `Berhasil mempublikasikan payload "${created.name}" ke backend NestJS!`,
+          "success",
+          "Payload Transmitted (201 Created)",
+        );
+        return created;
+      } catch (error) {
+        pushToast(
+          error.message || "Gagal mengirim payload ke backend",
+          "danger",
+          error.status === 409 ? "HTTP 409 Conflict" : "HTTP 400 Bad Request",
+        );
+        throw error;
+      }
     },
     [pushToast],
   );
 
-  // Remove a payload from the buffer and write it to the LOG.
+  // Update an existing payload (calls PATCH /payloads/:id on backend)
+  const updatePayload = useCallback(
+    async (id, updateData) => {
+      try {
+        const updated = await updatePayloadApi(id, updateData);
+        setPayloads((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, ...updated } : item)),
+        );
+        pushToast(
+          `Berhasil memperbarui payload "${updated.name}" di backend NestJS!`,
+          "success",
+          "Payload Updated (200 OK)",
+        );
+        return updated;
+      } catch (error) {
+        pushToast(
+          error.message || "Gagal memperbarui payload",
+          "danger",
+          "Update Failed",
+        );
+        throw error;
+      }
+    },
+    [pushToast],
+  );
+
+  // Remove a payload from the buffer (calls DELETE /payloads/:id on backend)
   const sublimatePayload = useCallback(
-    (id, reason = "Manual Vanish") => {
+    async (id, reason = "Manual Vanish") => {
       const target = payloadsRef.current.find((item) => item.id === id);
       if (!target) return;
+
+      try {
+        await deletePayloadApi(id);
+      } catch (error) {
+        console.warn("Delete API warning:", error.message);
+      }
 
       recordSublimation(target, reason);
       setPayloads((prev) => prev.filter((item) => item.id !== id));
@@ -90,30 +176,26 @@ export default function App() {
   );
 
   // Pull a payload transmitted from the Client view (stored in localStorage).
-  const consumePendingTransmission = useCallback(() => {
+  const consumePendingTransmission = useCallback(async () => {
     try {
       const pending = localStorage.getItem(PENDING_TRANSMIT_KEY);
       if (!pending) return;
       localStorage.removeItem(PENDING_TRANSMIT_KEY);
       const parsed = JSON.parse(pending);
       if (parsed && parsed.name) {
-        setPayloads((prev) => [parsed, ...prev]);
-        pushToast(
-          `Menerima transmisi data baru dari client device: "${parsed.name}"`,
-          "success",
-          "Peer Synced",
-        );
+        await addPayload(parsed);
       }
     } catch (error) {
       console.warn("Storage sync check warning:", error);
     }
-  }, [pushToast]);
+  }, [addPayload]);
 
-  // 1-second countdown: decrement every remaining TTL and purge expired payloads.
+  // 1-second countdown: decrement remaining TTL for unpinned items and purge expired
   useEffect(() => {
     const interval = setInterval(() => {
       const expired = [];
       const next = payloadsRef.current.map((payload) => {
+        if (payload.isPinned) return payload;
         const remaining = Math.max(0, payload.remainingTTL - 1);
         if (remaining === 0) expired.push({ ...payload, remainingTTL: 0 });
         return { ...payload, remainingTTL: remaining };
@@ -177,6 +259,7 @@ export default function App() {
               payloads={payloads}
               logs={logs}
               onAddPayload={addPayload}
+              onUpdatePayload={updatePayload}
               onSublimate={sublimatePayload}
               onCopy={copyToClipboard}
               onDownload={downloadPayload}
