@@ -63,6 +63,7 @@ export default function PayloadCard({
   onCopy,
   onDownload,
   onInspect,
+  onEdit,
 }) {
   const [leaving, setLeaving] = useState(false);
   const styles = TYPE_STYLES[payload.type] || TYPE_STYLES.text;
@@ -315,6 +316,28 @@ export default function PayloadCard({
 
         <div className="flex flex-shrink-0 items-center gap-1.5">
           {renderPrimaryAction()}
+          {onEdit && (
+            <button
+              type="button"
+              onClick={(event) => handleAction(event, () => onEdit(payload))}
+              className="rounded border border-amber-700/60 bg-amber-950/50 px-2 py-1.5 text-xs text-amber-300 transition-all hover:bg-amber-900/70 hover:text-white"
+              title="Edit / Update payload (PATCH)"
+            >
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </button>
+          )}
           <button
             type="button"
             onClick={(event) => handleAction(event, () => onInspect(payload.id))}
