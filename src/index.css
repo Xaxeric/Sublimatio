@@ -61,10 +61,30 @@
   }
 
   .grid-img-decoration {
-    background: url("/assets/grid-pattern.png");
-    background-position: center;
-    background-size: auto;
-    background-repeat: repeat;
+    /* CSS grid drawn from repeating linear gradients in both axes.
+       Cell size 30px, with a heavier line every 150px (5 cells). This mirrors
+       the 1200x840 reference texture it replaces: 40 x 28 cells. */
+    background-image:
+      repeating-linear-gradient(
+        to right,
+        rgba(23, 38, 83, 0.13) 0 1px,
+        transparent 1px 30px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(23, 38, 83, 0.13) 0 1px,
+        transparent 1px 30px
+      ),
+      repeating-linear-gradient(
+        to right,
+        rgba(22, 32, 80, 0.31) 0 1px,
+        transparent 1px 150px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(22, 32, 80, 0.31) 0 1px,
+        transparent 1px 150px
+      );
     filter: blur(5px);
     position: fixed;
     top: 0;
@@ -73,6 +93,25 @@
     height: 100vh;
     z-index: 0;
     pointer-events: none;
+  }
+
+  /* Masked password field: spaced disc glyphs instead of the browser default
+     bullet clump. -webkit-text-security is the only property that changes the
+     mask glyph. Wrapped in @supports: a browser that does not implement it drops
+     the declaration and keeps its native password masking, so the fallback is
+     always "still masked", never "shown in clear text". */
+  @supports (-webkit-text-security: disc) {
+    .password-futuristic {
+      -webkit-text-security: disc;
+      letter-spacing: 0.35em;
+    }
+  }
+
+  @supports not (-webkit-text-security: disc) {
+    .password-futuristic {
+      /* Degrades to letter-spacing only; masking stays native. */
+      letter-spacing: 0.15em;
+    }
   }
 
   .mask-img-w-radial {

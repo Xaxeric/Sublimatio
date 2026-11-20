@@ -8,4 +8,8 @@ export default defineConfig({
     port: 5173,
     open: false,
   },
+  // Vitest only covers the frontend; backend/ has its own Jest setup.
+  test: {
+    include: ["src/**/*.test.{js,jsx}"],
+  },
 });

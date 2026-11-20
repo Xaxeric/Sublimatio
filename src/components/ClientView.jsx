@@ -1,8 +1,14 @@
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { makeHash } from "../utils/payload.js";
+import {
+  ALLOWED_MIME_TYPES,
+  MAX_FILE_SIZE_BYTES,
+  makeHash,
+} from "../utils/payload.js";
 
 const PENDING_TRANSMIT_KEY = "sublimatio_pending_transmit";
+
+const ALLOWED_MIME_LABEL = "image/png, image/jpeg, application/pdf";
 
 /**
  * Client view: minimal transmit form for a peer device.
@@ -21,6 +27,24 @@ export default function ClientView({ pushToast }) {
     if (!chosenFile && !text.trim()) {
       setError(
         "Silakan pilih file atau masukkan teks clipboard sebelum transmisi!",
+      );
+      return;
+    }
+
+    if (chosenFile && chosenFile.size > MAX_FILE_SIZE_BYTES) {
+      setError(
+        "Ukuran file maksimal 10 MB. File " +
+          chosenFile.name +
+          " terlalu besar untuk ditransmisikan!",
+      );
+      return;
+    }
+
+    if (chosenFile && !ALLOWED_MIME_TYPES.includes(chosenFile.type)) {
+      setError(
+        "Tipe file tidak didukung. Hanya " +
+          ALLOWED_MIME_LABEL +
+          " yang diizinkan!",
       );
       return;
     }
@@ -87,7 +111,7 @@ export default function ClientView({ pushToast }) {
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-3 font-chakra text-xs text-sublimatio-red">
+          <div className="flex animate-slide-down items-center gap-2 rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-3 font-chakra text-xs text-sublimatio-red">
             <svg
               className="h-4 w-4 flex-shrink-0"
               fill="none"
