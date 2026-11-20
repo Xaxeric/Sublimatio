@@ -173,7 +173,7 @@ export default function LoginView() {
 
         {/* Error Alert Box (when credentials fail or empty) */}
         {error && (
-          <div className="flex items-center rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-2.5 font-chakra text-xs text-sublimatio-red">
+          <div className="flex animate-slide-down items-center rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-2.5 font-chakra text-xs text-sublimatio-red">
             <span>{error}</span>
           </div>
         )}
@@ -213,7 +213,7 @@ export default function LoginView() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Input your password here"
-              className="my-2 w-full border border-[#0b1233] bg-[#09090c3f] p-2 font-mono text-[13px] text-sublimatio-subtle outline-none hover:text-[#afb8e9] focus:border-sublimatio-accent"
+              className="password-futuristic my-2 w-full border border-[#0b1233] bg-[#09090c3f] p-2 font-mono text-[13px] text-sublimatio-subtle outline-none hover:text-[#afb8e9] focus:border-sublimatio-accent"
             />
           </div>
 
