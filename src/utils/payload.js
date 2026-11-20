@@ -1,5 +1,12 @@
 // Pure utility helpers for the Payload entity. No DOM access, no side effects.
 
+export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB ceiling for uploads
+export const ALLOWED_MIME_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "application/pdf",
+];
+
 export const CIRCLE_RADIUS = 15;
 export const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS; // ~94.25
 
@@ -62,6 +69,23 @@ export function sortPayloads(payloadList, sortBy) {
         return 0;
     }
   });
+}
+
+export function tickPayloads(payloadList) {
+  const survivors = [];
+
+  for (const payload of payloadList) {
+    if (payload.isPinned) {
+      // Pinned items never count down; they only drop out once already at 0.
+      if (payload.remainingTTL > 0) survivors.push(payload);
+      continue;
+    }
+
+    const remainingTTL = Math.max(0, payload.remainingTTL - 1);
+    if (remainingTTL > 0) survivors.push({ ...payload, remainingTTL });
+  }
+
+  return survivors;
 }
 
 export function makeHash() {
