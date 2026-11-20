@@ -10,10 +10,12 @@
     "backend:start": "npm --prefix backend run start",
     "build:backend": "npm --prefix backend run build",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "keywords": [],
   "dependencies": {
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
@@ -23,6 +25,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "vitest": "^3.2.7"
   }
 }
