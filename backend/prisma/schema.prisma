@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Payload classification mirrors the app's PayloadType union.
+enum PayloadType {
+  file
+  link
+  text
+}
+
+/// A single ephemeral payload that used to live in the in-memory RAM buffer.
+/// Stored permanently in PostgreSQL so payloads survive a server restart.
+model Payload {
+  id           String       @id
+  name         String
+  type         PayloadType
+  content      String?
+  url          String?
+  device       String
+  totalTTL     Int
+  remainingTTL Int
+  size         String?
+  mime         String?
+  hash         String
+  isPinned     Boolean      @default(false)
+  createdAt    String
+
+  @@map("Payload")
+}

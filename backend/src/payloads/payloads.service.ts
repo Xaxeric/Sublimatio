@@ -4,82 +4,37 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Prisma, PrismaService } from '../prisma/prisma.service';
 import { CreatePayloadDto } from './dto/create-payload.dto';
 import { UpdatePayloadDto } from './dto/update-payload.dto';
 import { Payload } from './entities/payload.entity';
 
+/**
+ * Maps a Prisma row to the app's Payload entity. Optional DB columns come back
+ * as `null`; the API keeps the original shape where those fields are absent.
+ */
+function toEntity(row: Prisma.PayloadGetPayload<object>): Payload {
+  const payload: Payload = {
+    id: row.id,
+    name: row.name,
+    type: row.type,
+    device: row.device,
+    totalTTL: row.totalTTL,
+    remainingTTL: row.remainingTTL,
+    hash: row.hash,
+    isPinned: row.isPinned,
+    createdAt: row.createdAt,
+  };
+  if (row.content != null) payload.content = row.content;
+  if (row.url != null) payload.url = row.url;
+  if (row.size != null) payload.size = row.size;
+  if (row.mime != null) payload.mime = row.mime;
+  return payload;
+}
+
 @Injectable()
 export class PayloadsService {
-  // In-memory array storage representing volatile RAM mesh buffer
-  private payloads: Payload[] = [
-    {
-      id: 'sub-f-01',
-      type: 'file',
-      name: 'session-auth-token.pem',
-      size: '184 KB',
-      mime: 'application/x-pem-file',
-      content:
-        '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA0w9mX8q2p...\n[EPHEMERAL RAM BUFFER - ZERO KNOWLEDGE]\n-----END RSA PRIVATE KEY-----',
-      device: 'Mobile (Pixel 8)',
-      totalTTL: 45,
-      remainingTTL: 35,
-      createdAt: new Date(Date.now() - 10000).toISOString(),
-      hash: 'sha256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069',
-      isPinned: false,
-    },
-    {
-      id: 'sub-t-01',
-      type: 'text',
-      name: 'Staging Database Connection URL',
-      content:
-        'DATABASE_URL=postgres://sync_daemon:q9#N_v98Z01@10.24.8.19:5432/sublimatio_ephemeral?sslmode=verify-full',
-      device: 'Desktop (Workstation)',
-      totalTTL: 240,
-      remainingTTL: 140,
-      createdAt: new Date(Date.now() - 60000).toISOString(),
-      hash: 'sha256:ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d',
-      isPinned: false,
-    },
-    {
-      id: 'sub-f-03',
-      type: 'file',
-      name: 'crash-dump-telemetry.gz',
-      size: '5.1 MB',
-      mime: 'application/gzip',
-      content: '[GZIP Archive Binary: 5.1 MB Ephemeral Telemetry Dump]',
-      device: 'Node #4 (Gateway)',
-      totalTTL: 900,
-      remainingTTL: 680,
-      createdAt: new Date(Date.now() - 180000).toISOString(),
-      hash: 'sha256:1a8565a9da720485d2381a37498be9c7d826529c72179d461fd307a615e10eef',
-      isPinned: false,
-    },
-    {
-      id: 'sub-l-02',
-      type: 'link',
-      name: 'Sublimatio Project Repository',
-      url: 'https://github.com/Xaxeric/Sublimatio',
-      device: 'Mobile (Asus Zenfone)',
-      totalTTL: 1200,
-      remainingTTL: 980,
-      createdAt: new Date(Date.now() - 300000).toISOString(),
-      hash: 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-      isPinned: true,
-    },
-    {
-      id: 'sub-t-02',
-      type: 'text',
-      name: 'Zero-Knowledge Session Handshake',
-      content:
-        'CLIENT_NONCE=4e8a1c90f23b7;EPOCH_EXPIRY=1729230500;SIGNATURE=v1.ecdsa.8f92ab',
-      device: 'Mobile (Pixel 8)',
-      totalTTL: 60,
-      remainingTTL: 20,
-      createdAt: new Date(Date.now() - 40000).toISOString(),
-      hash: 'sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
-      isPinned: false,
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Helper: Generate mock SHA-256 hash
@@ -94,13 +49,15 @@ export class PayloadsService {
   }
 
   /**
-   * Create a new payload in the volatile buffer
+   * Create a new payload in the persistent store
    */
-  create(createPayloadDto: CreatePayloadDto): Payload {
+  async create(createPayloadDto: CreatePayloadDto): Promise<Payload> {
     // 1. Skenario Error ConflictException: Mencegah nama payload duplikat
-    const duplicate = this.payloads.find(
-      (p) => p.name.trim().toLowerCase() === createPayloadDto.name.trim().toLowerCase(),
-    );
+    const duplicate = await this.prisma.payload.findFirst({
+      where: {
+        name: { equals: createPayloadDto.name.trim(), mode: 'insensitive' },
+      },
+    });
     if (duplicate) {
       throw new ConflictException(
         `Payload dengan nama "${createPayloadDto.name}" sudah ada di memori buffer!`,
@@ -115,12 +72,12 @@ export class PayloadsService {
       throw new BadRequestException('Payload tipe "text" memerlukan field content yang valid!');
     }
 
-    const newPayload: Payload = {
+    const data: Prisma.PayloadCreateInput = {
       id: `sub-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
       name: createPayloadDto.name.trim(),
       type: createPayloadDto.type,
-      content: createPayloadDto.content,
-      url: createPayloadDto.url,
+      content: createPayloadDto.content ?? null,
+      url: createPayloadDto.url ?? null,
       device: createPayloadDto.device?.trim() || 'Workstation (Local Host)',
       totalTTL: createPayloadDto.totalTTL,
       remainingTTL: createPayloadDto.remainingTTL ?? createPayloadDto.totalTTL,
@@ -141,37 +98,38 @@ export class PayloadsService {
       createdAt: new Date().toISOString(),
     };
 
-    this.payloads.unshift(newPayload);
-    return newPayload;
+    const created = await this.prisma.payload.create({ data });
+    return toEntity(created);
   }
 
   /**
-   * Return all active payloads in the memory buffer
+   * Return all payloads from the persistent store
    */
-  findAll(): Payload[] {
-    return this.payloads;
+  async findAll(): Promise<Payload[]> {
+    const rows = await this.prisma.payload.findMany();
+    return rows.map(toEntity);
   }
 
   /**
    * Find a specific payload by ID
    */
-  findOne(id: string): Payload {
-    const payload = this.payloads.find((p) => p.id === id);
+  async findOne(id: string): Promise<Payload> {
+    const payload = await this.prisma.payload.findUnique({ where: { id } });
     if (!payload) {
       // 2. Skenario Error NotFoundException: Data tidak ditemukan
       throw new NotFoundException(
         `Payload dengan ID "${id}" tidak ditemukan di buffer RAM!`,
       );
     }
-    return payload;
+    return toEntity(payload);
   }
 
   /**
    * Update an existing payload
    */
-  update(id: string, updatePayloadDto: UpdatePayloadDto): Payload {
-    const index = this.payloads.findIndex((p) => p.id === id);
-    if (index === -1) {
+  async update(id: string, updatePayloadDto: UpdatePayloadDto): Promise<Payload> {
+    const existing = await this.prisma.payload.findUnique({ where: { id } });
+    if (!existing) {
       throw new NotFoundException(
         `Gagal memperbarui: Payload dengan ID "${id}" tidak ditemukan!`,
       );
@@ -180,11 +138,12 @@ export class PayloadsService {
     // Jika memperbarui nama, cek apakah nama baru berkonflik dengan payload lain
     if (updatePayloadDto.name) {
       const newName = updatePayloadDto.name.trim().toLowerCase();
-      const duplicate = this.payloads.find(
-        (p) =>
-          p.id !== id &&
-          p.name.trim().toLowerCase() === newName,
-      );
+      const duplicate = await this.prisma.payload.findFirst({
+        where: {
+          id: { not: id },
+          name: { equals: newName, mode: 'insensitive' },
+        },
+      });
       if (duplicate) {
         throw new ConflictException(
           `Payload dengan nama "${updatePayloadDto.name}" sudah digunakan oleh payload lain!`,
@@ -192,33 +151,43 @@ export class PayloadsService {
       }
     }
 
-    const existing = this.payloads[index];
-    const updated: Payload = {
-      ...existing,
+    // Pastikan id tetap konsisten; field lain yang tidak dikirim tetap dari data lama
+    const data: Prisma.PayloadUpdateInput = {
       ...updatePayloadDto,
-      // Pastikan id dan hash asli tetap konsisten kecuali diubah secara eksplisit
+      name: updatePayloadDto.name?.trim() ?? existing.name,
       id: existing.id,
     };
-
-    this.payloads[index] = updated;
-    return updated;
+    const updated = await this.prisma.payload.update({ where: { id }, data });
+    return toEntity(updated);
   }
 
   /**
-   * Remove a payload from the buffer (manual sublimation / delete)
+   * Remove a payload from the store (manual sublimation / delete)
    */
-  remove(id: string): { message: string; deleted: Payload } {
-    const index = this.payloads.findIndex((p) => p.id === id);
-    if (index === -1) {
+  async remove(id: string): Promise<{ message: string; deleted: Payload }> {
+    const found = await this.prisma.payload.findUnique({ where: { id } });
+    if (!found) {
       throw new NotFoundException(
         `Gagal menghapus: Payload dengan ID "${id}" tidak ditemukan!`,
       );
     }
 
-    const [deleted] = this.payloads.splice(index, 1);
+    const deleted = toEntity(
+      await this.prisma.payload.delete({ where: { id } }),
+    );
     return {
       message: `Payload "${deleted.name}" berhasil disublimasikan (dihapus dari RAM).`,
       deleted,
     };
+  }
+
+  /**
+   * Bonus: advanced query — count payloads, optionally filtered by type.
+   */
+  async countByType(type?: Payload['type']): Promise<{ count: number }> {
+    const count = type
+      ? await this.prisma.payload.count({ where: { type } })
+      : await this.prisma.payload.count();
+    return { count };
   }
 }

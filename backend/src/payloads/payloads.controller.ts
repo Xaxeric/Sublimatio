@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreatePayloadDto } from './dto/create-payload.dto';
 import { UpdatePayloadDto } from './dto/update-payload.dto';
@@ -68,5 +69,15 @@ export class PayloadsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.payloadsService.remove(id);
+  }
+
+  /**
+   * HTTP GET /payloads/stats/count?type=file
+   * Bonus advanced query: count payloads, optionally filtered by type.
+   * Two-segment path avoids collision with the ':id' route above.
+   */
+  @Get('stats/count')
+  count(@Query('type') type?: 'file' | 'link' | 'text') {
+    return this.payloadsService.countByType(type);
   }
 }
