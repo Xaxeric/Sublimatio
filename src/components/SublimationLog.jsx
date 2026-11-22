@@ -21,7 +21,7 @@ export default function SublimationLog({ logs }) {
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="flex items-center gap-1.5 border border-[#0a102e] bg-black/40 px-2.5 py-1 font-chakra text-xs text-sublimatio-subtle transition-colors hover:bg-black/70 hover:text-white sm:text-sm"
+          className="ui-focus flex items-center gap-1.5 rounded border border-[#0a102e] bg-black/40 px-2.5 py-1 font-chakra text-xs text-sublimatio-subtle transition-colors hover:bg-black/70 hover:text-white sm:text-sm"
         >
           {open ? "Hide" : "Toggle View"}
           <svg

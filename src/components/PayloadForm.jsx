@@ -91,7 +91,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
   };
 
   const inputClass =
-    "w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-sublimatio-accent focus:outline-none";
+    "ui-input px-3.5 py-2.5";
   const labelClass =
     "mb-1.5 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
 
@@ -206,7 +206,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
               id="add-file-input"
               type="file"
               ref={fileRef}
-              className="w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-cyan-300"
+              className="w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-indigo-300"
             />
           </div>
         )}
@@ -233,13 +233,13 @@ export default function PayloadForm({ onAddPayload, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="bg-slate-800 px-4 py-2 font-chakra text-xs uppercase tracking-wider text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+            className="ui-focus rounded bg-slate-800 px-4 py-2 font-chakra text-xs uppercase tracking-wider text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="bg-sublimatio-accent px-5 py-2 font-chakra text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_15px_rgba(26,57,237,0.4)] transition-all hover:bg-blue-600"
+            className="ui-btn-primary rounded px-5 py-2"
           >
             Tambah Payload
           </button>

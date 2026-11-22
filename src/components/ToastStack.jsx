@@ -15,7 +15,7 @@ const TOAST_ICONS = {
 };
 
 const TOAST_ICON_COLORS = {
-  info: "text-cyan-400",
+  info: "text-indigo-400",
   success: "text-emerald-400",
   warning: "text-amber-400",
   danger: "text-sublimatio-red",

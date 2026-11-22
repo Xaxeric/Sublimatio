@@ -15,8 +15,8 @@ const RING_STYLES = {
     label: "text-amber-400",
   },
   normal: {
-    ring: "stroke-cyan-400 text-cyan-400",
-    label: "text-cyan-400",
+    ring: "stroke-indigo-400 text-indigo-400",
+    label: "text-indigo-400",
   },
 };
 

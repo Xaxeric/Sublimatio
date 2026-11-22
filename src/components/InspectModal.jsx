@@ -105,7 +105,7 @@ export default function InspectModal({ payload, onClose, onCopy }) {
               title="Copy payload content to clipboard"
             >
               <svg
-                className="h-3.5 w-3.5 text-cyan-400"
+                className="h-3.5 w-3.5 text-indigo-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

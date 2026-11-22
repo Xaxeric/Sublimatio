@@ -3,7 +3,7 @@ import { countByType } from "../utils/payload.js";
 const STAT_ITEMS = [
   { key: "total", label: "Total Payload", accent: "text-white" },
   { key: "file", label: "File", accent: "text-blue-400" },
-  { key: "link", label: "Link", accent: "text-cyan-400" },
+  { key: "link", label: "Link", accent: "text-violet-400" },
   { key: "text", label: "Snippet", accent: "text-indigo-400" },
   { key: "expiring", label: "Expiring < 60s", accent: "text-sublimatio-red" },
 ];
@@ -21,7 +21,7 @@ export default function PayloadStats({ payloads }) {
       {STAT_ITEMS.map((item) => (
         <div
           key={item.key}
-          className="glass-card glass-card-hover p-3.5 text-center"
+          className="glass-card glass-card-hover rounded-lg p-3.5 text-center"
         >
           <span className="block font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary">
             {item.label}
