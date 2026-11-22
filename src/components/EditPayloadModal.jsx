@@ -56,7 +56,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
   };
 
   const inputClass =
-    "w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2 text-sm text-white placeholder-slate-500 transition-colors focus:border-cyan-400 focus:outline-none";
+    "ui-input px-3.5 py-2 text-sm";
   const labelClass =
     "mb-1 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
 
@@ -64,7 +64,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
     <Modal onClose={onClose} maxWidth="max-w-lg">
       <div className="flex items-center justify-between border-b border-[#0a102e] pb-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 bg-cyan-400" />
+          <span className="h-2.5 w-2.5 bg-sublimatio-accent" />
           <h3 className="font-chakra text-base font-bold uppercase tracking-wider text-white">
             Ubah Data Payload (PATCH /payloads/:id)
           </h3>
@@ -87,7 +87,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
 
         <div>
           <label className={labelClass}>
-            Nama Payload <span className="text-cyan-400 font-mono text-[10px]">(min. 3 karakter)</span>
+            Nama Payload <span className="text-indigo-400 font-mono text-[10px]">(min. 3 karakter)</span>
           </label>
           <input
             type="text"
@@ -119,7 +119,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
                   type="checkbox"
                   checked={isPinned}
                   onChange={(e) => setIsPinned(e.target.checked)}
-                  className="rounded border-[#0a102e] text-cyan-500 focus:ring-0"
+                  className="rounded border-[#0a102e] text-indigo-400 focus:ring-0"
                 />
                 <span>Pinned (Tahan Sublimasi)</span>
               </label>
@@ -162,7 +162,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
           <button
             type="submit"
             disabled={submitting}
-            className="rounded border border-cyan-400 bg-sublimatio-accent px-5 py-2 font-chakra text-xs uppercase font-bold text-white hover:bg-blue-600 transition-all disabled:opacity-50"
+            className="ui-btn-primary rounded px-5 py-2"
           >
             {submitting ? "Menyimpan (PATCH)..." : "Simpan Perubahan"}
           </button>

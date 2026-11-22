@@ -26,7 +26,7 @@ export default function AppHeader({
             onClick={onToggleSidebar}
             title={sidebarOpen ? "Collapse sidebar panel" : "Expand sidebar panel"}
             aria-label="Toggle sidebar panel"
-            className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded border border-[#1a2868] bg-[#0c1333] text-sublimatio-text transition-all hover:border-sublimatio-accent hover:bg-[#152052] hover:text-white"
+            className="mt-0.5 ui-focus flex h-9 w-9 flex-shrink-0 items-center justify-center rounded border border-[#1a2868] bg-[#0c1333] text-sublimatio-text transition-all hover:border-sublimatio-accent hover:bg-[#152052] hover:text-white"
           >
             <svg
               className="h-5 w-5"
@@ -61,7 +61,7 @@ export default function AppHeader({
         <button
           type="button"
           onClick={onAction}
-          className="flex items-center gap-2 border border-blue-400 bg-sublimatio-accent px-4 py-2 font-chakra text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_15px_rgba(26,57,237,0.4)] transition-all hover:bg-blue-600"
+          className="ui-btn-primary px-4 py-2"
         >
           <svg
             className="h-4 w-4"

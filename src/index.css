@@ -49,6 +49,8 @@
     );
     backdrop-filter: blur(12px);
     border: 2px solid #0a102e;
+    border-radius: 0.75rem;
+    box-shadow: inset 0 1px 0 rgba(198, 207, 255, 0.05);
   }
 
   .glass-card-hover {
@@ -57,7 +59,9 @@
 
   .glass-card-hover:hover {
     border-color: #1a39ed;
-    box-shadow: 0 0 20px rgba(26, 57, 237, 0.15);
+    box-shadow:
+      0 0 20px rgba(26, 57, 237, 0.15),
+      inset 0 1px 0 rgba(198, 207, 255, 0.08);
   }
 
   .grid-img-decoration {
@@ -94,5 +98,75 @@
   .no-scrollbar:hover {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+}
+
+/* Shared component primitives — consolidates repeated style strings across views.
+   Palette and motifs stay identical to the rest of the Sublimatio system. */
+@layer components {
+  .ui-input {
+    width: 100%;
+    border: 1px solid #0a102e;
+    border-radius: 0.25rem;
+    background: rgba(8, 13, 36, 0.9);
+    padding: 0.5rem 0.875rem;
+    color: #ffffff;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .ui-input::placeholder {
+    color: #64748b;
+  }
+  .ui-input:hover {
+    border-color: #1a2868;
+  }
+  .ui-input:focus {
+    outline: none;
+    border-color: #1a39ed;
+    box-shadow: 0 0 0 3px rgba(26, 57, 237, 0.2);
+  }
+
+  .ui-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(96, 165, 250, 0.7);
+    border-radius: 0.25rem;
+    background: #1a39ed;
+    padding: 0.5rem 1rem;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(26, 57, 237, 0.4);
+    transition: all 0.2s ease;
+  }
+  .ui-btn-primary:hover:not(:disabled) {
+    background: #2563eb;
+    box-shadow: 0 0 22px rgba(26, 57, 237, 0.55);
+  }
+  .ui-btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 57, 237, 0.5);
+  }
+  .ui-btn-primary:active:not(:disabled) {
+    filter: brightness(0.95);
+  }
+  .ui-btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* Subtle, consistent focus treatment for secondary / ghost controls. */
+  .ui-focus {
+    transition: all 0.2s ease;
+  }
+  .ui-focus:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 57, 237, 0.55);
   }
 }

@@ -85,7 +85,7 @@ function DeviceIcon({ type }) {
   if (type === "mobile") {
     return (
       <svg
-        className="h-3.5 w-3.5 flex-shrink-0 text-cyan-400"
+        className="h-3.5 w-3.5 flex-shrink-0 text-indigo-400"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -263,8 +263,8 @@ export default function Sidebar({
               <span className="font-chakra text-[10px] font-bold uppercase tracking-wider text-sublimatio-subtle">
                 Connected Devices
               </span>
-              <span className="flex items-center gap-1 rounded border border-cyan-800/40 bg-cyan-950/30 px-1.5 py-0.5 font-mono text-[9px] text-cyan-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="flex items-center gap-1 rounded border border-indigo-800/40 bg-indigo-950/30 px-1.5 py-0.5 font-mono text-[9px] text-indigo-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
                 {deviceList.length} Nodes
               </span>
             </div>

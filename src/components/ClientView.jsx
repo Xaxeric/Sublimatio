@@ -118,7 +118,7 @@ export default function ClientView({ pushToast }) {
               type="file"
               ref={fileRef}
               accept="image/png, image/jpeg, application/pdf"
-              className="w-full border border-[#0a102e] bg-[#080d24] px-3 py-2 font-mono text-xs text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-2.5 file:py-1 file:font-chakra file:text-xs file:text-cyan-300"
+              className="w-full border border-[#0a102e] bg-[#080d24] px-3 py-2 font-mono text-xs text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-2.5 file:py-1 file:font-chakra file:text-xs file:text-indigo-300"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function ClientView({ pushToast }) {
               value={text}
               onChange={(event) => setText(event.target.value)}
               placeholder="Type or paste payload here..."
-              className="w-full border border-[#0a102e] bg-[#080d24] px-3 py-2 font-mono text-xs text-white placeholder-slate-500 focus:border-sublimatio-accent focus:outline-none"
+              className="ui-input px-3 py-2 font-mono text-xs"
             />
           </div>
 
@@ -148,7 +148,7 @@ export default function ClientView({ pushToast }) {
             </Link>
             <button
               type="submit"
-              className="border border-blue-400 bg-sublimatio-accent px-6 py-2 font-chakra text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:bg-blue-600"
+              className="ui-btn-primary px-6 py-2"
             >
               Transmit to Buffer
             </button>

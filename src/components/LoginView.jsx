@@ -196,7 +196,7 @@ export default function LoginView() {
               value={username}
               onChange={(event) => setUsername(event.target.value)}
               placeholder="Input your username"
-              className="my-2 w-full border border-[#0b1233] bg-[#09090c3f] p-2 font-mono text-[13px] text-sublimatio-subtle outline-none hover:text-[#afb8e9] focus:border-sublimatio-accent"
+              className="ui-input my-2 p-2 font-mono text-[13px] text-sublimatio-subtle hover:text-[#afb8e9]"
             />
           </div>
 
@@ -213,7 +213,7 @@ export default function LoginView() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Input your password here"
-              className="my-2 w-full border border-[#0b1233] bg-[#09090c3f] p-2 font-mono text-[13px] text-sublimatio-subtle outline-none hover:text-[#afb8e9] focus:border-sublimatio-accent"
+              className="ui-input my-2 p-2 font-mono text-[13px] text-sublimatio-subtle hover:text-[#afb8e9]"
             />
           </div>
 
@@ -221,14 +221,14 @@ export default function LoginView() {
             <button
               type="button"
               onClick={handleCancel}
-              className="min-w-[90px] border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50"
+              className="ui-focus min-w-[90px] rounded border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="min-w-[90px] border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50 disabled:opacity-60"
+              className="ui-focus min-w-[90px] rounded border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50 disabled:opacity-60"
             >
               {submitting ? "Authenticating..." : "Login"}
             </button>

@@ -18,8 +18,8 @@ const TYPE_STYLES = {
     label: "FILE",
   },
   link: {
-    badge: "bg-cyan-950/80 text-cyan-400 border-cyan-800/60",
-    iconBg: "bg-cyan-950/50 border-cyan-900/60 text-cyan-400",
+    badge: "bg-violet-950/80 text-violet-400 border-violet-800/60",
+    iconBg: "bg-violet-950/50 border-violet-900/60 text-violet-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -118,7 +118,7 @@ export default function PayloadCard({
           target="_blank"
           rel="noopener noreferrer"
           onClick={stop}
-          className="inline-flex max-w-sm items-center gap-1 truncate font-mono text-xs text-cyan-400 hover:underline"
+          className="inline-flex max-w-sm items-center gap-1 truncate font-mono text-xs text-violet-300 hover:text-violet-100 hover:underline"
         >
           {payload.url}
         </a>
@@ -178,7 +178,7 @@ export default function PayloadCard({
               ),
             )
           }
-          className="flex items-center gap-1 rounded border border-cyan-800/60 bg-cyan-950/50 px-2.5 py-1.5 font-chakra text-xs tracking-wider text-cyan-300 transition-all hover:bg-cyan-900/70 hover:text-white"
+          className="flex items-center gap-1 rounded border border-violet-800/60 bg-violet-950/50 px-2.5 py-1.5 font-chakra text-xs tracking-wider text-violet-300 transition-all hover:bg-violet-900/70 hover:text-white"
           title="Copy URL to clipboard"
         >
           <svg

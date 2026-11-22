@@ -54,7 +54,7 @@ export default function ConnectView() {
             <span className="font-chakra text-[10px] font-bold uppercase tracking-wider text-sublimatio-subtle">
               Manual Pairing Fallback
             </span>
-            <span className="font-mono text-[10px] text-cyan-400">
+            <span className="font-mono text-[10px] text-indigo-400">
               Protocol: WebSocket / Mesh
             </span>
           </div>
@@ -76,7 +76,7 @@ export default function ConnectView() {
             <div className="flex items-center justify-between gap-2 rounded border border-[#101b4d] bg-[#040714] px-2.5 py-1.5 font-mono text-xs">
               <Link
                 to="/client"
-                className="truncate text-cyan-300 hover:text-cyan-100 hover:underline"
+                className="truncate text-indigo-300 hover:text-indigo-100 hover:underline"
                 title="Click to visit client send directly"
               >
                 {connectUrl}
@@ -121,7 +121,7 @@ export default function ConnectView() {
           </Link>
           <Link
             to="/client"
-            className="border border-blue-400 bg-sublimatio-accent px-4 py-2 font-chakra text-[11px] font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:bg-blue-600"
+            className="border border-blue-400 ui-btn-primary px-4 py-2"
           >
             Go to Client Send &rarr;
           </Link>

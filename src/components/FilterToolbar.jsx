@@ -25,17 +25,17 @@ export default function FilterToolbar({
 }) {
   return (
     <div className="flex flex-col items-stretch justify-between gap-4 pt-2 sm:flex-row sm:items-center">
-      <div className="flex items-center gap-1.5 overflow-x-auto border border-[#0a102e] bg-[#080d24]/80 p-1">
+      <div className="flex items-center gap-1.5 overflow-x-auto rounded-lg border border-[#0a102e] bg-[#080d24]/80 p-1">
         {FILTERS.map((option) => (
           <button
             key={option.value}
             type="button"
             onClick={() => onFilterChange(option.value)}
             className={
-              "px-3.5 py-1.5 font-chakra text-xs font-semibold uppercase tracking-wider transition-all " +
+              "ui-focus rounded px-3.5 py-1.5 font-chakra text-xs font-semibold uppercase tracking-wider transition-all " +
               (filter === option.value
-                ? "border border-blue-500 bg-sublimatio-accent/30 text-white"
-                : "border border-transparent text-sublimatio-tertiary hover:text-white")
+                ? "border border-blue-500 bg-sublimatio-accent/30 text-white shadow-[0_0_12px_rgba(26,57,237,0.25)]"
+                : "border border-transparent text-sublimatio-tertiary hover:bg-white/5 hover:text-white")
             }
           >
             {option.label}
@@ -55,7 +55,7 @@ export default function FilterToolbar({
             id="sort-select"
             value={sortBy}
             onChange={(event) => onSortChange(event.target.value)}
-            className="border border-[#0a102e] bg-[#080d24]/90 px-2.5 py-2 font-chakra text-xs text-white focus:border-sublimatio-accent focus:outline-none"
+            className="ui-input w-auto px-2.5 py-2 font-chakra text-xs"
           >
             <option value="ttl-asc">TTL: Expiring Soonest</option>
             <option value="ttl-desc">TTL: Longest First</option>
@@ -85,7 +85,7 @@ export default function FilterToolbar({
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search items by name or content..."
-            className="w-full border border-[#0a102e] bg-[#080d24]/90 py-2 pl-9 pr-4 font-rajdhani text-xs text-white placeholder-slate-500 transition-colors focus:border-sublimatio-accent focus:outline-none"
+            className="ui-input py-2 pl-9 pr-4 font-rajdhani text-xs"
           />
         </div>
       </div>
