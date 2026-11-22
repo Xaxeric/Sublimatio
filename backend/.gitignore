@@ -25,3 +25,7 @@ lerna-debug.log*
 .cproject
 .settings/
 *.tsbuildinfo
+
+# Local environment (contains DATABASE_URL credentials)
+.env
+!.env.example
