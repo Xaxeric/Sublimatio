@@ -34,7 +34,9 @@ export default function ToastStack({ toasts, onDismiss }) {
         <div
           key={toast.id}
           className={
-            "pointer-events-auto flex items-start gap-3 rounded-lg border p-3.5 shadow-xl backdrop-blur-md transition-all duration-300 " +
+            "pointer-events-auto flex items-start gap-3 rounded-lg border p-3.5 shadow-xl backdrop-blur-md " +
+            (toast.leaving ? "animate-toast-out" : "animate-toast-in") +
+            " " +
             (TOAST_STYLES[toast.type] || TOAST_STYLES.info)
           }
         >

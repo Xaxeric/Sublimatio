@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import QRCode from "qrcode";
 import { makeHash } from "../utils/payload.js";
 
 /**
@@ -11,6 +12,35 @@ export default function ConnectView() {
   const userAgent = typeof navigator !== "undefined" ? navigator.userAgent : "Unknown UA";
   const connectUrl = typeof window !== "undefined" ? `${window.location.origin}/client` : "/client";
   const [pairingHash] = useState(() => makeHash());
+
+  // The QR encodes the connect URL plus the pairing hash, so a scanning client
+  // can identify this pairing session. ClientView does not read it yet.
+  const pairUrl = `${connectUrl}?pair=${encodeURIComponent(pairingHash)}`;
+
+  const [qrDataUrl, setQrDataUrl] = useState("");
+  const [qrError, setQrError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    // Dark modules on a light field. The light field is deliberate: it provides
+    // the scanner's quiet zone and contrasts with the #040714 panel, whereas
+    // light-on-dark inverts the reflectance pattern many scanners expect.
+    QRCode.toDataURL(pairUrl, {
+      width: 240,
+      margin: 4,
+      errorCorrectionLevel: "M",
+      color: { dark: "#040714", light: "#e8ecff" },
+    })
+      .then((url) => {
+        if (active) setQrDataUrl(url);
+      })
+      .catch((error) => {
+        if (active) setQrError(error.message || "QR generation failed");
+      });
+    return () => {
+      active = false;
+    };
+  }, [pairUrl]);
 
   const handleCopyUrl = () => {
     if (navigator.clipboard) {
@@ -35,13 +65,24 @@ export default function ConnectView() {
           </p>
         </header>
 
-        {/* QR Code image */}
+        {/* Generated pairing QR code */}
         <div className="relative rounded-lg border border-[#0a102e] bg-[#040714] p-3 shadow-[0_0_25px_rgba(26,57,237,0.15)]">
-          <img
-            src="/assets/qr-code.jpg"
-            alt="QR Link for connecting between device"
-            className="h-[240px] w-[240px] sm:h-[260px] sm:w-[260px] object-contain"
-          />
+          {qrError ? (
+            <div className="flex h-[240px] w-[240px] items-center justify-center px-4 text-center font-mono text-[11px] leading-snug text-sublimatio-red sm:h-[260px] sm:w-[260px]">
+              QR gagal dibuat. Gunakan Connect URL manual di bawah.
+            </div>
+          ) : qrDataUrl ? (
+            <img
+              src={qrDataUrl}
+              alt="QR Link for connecting between device"
+              className="h-[240px] w-[240px] rounded object-contain sm:h-[260px] sm:w-[260px]"
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="h-[240px] w-[240px] animate-pulse bg-[#e8ecff]/5 sm:h-[260px] sm:w-[260px]"
+            />
+          )}
           <div className="absolute top-1 left-1 h-3 w-3 border-t-2 border-l-2 border-sublimatio-accent" />
           <div className="absolute top-1 right-1 h-3 w-3 border-t-2 border-r-2 border-sublimatio-accent" />
           <div className="absolute bottom-1 left-1 h-3 w-3 border-b-2 border-l-2 border-sublimatio-accent" />

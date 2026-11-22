@@ -13,6 +13,7 @@ import ConnectView from "./components/ConnectView.jsx";
 import DashboardView from "./components/DashboardView.jsx";
 import LoginView from "./components/LoginView.jsx";
 import ToastStack from "./components/ToastStack.jsx";
+import { tickPayloads } from "./utils/payload.js";
 
 const PENDING_TRANSMIT_KEY = "sublimatio_pending_transmit";
 
@@ -30,18 +31,32 @@ export default function App() {
     payloadsRef.current = payloads;
   }, [payloads]);
 
-  const pushToast = useCallback((message, type = "info", title = "") => {
-    const id =
-      "toast-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    setToasts((prev) => [...prev, { id, message, type, title }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    }, 4500);
-  }, []);
+  // A toast plays animate-toast-out (0.25s) before it leaves the DOM, so the
+  // removal is split into "mark as leaving" and "drop". The timer ref keeps the
+  // exit phase idempotent: auto-dismiss and the manual close button race.
+  const toastTimers = useRef(new Set());
 
   const dismissToast = useCallback((id) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    if (toastTimers.current.has(id)) return;
+    toastTimers.current.add(id);
+    setToasts((prev) =>
+      prev.map((toast) => (toast.id === id ? { ...toast, leaving: true } : toast)),
+    );
+    setTimeout(() => {
+      toastTimers.current.delete(id);
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    }, 250);
   }, []);
+
+  const pushToast = useCallback(
+    (message, type = "info", title = "") => {
+      const id =
+        "toast-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      setToasts((prev) => [...prev, { id, message, type, title }]);
+      setTimeout(() => dismissToast(id), 4500);
+    },
+    [dismissToast],
+  );
 
   // Fetch initial payloads from NestJS backend API on component mount
   useEffect(() => {
@@ -193,17 +208,19 @@ export default function App() {
   // 1-second countdown: decrement remaining TTL for unpinned items and purge expired
   useEffect(() => {
     const interval = setInterval(() => {
-      const expired = [];
-      const next = payloadsRef.current.map((payload) => {
-        if (payload.isPinned) return payload;
-        const remaining = Math.max(0, payload.remainingTTL - 1);
-        if (remaining === 0) expired.push({ ...payload, remainingTTL: 0 });
-        return { ...payload, remainingTTL: remaining };
-      });
+      const current = payloadsRef.current;
+      const next = tickPayloads(current);
 
-      setPayloads(next.filter((payload) => payload.remainingTTL > 0));
+      // Anything that was dropped and was not pinned is a TTL purge. Pinned
+      // items survive by identity, unpinned ones as new objects, so match on id.
+      const survivorIds = new Set(next.map((payload) => payload.id));
+      const expired = current.filter(
+        (payload) => !payload.isPinned && !survivorIds.has(payload.id),
+      );
+
+      setPayloads(next);
       expired.forEach((payload) =>
-        recordSublimation(payload, "TTL Expired (0s)"),
+        recordSublimation({ ...payload, remainingTTL: 0 }, "TTL Expired (0s)"),
       );
     }, 1000);
 

@@ -80,7 +80,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
 
       <form onSubmit={handleSubmit} className="space-y-4 pt-2">
         {error && (
-          <div className="rounded border border-red-500/60 bg-red-950/40 p-2.5 font-chakra text-xs text-red-300">
+          <div className="animate-slide-down rounded border border-red-500/60 bg-red-950/40 p-2.5 font-chakra text-xs text-red-300">
             {error}
           </div>
         )}

@@ -1,6 +1,12 @@
 import { useRef, useState } from "react";
 import Modal from "./Modal.jsx";
-import { makeHash } from "../utils/payload.js";
+import {
+  ALLOWED_MIME_TYPES,
+  MAX_FILE_SIZE_BYTES,
+  makeHash,
+} from "../utils/payload.js";
+
+const ALLOWED_MIME_LABEL = "image/png, image/jpeg, application/pdf";
 
 const TTL_OPTIONS = [
   { value: 15, label: "15 Seconds (Fast Test)" },
@@ -55,6 +61,27 @@ export default function PayloadForm({ onAddPayload, onClose }) {
       return;
     }
 
+    const chosenFile = fileRef.current?.files?.[0];
+
+    if (form.type === "file" && chosenFile) {
+      if (chosenFile.size > MAX_FILE_SIZE_BYTES) {
+        setError(
+          "Ukuran file maksimal 10 MB. File " +
+            chosenFile.name +
+            " terlalu besar untuk ditransmisikan!",
+        );
+        return;
+      }
+      if (!ALLOWED_MIME_TYPES.includes(chosenFile.type)) {
+        setError(
+          "Tipe file tidak didukung. Hanya " +
+            ALLOWED_MIME_LABEL +
+            " yang diizinkan!",
+        );
+        return;
+      }
+    }
+
     setError("");
 
     const payload = {
@@ -69,7 +96,6 @@ export default function PayloadForm({ onAddPayload, onClose }) {
     };
 
     if (form.type === "file") {
-      const chosenFile = fileRef.current?.files?.[0];
       if (chosenFile) {
         payload.name = chosenFile.name;
         payload.size = (chosenFile.size / 1024).toFixed(1) + " KB";
@@ -114,7 +140,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-3 font-chakra text-xs text-sublimatio-red">
+        <div className="flex animate-slide-down items-center gap-2 rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-3 font-chakra text-xs text-sublimatio-red">
           <svg
             className="h-4 w-4 flex-shrink-0"
             fill="none"
@@ -206,6 +232,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
               id="add-file-input"
               type="file"
               ref={fileRef}
+              accept={ALLOWED_MIME_LABEL}
               className="w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-indigo-300"
             />
           </div>
