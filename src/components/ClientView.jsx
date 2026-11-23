@@ -107,23 +107,21 @@ export default function ClientView({ pushToast }) {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center p-4">
-      <div className="grid-img-decoration mask-img-w-radial" />
-
-      <Card className="glass-card relative z-10 w-full max-w-lg gap-0 p-6 py-6">
+      <Card className="relative z-10 w-full max-w-lg gap-0 p-6 py-6">
         <div className="pb-3">
-          <h2 className="font-chakra text-lg font-bold tracking-wide text-white">
+          <h2 className="text-lg font-bold tracking-wide text-foreground">
             Client Node Transmission
           </h2>
-          <p className="text-xs text-sublimatio-muted">
+          <p className="text-xs text-muted-foreground">
             Send ephemeral payload directly to mesh buffer
           </p>
         </div>
-        <Separator className="bg-[#0a102e]" />
+        <Separator />
 
         {error && (
           <Alert
             variant="destructive"
-            className="mt-4 animate-slide-down border-sublimatio-red/50 bg-sublimatio-red/20 font-chakra text-xs text-sublimatio-red"
+            className="mt-4 text-xs"
           >
             <AlertTriangle className="h-4 w-4 flex-shrink-0" />
             <AlertDescription>{error}</AlertDescription>
@@ -134,7 +132,7 @@ export default function ClientView({ pushToast }) {
           <div>
             <Label
               htmlFor="fileupload_id"
-              className="mb-2 block font-chakra text-xs uppercase tracking-wider text-slate-300"
+              className="mb-2 block text-xs uppercase tracking-wider text-muted-foreground"
             >
               Upload File
             </Label>
@@ -143,14 +141,14 @@ export default function ClientView({ pushToast }) {
               type="file"
               ref={fileRef}
               accept="image/png, image/jpeg, application/pdf"
-              className="h-auto border-[#0a102e] bg-[#080d24] px-3 py-2 font-mono text-xs text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-2.5 file:py-1 file:font-chakra file:text-xs file:text-indigo-300"
+              className="h-auto px-3 py-2 text-xs text-muted-foreground file:mr-3 file:rounded file:border-0 file:bg-secondary file:px-2.5 file:py-1 file:text-xs file:text-foreground"
             />
           </div>
 
           <div>
             <Label
               htmlFor="textform_id"
-              className="mb-2 block font-chakra text-xs uppercase tracking-wider text-slate-300"
+              className="mb-2 block text-xs uppercase tracking-wider text-muted-foreground"
             >
               Text / Clipboard Content:
             </Label>
@@ -160,15 +158,15 @@ export default function ClientView({ pushToast }) {
               value={text}
               onChange={(event) => setText(event.target.value)}
               placeholder="Type or paste payload here..."
-              className="ui-input px-3 py-2 font-mono text-xs"
+              className="px-3 py-2 text-xs"
             />
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-            <Button variant="link" asChild className="px-0 font-chakra text-xs uppercase tracking-wider text-slate-400 hover:text-white">
+            <Button variant="link" asChild className="px-0 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground">
               <Link to="/dashboard">&larr; Back to Dashboard</Link>
             </Button>
-            <Button type="submit" className="ui-btn-primary px-6 py-2">
+            <Button type="submit" className="px-6 py-2">
               Transmit to Buffer
             </Button>
           </div>

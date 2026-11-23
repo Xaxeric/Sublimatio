@@ -274,7 +274,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <Toaster richColors position="bottom-right" duration={4500} />
+      <Toaster position="bottom-right" duration={4500} />
     </>
   );
 }

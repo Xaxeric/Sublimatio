@@ -64,7 +64,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
   };
 
   const labelClass =
-    "mb-1 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
+    "mb-1 block text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
   return (
     <Modal
@@ -73,7 +73,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
       description="Perbarui data payload pada backend NestJS"
       title={
         <>
-          <span className="h-2.5 w-2.5 bg-sublimatio-accent" />
+          <span className="h-2.5 w-2.5 bg-foreground" />
           <span>Ubah Data Payload (PATCH /payloads/:id)</span>
         </>
       }
@@ -82,7 +82,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
         {error && (
           <Alert
             variant="destructive"
-            className="animate-slide-down border-red-500/60 bg-red-950/40 font-chakra text-xs text-red-300"
+            className="text-xs"
           >
             <AlertDescription>{error}</AlertDescription>
           </Alert>
@@ -90,14 +90,14 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
 
         <div>
           <Label htmlFor="edit-name" className={labelClass}>
-            Nama Payload <span className="font-mono text-[10px] text-indigo-400">(min. 3 karakter)</span>
+            Nama Payload <span className="text-[10px] text-muted-foreground">(min. 3 karakter)</span>
           </Label>
           <Input
             id="edit-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="ui-input px-3.5 py-2 text-sm"
+            className="px-3.5 py-2 text-sm"
             required
           />
         </div>
@@ -113,14 +113,14 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
               min="1"
               value={remainingTTL}
               onChange={(e) => setRemainingTTL(e.target.value)}
-              className="ui-input px-3.5 py-2 text-sm"
+              className="px-3.5 py-2 text-sm"
               required
             />
           </div>
 
           <div>
             <Label className={labelClass}>Status Pin (Proteksi Purge)</Label>
-            <div className="flex h-10 items-center gap-2 border border-[#0a102e] bg-[#080d24] px-3">
+            <div className="flex h-10 items-center gap-2 border border-border bg-muted px-3">
               <Switch
                 id="edit-pinned"
                 checked={isPinned}
@@ -128,7 +128,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
               />
               <Label
                 htmlFor="edit-pinned"
-                className="cursor-pointer font-chakra text-xs text-slate-200"
+                className="cursor-pointer text-xs text-foreground"
               >
                 Pinned (Tahan Sublimasi)
               </Label>
@@ -146,7 +146,7 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="ui-input px-3.5 py-2 text-sm"
+              className="px-3.5 py-2 text-sm"
             />
           </div>
         )}
@@ -161,25 +161,25 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
               rows="3"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="ui-input px-3.5 py-2 text-sm"
+              className="px-3.5 py-2 text-sm"
             />
           </div>
         )}
 
-        <Separator className="bg-[#0a102e]" />
+        <Separator />
         <div className="flex items-center justify-end gap-3">
           <Button
             type="button"
             variant="ghost"
             onClick={onClose}
-            className="px-4 py-2 font-chakra text-xs font-bold uppercase text-slate-400 hover:text-white"
+            className="px-4 py-2 text-xs font-bold uppercase text-muted-foreground hover:text-foreground"
           >
             Batal
           </Button>
           <Button
             type="submit"
             disabled={submitting}
-            className="ui-btn-primary rounded px-5 py-2"
+            className="rounded px-5 py-2"
           >
             {submitting ? "Menyimpan (PATCH)..." : "Simpan Perubahan"}
           </Button>

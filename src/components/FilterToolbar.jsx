@@ -39,12 +39,12 @@ export default function FilterToolbar({
   return (
     <div className="flex flex-col items-stretch justify-between gap-4 pt-2 sm:flex-row sm:items-center">
       <Tabs value={filter} onValueChange={onFilterChange}>
-        <TabsList variant="line" className="h-auto gap-1.5 overflow-x-auto rounded-lg border border-[#0a102e] bg-[#080d24]/80 p-1">
+        <TabsList variant="line" className="h-auto gap-1.5 overflow-x-auto rounded-lg border border-border bg-muted p-1">
           {FILTERS.map((option) => (
             <TabsTrigger
               key={option.value}
               value={option.value}
-              className="rounded px-3.5 py-1.5 font-chakra text-xs font-semibold uppercase tracking-wider text-sublimatio-tertiary data-[state=active]:border-blue-500 data-[state=active]:bg-sublimatio-accent/30 data-[state=active]:text-white data-[state=active]:shadow-[0_0_12px_rgba(26,57,237,0.25)]"
+              className="rounded px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider"
             >
               {option.label}
             </TabsTrigger>
@@ -56,14 +56,14 @@ export default function FilterToolbar({
         <div className="flex items-center gap-2">
           <Label
             htmlFor="sort-select"
-            className="hidden font-chakra text-xs uppercase tracking-wider text-sublimatio-tertiary sm:inline"
+            className="hidden text-xs uppercase tracking-wider text-muted-foreground sm:inline"
           >
             Sort:
           </Label>
           <Select value={sortBy} onValueChange={onSortChange}>
             <SelectTrigger
               id="sort-select"
-              className="ui-input w-auto min-w-[168px] px-2.5 py-2 font-chakra text-xs"
+              className="w-auto min-w-[168px] px-2.5 py-2 text-xs"
             >
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -77,13 +77,13 @@ export default function FilterToolbar({
         </div>
 
         <div className="relative w-full sm:w-64">
-          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search items by name or content..."
-            className="ui-input py-2 pl-9 pr-4 font-rajdhani text-xs"
+            className="py-2 pl-9 pr-4 text-xs"
           />
         </div>
       </div>

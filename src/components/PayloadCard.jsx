@@ -8,9 +8,8 @@ import { formatTTL, getUrgencyLevel } from "../utils/payload.js";
 
 const TYPE_STYLES = {
   file: {
-    badge:
-      "rounded border-blue-800/60 bg-blue-950/80 text-blue-400",
-    iconBg: "bg-blue-950/50 border-blue-900/60 text-blue-400",
+    badge: "border-border bg-muted text-foreground",
+    iconBg: "border-border bg-muted text-muted-foreground",
     icon: (
       <path
         strokeLinecap="round"
@@ -22,8 +21,8 @@ const TYPE_STYLES = {
     label: "FILE",
   },
   link: {
-    badge: "rounded border-violet-800/60 bg-violet-950/80 text-violet-400",
-    iconBg: "bg-violet-950/50 border-violet-900/60 text-violet-400",
+    badge: "border-border bg-muted text-foreground",
+    iconBg: "border-border bg-muted text-muted-foreground",
     icon: (
       <path
         strokeLinecap="round"
@@ -35,8 +34,8 @@ const TYPE_STYLES = {
     label: "LINK",
   },
   text: {
-    badge: "rounded border-indigo-800/60 bg-indigo-950/80 text-indigo-400",
-    iconBg: "bg-indigo-950/50 border-indigo-900/60 text-indigo-400",
+    badge: "border-border bg-muted text-foreground",
+    iconBg: "border-border bg-muted text-muted-foreground",
     icon: (
       <path
         strokeLinecap="round"
@@ -81,10 +80,10 @@ export default function PayloadCard({
         : "TTL BUFFER";
   const urgencyColor =
     urgency === "critical"
-      ? "text-sublimatio-red"
+      ? "text-destructive"
       : urgency === "warning"
-        ? "text-amber-400"
-        : "text-slate-400";
+        ? "text-foreground"
+        : "text-muted-foreground";
 
   const stop = (event) => event.stopPropagation();
 
@@ -96,7 +95,7 @@ export default function PayloadCard({
   const handleVanish = (event) => {
     stop(event);
     setLeaving(true);
-    // Let the "sublimate" animation play before the parent removes the payload.
+    // The parent removes the payload after the same short delay as before.
     setTimeout(() => onSublimate(payload.id, "User Triggered Vanish"), 400);
   };
 
@@ -104,11 +103,11 @@ export default function PayloadCard({
     if (payload.type === "file") {
       return (
         <>
-          <span className="font-mono text-xs text-slate-400">
+          <span className="text-xs text-muted-foreground">
             {payload.size || "0 KB"}
           </span>
-          <span className="text-slate-600">&bull;</span>
-          <span className="font-mono text-xs text-slate-400">
+          <span className="text-muted-foreground/60">&bull;</span>
+          <span className="truncate text-xs text-muted-foreground">
             {payload.mime || "application/octet-stream"}
           </span>
         </>
@@ -122,7 +121,7 @@ export default function PayloadCard({
           target="_blank"
           rel="noopener noreferrer"
           onClick={stop}
-          className="inline-flex max-w-sm items-center gap-1 truncate font-mono text-xs text-violet-300 hover:text-violet-100 hover:underline"
+          className="inline-flex max-w-sm items-center gap-1 truncate text-xs text-foreground hover:underline"
         >
           {payload.url}
         </a>
@@ -131,11 +130,11 @@ export default function PayloadCard({
 
     return (
       <>
-        <span className="inline-block max-w-md truncate rounded border border-indigo-900/40 bg-black/40 px-1.5 py-0.5 font-mono text-xs font-medium text-indigo-300">
+        <span className="inline-block max-w-md truncate rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground">
           {payload.content}
         </span>
-        <span className="text-slate-600">&bull;</span>
-        <span className="text-xs text-slate-400">
+        <span className="text-muted-foreground/60">&bull;</span>
+        <span className="text-xs text-muted-foreground">
           {(payload.content || "").length} chars
         </span>
       </>
@@ -150,7 +149,7 @@ export default function PayloadCard({
           variant="outline"
           size="xs"
           onClick={(event) => handleAction(event, () => onDownload(payload))}
-          className="gap-1 border-blue-800/60 bg-blue-950/50 px-2.5 font-chakra text-xs tracking-wider text-blue-300 hover:bg-blue-900/70 hover:text-white"
+          className="gap-1 px-2.5 text-xs tracking-wider"
           title="Fetch ephemeral payload"
         >
           <svg
@@ -186,7 +185,7 @@ export default function PayloadCard({
               ),
             )
           }
-          className="gap-1 border-violet-800/60 bg-violet-950/50 px-2.5 font-chakra text-xs tracking-wider text-violet-300 hover:bg-violet-900/70 hover:text-white"
+          className="gap-1 px-2.5 text-xs tracking-wider"
           title="Copy URL to clipboard"
         >
           <svg
@@ -221,7 +220,7 @@ export default function PayloadCard({
             ),
           )
         }
-        className="gap-1 border-indigo-800/60 bg-indigo-950/50 px-2.5 font-chakra text-xs tracking-wider text-indigo-300 hover:bg-indigo-900/70 hover:text-white"
+        className="gap-1 px-2.5 text-xs tracking-wider"
         title="Copy text to clipboard"
       >
         <svg
@@ -246,8 +245,8 @@ export default function PayloadCard({
     <Card
       onClick={() => onInspect(payload.id)}
       className={
-        "glass-card group relative flex cursor-pointer flex-col justify-between gap-4 overflow-hidden rounded-xl p-4 py-4 transition-all duration-300 sm:p-5 md:flex-row md:items-center " +
-        (leaving ? "pointer-events-none animate-fade-sublimate" : "glass-card-hover")
+        "group relative flex cursor-pointer flex-col justify-between gap-4 overflow-hidden rounded-xl p-4 py-4 transition-colors sm:p-5 md:flex-row md:items-center " +
+        (leaving ? "pointer-events-none" : "hover:bg-accent")
       }
     >
       <div className="flex min-w-0 flex-1 items-start gap-3.5 sm:items-center">
@@ -269,21 +268,21 @@ export default function PayloadCard({
 
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex flex-wrap items-center gap-2">
-            <h3 className="truncate font-chakra text-sm font-bold tracking-wide text-[#c6cfff] transition-colors group-hover:text-white sm:text-base">
+            <h3 className="truncate text-sm font-bold tracking-wide text-foreground sm:text-base">
               {payload.name}
             </h3>
             <Badge
               variant="outline"
               className={
-                "px-2 py-0.5 font-chakra text-[10px] font-bold uppercase tracking-wider " +
+                "px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider " +
                 styles.badge
               }
             >
               {styles.label}
             </Badge>
-            <span className="flex items-center gap-1 font-rajdhani text-[11px] text-sublimatio-muted">
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
               <svg
-                className="h-3 w-3 text-slate-500"
+                className="h-3 w-3 text-muted-foreground"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -298,13 +297,13 @@ export default function PayloadCard({
               {payload.device}
             </span>
           </div>
-          <div className="flex items-center gap-2 truncate text-xs text-sublimatio-muted">
+          <div className="flex items-center gap-2 truncate text-xs text-muted-foreground">
             {renderPreview()}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-shrink-0 items-center justify-between gap-5 border-t border-[#0a102e]/60 pt-2 md:justify-end md:border-t-0 md:pt-0">
+      <div className="flex flex-shrink-0 items-center justify-between gap-5 border-t border-border/60 pt-2 md:justify-end md:border-t-0 md:pt-0">
         <div className="flex items-center gap-3">
           <TtlRing
             remainingTTL={payload.remainingTTL}
@@ -313,13 +312,13 @@ export default function PayloadCard({
           <div className="text-left">
             <div
               className={
-                "font-chakra text-[10px] font-bold uppercase tracking-wider " +
+                "text-[10px] font-bold uppercase tracking-wider " +
                 urgencyColor
               }
             >
               {urgencyText}
             </div>
-            <div className="font-mono text-xs text-slate-300">
+            <div className="text-xs text-foreground">
               {formatTTL(payload.remainingTTL)}
             </div>
           </div>
@@ -333,7 +332,6 @@ export default function PayloadCard({
               variant="outline"
               size="icon-xs"
               onClick={(event) => handleAction(event, () => onEdit(payload))}
-              className="border-amber-700/60 bg-amber-950/50 text-amber-300 hover:bg-amber-900/70 hover:text-white"
               title="Edit / Update payload (PATCH)"
             >
               <svg
@@ -356,7 +354,6 @@ export default function PayloadCard({
             variant="outline"
             size="icon-xs"
             onClick={(event) => handleAction(event, () => onInspect(payload.id))}
-            className="border-slate-700/60 bg-slate-900/80 text-slate-300 hover:bg-slate-800 hover:text-white"
             title="Inspect payload details"
           >
             <svg
@@ -384,7 +381,7 @@ export default function PayloadCard({
             variant="ghost"
             size="xs"
             onClick={handleVanish}
-            className="gap-1.5 border border-rose-900/50 bg-rose-950/40 px-2.5 font-chakra text-xs uppercase tracking-wider text-sublimatio-red hover:border-rose-600/70 hover:bg-rose-900/60 hover:text-white"
+            className="gap-1.5 border border-destructive/40 px-2.5 text-xs uppercase tracking-wider text-destructive hover:bg-destructive/10 hover:text-destructive"
             title="Sublimate immediately (Delete from RAM)"
           >
             <svg

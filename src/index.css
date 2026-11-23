@@ -3,145 +3,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Sublimatio design tokens, ported from the v3 tailwind.config.cjs. */
-@theme {
-  --color-sublimatio-bg: #070b1f;
-  --color-sublimatio-dark: #040714;
-  --color-sublimatio-surface: #080d24;
-  --color-sublimatio-card: rgba(8, 13, 36, 0.65);
-  --color-sublimatio-border: #0a102e;
-  --color-sublimatio-border-glow: #1a2868;
-  --color-sublimatio-accent: #1a39ed;
-  --color-sublimatio-glow: #20348d;
-  --color-sublimatio-text: #c6cfff;
-  --color-sublimatio-subtle: #a1a9d9;
-  --color-sublimatio-muted: #6e78a7;
-  --color-sublimatio-tertiary: #6e78a7;
-  --color-sublimatio-amber: #f59e0b;
-  --color-sublimatio-red: #F32626;
-
-  --font-chakra: "Chakra Petch", sans-serif;
-  --font-rajdhani: "Rajdhani", sans-serif;
-  --font-mono: "Kode Mono", monospace;
-
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-fade-sublimate: sublimate 0.8s ease-out forwards;
-  --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-fade-out: fade-out 0.2s ease-in forwards;
-  --animate-modal-in: modal-in 0.2s ease-out;
-  --animate-modal-out: modal-out 0.2s ease-in forwards;
-  --animate-slide-down: slide-down 0.2s ease-out;
-  --animate-slide-up: slide-up 0.2s ease-in forwards;
-  --animate-toast-in: toast-in 0.25s ease-out;
-  --animate-toast-out: toast-out 0.25s ease-in forwards;
-
-  @keyframes pulse {
-    50% {
-      opacity: 0.5;
-    }
-  }
-  @keyframes sublimate {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-      filter: blur(0px);
-    }
-    50% {
-      opacity: 0.6;
-      transform: scale(0.98);
-      filter: blur(3px) brightness(1.8);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0.9);
-      filter: blur(10px) brightness(2);
-    }
-  }
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @keyframes fade-out {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes modal-in {
-    from {
-      opacity: 0;
-      transform: scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  @keyframes modal-out {
-    from {
-      opacity: 1;
-      transform: scale(1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(0.96);
-    }
-  }
-  @keyframes slide-down {
-    from {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes slide-up {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-  }
-  @keyframes toast-in {
-    from {
-      opacity: 0;
-      transform: translateX(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  @keyframes toast-out {
-    from {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateX(16px);
-    }
-  }
-}
-
-/* shadcn/ui theme contract, wired to the Sublimatio indigo/navy palette. */
+/* Default shadcn/ui neutral theme scaffold (CSS variables).
+   https://ui.shadcn.com/docs/theming */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -165,187 +29,123 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.625rem;
 
-  --background: #070b1f;
-  --foreground: #c6cfff;
-  --card: rgba(8, 13, 36, 0.65);
-  --card-foreground: #c6cfff;
-  --popover: #080d24;
-  --popover-foreground: #c6cfff;
-  --primary: #1a39ed;
-  --primary-foreground: #ffffff;
-  --secondary: #0a102e;
-  --secondary-foreground: #c6cfff;
-  --muted: #0a102e;
-  --muted-foreground: #6e78a7;
-  --accent: #1a2868;
-  --accent-foreground: #c6cfff;
-  --destructive: #F32626;
-  --destructive-foreground: #ffffff;
-  --border: #0a102e;
-  --input: #0a102e;
-  --ring: #1a39ed;
-  --chart-1: #1a39ed;
-  --chart-2: #20348d;
-  --chart-3: #1a2868;
-  --chart-4: #f59e0b;
-  --chart-5: #a1a9d9;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  /* Chart / sidebar accents are kept neutral: the theme is strictly monochrome. */
+  --chart-1: oklch(0.7 0 0);
+  --chart-2: oklch(0.6 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.4 0 0);
+  --chart-5: oklch(0.3 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
 
-  /* shadcn Sonner toast palette */
-  --normal-bg: #080d24;
-  --normal-text: #c6cfff;
-  --normal-border: #0a102e;
-  --success: #1a39ed;
-
-  /* Sonner richColors: keep the original status palette (navy / amber / red). */
-  --info-bg: #080f33;
-  --info-border: #1a39ed;
-  --info-text: #c6cfff;
-  --success-bg: #061e1b;
-  --success-border: #10b981;
-  --success-text: #a7f3d0;
-  --warning-bg: #241705;
-  --warning-border: #f59e0b;
-  --warning-text: #fde68a;
-  --error-bg: #2a0813;
-  --error-border: #f43f5e;
-  --error-text: #fecdd3;
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  /* Chart / sidebar accents are kept neutral: the theme is strictly monochrome. */
+  --chart-1: oklch(0.7 0 0);
+  --chart-2: oklch(0.6 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.4 0 0);
+  --chart-5: oklch(0.3 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.922 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Rajdhani, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  html {
-    background: linear-gradient(to bottom, #070b1f, #040714);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  h1,
-  h2,
-  h3 {
-    font-family: "Chakra Petch", sans-serif;
-    text-transform: uppercase;
+    @apply border-border outline-ring/50;
   }
 
   body {
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* shadcn components use a bare `border` utility; give it the app border color
-     without painting the body (which would hide the navy gradient above). */
-  * {
-    @apply border-border;
+    @apply bg-background text-foreground;
   }
 }
 
 @layer utilities {
-  .circular-progress-ring {
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition:
-      stroke-dashoffset 1s linear,
-      stroke 0.5s ease;
-  }
-
-  .glass-card {
-    background: linear-gradient(
-      to left,
-      hsla(230, 63%, 11%, 0.6),
-      hsla(0, 0%, 0%, 0.6),
-      hsla(230, 63%, 11%, 0.6)
-    );
-    backdrop-filter: blur(12px);
-    border: 2px solid #0a102e;
-    border-radius: 0.75rem;
-    box-shadow: inset 0 1px 0 rgba(198, 207, 255, 0.05);
-  }
-
-  .glass-card-hover {
-    transition: all 0.25s ease;
-  }
-
-  .glass-card-hover:hover {
-    border-color: #1a39ed;
-    box-shadow:
-      0 0 20px rgba(26, 57, 237, 0.15),
-      inset 0 1px 0 rgba(198, 207, 255, 0.08);
-  }
-
-  .grid-img-decoration {
-    /* CSS grid drawn from repeating linear gradients in both axes.
-       Cell size 30px, with a heavier line every 150px (5 cells). This mirrors
-       the 1200x840 reference texture it replaces: 40 x 28 cells. */
-    background-image:
-      repeating-linear-gradient(
-        to right,
-        rgba(23, 38, 83, 0.13) 0 1px,
-        transparent 1px 30px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        rgba(23, 38, 83, 0.13) 0 1px,
-        transparent 1px 30px
-      ),
-      repeating-linear-gradient(
-        to right,
-        rgba(22, 32, 80, 0.31) 0 1px,
-        transparent 1px 150px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        rgba(22, 32, 80, 0.31) 0 1px,
-        transparent 1px 150px
-      );
-    filter: blur(5px);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* Masked password field: spaced disc glyphs instead of the browser default
-     bullet clump. -webkit-text-security is the only property that changes the
-     mask glyph. Wrapped in @supports: a browser that does not implement it drops
-     the declaration and keeps its native password masking, so the fallback is
-     always "still masked", never "shown in clear text". */
+  /* Password stays masked in every browser. Where -webkit-text-security is
+     supported the mask uses disc glyphs; otherwise the native password mask
+     remains, so the field is never shown in clear text. */
   @supports (-webkit-text-security: disc) {
-    .password-futuristic {
+    .password-masked {
       -webkit-text-security: disc;
       letter-spacing: 0.35em;
     }
   }
 
   @supports not (-webkit-text-security: disc) {
-    .password-futuristic {
-      /* Degrades to letter-spacing only; masking stays native. */
+    .password-masked {
       letter-spacing: 0.15em;
     }
   }
 
-  .mask-img-w-radial {
-    mask-image: radial-gradient(black 10%, transparent);
-    mask-repeat: no-repeat;
-    mask-size: auto;
-    mask-position: center;
-  }
-
-  /* Hide scrollbars completely, including on hover, while preserving scroll functionality */
   .no-scrollbar::-webkit-scrollbar,
   .no-scrollbar:hover::-webkit-scrollbar {
     display: none;
@@ -357,75 +157,5 @@
   .no-scrollbar:hover {
     -ms-overflow-style: none;
     scrollbar-width: none;
-  }
-}
-
-/* Shared component primitives — consolidates repeated style strings across views.
-   Palette and motifs stay identical to the rest of the Sublimatio system. */
-@layer components {
-  .ui-input {
-    width: 100%;
-    border: 1px solid #0a102e;
-    border-radius: 0.25rem;
-    background: rgba(8, 13, 36, 0.9);
-    padding: 0.5rem 0.875rem;
-    color: #ffffff;
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-  .ui-input::placeholder {
-    color: #64748b;
-  }
-  .ui-input:hover {
-    border-color: #1a2868;
-  }
-  .ui-input:focus {
-    outline: none;
-    border-color: #1a39ed;
-    box-shadow: 0 0 0 3px rgba(26, 57, 237, 0.2);
-  }
-
-  .ui-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 1px solid rgba(96, 165, 250, 0.7);
-    border-radius: 0.25rem;
-    background: #1a39ed;
-    padding: 0.5rem 1rem;
-    font-family: "Chakra Petch", sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #ffffff;
-    box-shadow: 0 0 15px rgba(26, 57, 237, 0.4);
-    transition: all 0.2s ease;
-  }
-  .ui-btn-primary:hover:not(:disabled) {
-    background: #2563eb;
-    box-shadow: 0 0 22px rgba(26, 57, 237, 0.55);
-  }
-  .ui-btn-primary:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(26, 57, 237, 0.5);
-  }
-  .ui-btn-primary:active:not(:disabled) {
-    filter: brightness(0.95);
-  }
-  .ui-btn-primary:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
-
-  /* Subtle, consistent focus treatment for secondary / ghost controls. */
-  .ui-focus {
-    transition: all 0.2s ease;
-  }
-  .ui-focus:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(26, 57, 237, 0.55);
   }
 }

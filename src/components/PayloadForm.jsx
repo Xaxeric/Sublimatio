@@ -136,7 +136,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
   };
 
   const labelClass =
-    "mb-1.5 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
+    "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
   return (
     <Modal
@@ -144,7 +144,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
       description="Tambahkan payload baru ke buffer ephemeral"
       title={
         <>
-          <span className="h-2.5 w-2.5 bg-sublimatio-accent shadow-[0_0_8px_#1a39ed]" />
+          <span className="h-2.5 w-2.5 bg-foreground" />
           <span>Transmit New Payload</span>
         </>
       }
@@ -152,7 +152,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
       {error && (
         <Alert
           variant="destructive"
-          className="flex animate-slide-down items-center gap-2 border-sublimatio-red/50 bg-sublimatio-red/20 font-chakra text-xs text-sublimatio-red"
+          className="flex items-center gap-2 text-xs"
         >
           <AlertTriangle className="h-4 w-4 flex-shrink-0" />
           <AlertDescription>{error}</AlertDescription>
@@ -168,7 +168,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
             value={form.type}
             onValueChange={(value) => updateValue("type", value)}
           >
-            <SelectTrigger id="add-type" className="ui-input px-3.5 py-2.5 font-chakra">
+            <SelectTrigger id="add-type" className="px-3.5 py-2.5 text-sm">
               <SelectValue placeholder="Pilih tipe payload" />
             </SelectTrigger>
             <SelectContent>
@@ -181,7 +181,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
 
         <div>
           <Label htmlFor="add-name" className={labelClass}>
-            Item Identifier / Name <span className="text-sublimatio-red">*</span>
+            Item Identifier / Name <span className="text-destructive">*</span>
           </Label>
           <Input
             id="add-name"
@@ -189,14 +189,14 @@ export default function PayloadForm({ onAddPayload, onClose }) {
             value={form.name}
             onChange={update("name")}
             placeholder="e.g., API Secret Token, Staging DB URL"
-            className="ui-input px-3.5 py-2.5"
+            className="px-3.5 py-2.5"
           />
         </div>
 
         {form.type === "text" && (
           <div>
             <Label htmlFor="add-text-input" className={labelClass}>
-              Text Payload Content <span className="text-sublimatio-red">*</span>
+              Text Payload Content <span className="text-destructive">*</span>
             </Label>
             <Textarea
               id="add-text-input"
@@ -204,7 +204,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
               value={form.textValue}
               onChange={update("textValue")}
               placeholder="Paste sensitive text, credentials, or notes..."
-              className="ui-input px-3.5 py-2.5 font-mono"
+              className="px-3.5 py-2.5 text-sm"
             />
           </div>
         )}
@@ -212,7 +212,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
         {form.type === "link" && (
           <div>
             <Label htmlFor="add-url-input" className={labelClass}>
-              Target URL <span className="text-sublimatio-red">*</span>
+              Target URL <span className="text-destructive">*</span>
             </Label>
             <Input
               id="add-url-input"
@@ -220,7 +220,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
               value={form.urlValue}
               onChange={update("urlValue")}
               placeholder="https://example.com/temporary-room"
-              className="ui-input px-3.5 py-2.5 font-mono"
+              className="px-3.5 py-2.5 text-sm"
             />
           </div>
         )}
@@ -235,7 +235,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
               type="file"
               ref={fileRef}
               accept={ALLOWED_MIME_LABEL}
-              className="h-auto w-full border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-indigo-300"
+              className="h-auto w-full px-3.5 py-2 text-sm text-muted-foreground file:mr-3 file:rounded file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-xs file:text-foreground"
             />
           </div>
         )}
@@ -248,7 +248,7 @@ export default function PayloadForm({ onAddPayload, onClose }) {
             value={String(form.ttl)}
             onValueChange={(value) => updateValue("ttl", Number(value))}
           >
-            <SelectTrigger id="add-ttl" className="ui-input px-3.5 py-2.5 font-chakra">
+            <SelectTrigger id="add-ttl" className="px-3.5 py-2.5 text-sm">
               <SelectValue placeholder="Pilih TTL" />
             </SelectTrigger>
             <SelectContent>
@@ -261,17 +261,17 @@ export default function PayloadForm({ onAddPayload, onClose }) {
           </Select>
         </div>
 
-        <Separator className="bg-[#0a102e]" />
+        <Separator />
         <div className="flex items-center justify-end gap-3">
           <Button
             type="button"
             variant="secondary"
             onClick={onClose}
-            className="bg-slate-800 px-4 py-2 font-chakra text-xs uppercase tracking-wider text-slate-300 hover:bg-slate-700 hover:text-white"
+            className="px-4 py-2 text-xs uppercase tracking-wider"
           >
             Cancel
           </Button>
-          <Button type="submit" className="ui-btn-primary rounded px-5 py-2">
+          <Button type="submit" className="rounded px-5 py-2">
             Tambah Payload
           </Button>
         </div>

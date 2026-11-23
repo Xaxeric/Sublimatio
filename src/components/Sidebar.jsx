@@ -18,7 +18,7 @@ const navItems = [
         d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
       />
     ),
-    iconClass: "text-sublimatio-accent",
+    iconClass: "text-foreground",
   },
   {
     to: "/client",
@@ -31,7 +31,7 @@ const navItems = [
         d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
       />
     ),
-    iconClass: "text-slate-400",
+    iconClass: "text-muted-foreground",
   },
   {
     to: "/connect",
@@ -44,7 +44,7 @@ const navItems = [
         d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
       />
     ),
-    iconClass: "text-slate-400",
+    iconClass: "text-muted-foreground",
   },
 ];
 
@@ -91,7 +91,7 @@ function DeviceIcon({ type }) {
   if (type === "mobile") {
     return (
       <svg
-        className="h-3.5 w-3.5 flex-shrink-0 text-indigo-400"
+        className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -108,7 +108,7 @@ function DeviceIcon({ type }) {
   if (type === "desktop") {
     return (
       <svg
-        className="h-3.5 w-3.5 flex-shrink-0 text-blue-400"
+        className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -124,7 +124,7 @@ function DeviceIcon({ type }) {
   }
   return (
     <svg
-      className="h-3.5 w-3.5 flex-shrink-0 text-indigo-400"
+      className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -173,14 +173,14 @@ export default function Sidebar({
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm transition-opacity md:hidden"
+          className="fixed inset-0 z-30 bg-black/60 transition-opacity md:hidden"
           aria-hidden="true"
         />
       )}
 
       <aside
         className={
-          "fixed top-0 left-0 z-40 flex h-screen w-[240px] flex-col justify-between border-r-2 border-[#0a102e] bg-gradient-to-r from-black/80 via-[#0a102b]/90 to-[#111a3d]/80 pt-6 pb-4 backdrop-blur-[1.7rem] transition-transform duration-300 ease-in-out " +
+          "fixed top-0 left-0 z-40 flex h-screen w-[240px] flex-col justify-between border-r border-border bg-card pt-6 pb-4 transition-transform duration-300 ease-in-out " +
           (isOpen ? "translate-x-0" : "-translate-x-full")
         }
       >
@@ -190,14 +190,14 @@ export default function Sidebar({
             <div>
               <Link
                 to="/dashboard"
-                className="flex items-center gap-2 p-0 text-sublimatio-text"
+                className="flex items-center gap-2 p-0 text-foreground"
               >
-                <span className="h-3 w-3 animate-pulse bg-sublimatio-accent shadow-[0_0_10px_#1a39ed]" />
-                <span className="font-chakra text-xl font-bold tracking-wider">
+                <span className="h-3 w-3 bg-foreground" />
+                <span className="text-xl font-bold tracking-wider">
                   SUBLIMATIO
                 </span>
               </Link>
-              <span className="mt-1 block font-chakra text-[10px] uppercase tracking-widest text-sublimatio-tertiary">
+              <span className="mt-1 block text-[10px] uppercase tracking-widest text-muted-foreground">
                 Ephemeral Mesh v1.0
               </span>
             </div>
@@ -210,17 +210,17 @@ export default function Sidebar({
                 size="icon-sm"
                 onClick={onToggle}
                 title="Collapse sidebar panel"
-                className="h-7 w-7 border border-[#1a2868] bg-[#0c1333] text-sublimatio-subtle hover:border-sublimatio-accent hover:text-white"
+                className="h-7 w-7 border border-border"
               >
                 <ChevronsLeft className="h-4 w-4" />
               </Button>
             )}
           </div>
-          <Separator className="bg-[#0a102e]/80" />
+          <Separator />
 
           {/* Navigation Links */}
           <nav className="mt-4 space-y-1">
-            <span className="block px-6 pb-1 font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary">
+            <span className="block px-6 pb-1 text-[10px] uppercase tracking-wider text-muted-foreground">
               Menu Navigation
             </span>
             {navItems.map((item) => (
@@ -228,10 +228,10 @@ export default function Sidebar({
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  "flex items-center gap-3 px-6 py-2 font-chakra text-xs uppercase tracking-wide transition-colors " +
+                  "flex items-center gap-3 px-6 py-2 text-xs uppercase tracking-wide transition-colors " +
                   (isActive
-                    ? "!bg-[#152052]/40 text-sublimatio-accent border-r-2 border-sublimatio-accent font-semibold"
-                    : "text-sublimatio-subtle hover:text-white")
+                    ? "border-r-2 border-foreground bg-accent font-semibold text-foreground"
+                    : "text-muted-foreground hover:text-foreground")
                 }
               >
                 {({ isActive }) => (
@@ -239,7 +239,7 @@ export default function Sidebar({
                     <svg
                       className={
                         "h-4 w-4 " +
-                        (isActive ? "text-sublimatio-accent" : item.iconClass)
+                        (isActive ? "text-foreground" : item.iconClass)
                       }
                       fill="none"
                       viewBox="0 0 24 24"
@@ -256,16 +256,16 @@ export default function Sidebar({
 
           {/* Connected Device List Section */}
           <div className="mt-6 px-6 pt-4">
-            <Separator className="mb-2.5 bg-[#0a102e]/80" />
+            <Separator className="mb-2.5" />
             <div className="flex items-center justify-between pb-2.5">
-              <span className="font-chakra text-[10px] font-bold uppercase tracking-wider text-sublimatio-subtle">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                 Connected Devices
               </span>
               <Badge
                 variant="outline"
-                className="gap-1 rounded border-indigo-800/40 bg-indigo-950/30 px-1.5 py-0.5 font-mono text-[9px] text-indigo-300"
+                className="gap-1 rounded px-1.5 py-0.5 text-[9px] text-muted-foreground"
               >
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-400" />
+                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" />
                 {deviceList.length} Nodes
               </Badge>
             </div>
@@ -276,15 +276,15 @@ export default function Sidebar({
                   {deviceList.map((dev) => (
                   <div
                     key={dev.id}
-                    className="group flex items-center justify-between rounded border border-[#0d163d]/50 bg-[#070b20]/60 p-2 transition-all hover:border-sublimatio-accent/60 hover:bg-[#0c143d]/60"
+                    className="group flex items-center justify-between rounded border border-border bg-background p-2 transition-colors hover:border-foreground/40 hover:bg-accent"
                   >
                     <div className="flex min-w-0 items-center gap-2">
                       <DeviceIcon type={dev.type} />
                       <div className="min-w-0">
-                        <p className="truncate font-chakra text-[11px] font-semibold text-slate-200 group-hover:text-white">
+                        <p className="truncate text-[11px] font-semibold text-foreground">
                           {dev.name}
                         </p>
-                        <p className="truncate font-mono text-[9px] text-sublimatio-tertiary">
+                        <p className="truncate text-[9px] text-muted-foreground">
                           {dev.role} &bull; {dev.ip}
                         </p>
                       </div>
@@ -294,12 +294,12 @@ export default function Sidebar({
                       {dev.payloadCount > 0 ? (
                         <Badge
                           variant="secondary"
-                          className="rounded bg-sublimatio-accent/30 px-1 py-0 font-mono text-[9px] font-bold text-blue-200"
+                          className="rounded px-1 py-0 text-[9px] font-bold"
                         >
                           {dev.payloadCount} data
                         </Badge>
                       ) : (
-                        <span className="font-mono text-[9px] text-slate-500">
+                        <span className="text-[9px] text-muted-foreground">
                           idle
                         </span>
                       )}
@@ -308,20 +308,20 @@ export default function Sidebar({
                 ))}
               </div>
             </div>
-          </ScrollArea>
+            </ScrollArea>
           </div>
         </div>
 
         {/* Footer actions: Logout */}
         <div className="px-6 pt-3">
-          <Separator className="mb-3 bg-[#0a102e]/80" />
+          <Separator className="mb-3" />
           <Button
             variant="ghost"
             asChild
-            className="justify-start gap-3 px-1 py-1.5 font-chakra text-xs uppercase text-sublimatio-red hover:text-sublimatio-red/70"
+            className="justify-start gap-3 px-1 py-1.5 text-xs uppercase text-destructive hover:text-destructive/70"
           >
             <Link to="/" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 text-sublimatio-red" />
+              <LogOut className="h-4 w-4" />
               Logout Node
             </Link>
           </Button>

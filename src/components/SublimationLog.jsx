@@ -15,13 +15,13 @@ export default function SublimationLog({ logs }) {
   const [open, setOpen] = useState(true);
 
   return (
-    <Card className="glass-card mt-auto gap-0 border-[#0a102e] p-4 py-4 sm:p-5">
+    <Card className="mt-auto gap-0 p-4 py-4 sm:p-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 bg-sublimatio-red" />
-          <h3 className="font-chakra text-base font-bold uppercase tracking-wider text-slate-200 sm:text-lg">
+          <span className="h-2.5 w-2.5 bg-destructive" />
+          <h3 className="text-base font-bold uppercase tracking-wider text-foreground sm:text-lg">
             LOG{" "}
-            <span className="font-normal text-slate-400">({logs.length})</span>
+            <span className="font-normal text-muted-foreground">({logs.length})</span>
           </h3>
         </div>
         <Button
@@ -29,7 +29,7 @@ export default function SublimationLog({ logs }) {
           variant="outline"
           size="sm"
           onClick={() => setOpen((prev) => !prev)}
-          className="gap-1.5 border-[#0a102e] bg-black/40 px-2.5 font-chakra text-xs text-sublimatio-subtle hover:bg-black/70 hover:text-white sm:text-sm"
+          className="gap-1.5 px-2.5 text-xs hover:bg-accent sm:text-sm"
         >
           {open ? "Hide" : "Toggle View"}
           <ChevronDown
@@ -54,44 +54,39 @@ export default function SublimationLog({ logs }) {
         }
       >
         <div className="overflow-hidden">
-          {/* Keyed on `open` so animate-slide-down replays on each open. On
-              close the key flips too, but the row is already collapsing. */}
-          <div
-            key={open ? "open" : "closed"}
-            className={
-              "mt-3 " + (open ? "animate-slide-down" : "")
-            }
-          >
+          {/* Keyed on `open` so the body remounts on each toggle. On close the
+              key flips too, but the row is already collapsing. */}
+          <div key={open ? "open" : "closed"} className="mt-3">
             {logs.length === 0 && (
-              <p className="py-3 font-mono text-xs text-sublimatio-muted">
+              <p className="py-3 text-xs text-muted-foreground">
                 Belum ada riwayat sublimasi.
               </p>
             )}
             <ScrollArea className="max-h-[260px]">
               <div className="pb-1">
-                <div className="divide-y divide-[#0a102e]/60">
+                <div className="divide-y divide-border/60">
                   {logs.slice(0, 6).map((log, index) => (
                     <div
                       key={log.name + "-" + index}
-                      className="flex items-center justify-between border-b border-[#0a102e]/70 py-2.5 font-mono text-xs text-slate-300 sm:text-sm"
+                      className="flex items-center justify-between border-b border-border/70 py-2.5 text-xs text-foreground sm:text-sm"
                     >
                       <div className="flex items-center gap-2.5 truncate">
-                        <span className="h-2 w-2 flex-shrink-0 rounded-full bg-sublimatio-red" />
-                        <span className="truncate font-rajdhani text-sm font-semibold text-slate-200 sm:text-base">
+                        <span className="h-2 w-2 flex-shrink-0 rounded-full bg-destructive" />
+                        <span className="truncate text-sm font-semibold text-foreground sm:text-base">
                           {log.name}
                         </span>
                         <Badge
                           variant="outline"
-                          className="rounded border-slate-800 bg-black/50 px-1.5 py-0.5 font-chakra text-xs font-medium uppercase text-slate-400"
+                          className="rounded px-1.5 py-0.5 text-xs font-medium uppercase text-muted-foreground"
                         >
                           {log.type}
                         </Badge>
                       </div>
                       <div className="flex flex-shrink-0 items-center gap-3.5 text-xs sm:text-sm">
-                        <span className="font-mono font-medium text-sublimatio-red">
+                        <span className="font-medium text-destructive">
                           {log.reason}
                         </span>
-                        <span className="font-mono text-slate-400">
+                        <span className="text-muted-foreground">
                           {log.timestamp}
                         </span>
                       </div>

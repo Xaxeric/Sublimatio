@@ -49,31 +49,31 @@ export default function InspectModal({ payload, onClose, onCopy }) {
       description="Inspect payload attributes and content"
       title={
         <>
-          <span className="h-2.5 w-2.5 bg-sublimatio-accent" />
+          <span className="h-2.5 w-2.5 bg-foreground" />
           <span className="max-w-md truncate text-lg">{payload.name}</span>
         </>
       }
     >
-      <div className="grid grid-cols-3 gap-3 font-mono text-xs">
-        <div className="border border-[#0a102e] bg-black/40 p-2.5">
-          <span className="block font-chakra text-[10px] uppercase text-slate-500">
+      <div className="grid grid-cols-3 gap-3 text-xs">
+        <div className="border border-border bg-muted p-2.5">
+          <span className="block text-[10px] uppercase text-muted-foreground">
             Type
           </span>
-          <span className="font-bold text-sublimatio-accent">
+          <span className="font-bold text-foreground">
             {payload.type.toUpperCase()}
           </span>
         </div>
-        <div className="border border-[#0a102e] bg-black/40 p-2.5">
-          <span className="block font-chakra text-[10px] uppercase text-slate-500">
+        <div className="border border-border bg-muted p-2.5">
+          <span className="block text-[10px] uppercase text-muted-foreground">
             Origin Device
           </span>
-          <span className="truncate text-slate-300">{payload.device}</span>
+          <span className="truncate text-foreground">{payload.device}</span>
         </div>
-        <div className="border border-[#0a102e] bg-black/40 p-2.5">
-          <span className="block font-chakra text-[10px] uppercase text-slate-500">
+        <div className="border border-border bg-muted p-2.5">
+          <span className="block text-[10px] uppercase text-muted-foreground">
             Expiration TTL
           </span>
-          <span className="text-amber-400">
+          <span className="text-foreground">
             {formatTTL(payload.remainingTTL)} (Total:{" "}
             {formatTTL(payload.totalTTL)})
           </span>
@@ -82,10 +82,10 @@ export default function InspectModal({ payload, onClose, onCopy }) {
 
       {payload.type === "file" && payload.hash && (
         <div>
-          <span className="mb-1 block font-chakra text-[11px] uppercase tracking-wider text-slate-400">
+          <span className="mb-1 block text-[11px] uppercase tracking-wider text-muted-foreground">
             SHA-256 Fingerprint
           </span>
-          <p className="break-all border border-[#0a102e] bg-black/40 p-2.5 font-mono text-[11px] text-indigo-300">
+          <p className="break-all border border-border bg-muted p-2.5 text-[11px] text-foreground">
             {payload.hash}
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function InspectModal({ payload, onClose, onCopy }) {
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <span className="block font-chakra text-[11px] uppercase tracking-wider text-slate-400">
+          <span className="block text-[11px] uppercase tracking-wider text-muted-foreground">
             Payload Content
           </span>
           <Button
@@ -101,25 +101,25 @@ export default function InspectModal({ payload, onClose, onCopy }) {
             variant="outline"
             size="xs"
             onClick={handleCopy}
-            className="gap-1.5 border-slate-700 bg-slate-800/90 px-2.5 font-chakra text-[11px] uppercase tracking-wider text-slate-300 shadow-md hover:bg-slate-700 hover:text-white"
+            className="gap-1.5 px-2.5 text-[11px] uppercase tracking-wider"
             title="Copy payload content to clipboard"
           >
-            <Copy className="h-3.5 w-3.5 text-indigo-400" />
+            <Copy className="h-3.5 w-3.5" />
             {copied ? "Copied!" : "Copy"}
           </Button>
         </div>
-        <pre className="max-h-56 overflow-y-auto whitespace-pre-wrap break-all border border-[#0a102e] bg-black/60 p-3.5 font-mono text-xs text-slate-200 sm:text-sm">
+        <pre className="max-h-56 overflow-y-auto whitespace-pre-wrap break-all border border-border bg-muted p-3.5 text-xs text-foreground sm:text-sm">
           {content}
         </pre>
       </div>
 
-      <Separator className="bg-[#0a102e]" />
+      <Separator />
       <div className="flex items-center justify-end">
         <Button
           type="button"
           variant="secondary"
           onClick={onClose}
-          className="bg-slate-800 px-4 py-1.5 font-chakra text-xs uppercase tracking-wider text-white hover:bg-slate-700"
+          className="px-4 py-1.5 text-xs uppercase tracking-wider"
         >
           Close
         </Button>

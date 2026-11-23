@@ -7,8 +7,8 @@ import { Card } from "@/components/ui/card";
  */
 export default function EmptyState({ entityName = "Payload" }) {
   return (
-    <Card className="glass-card my-auto flex w-full flex-col items-center justify-center gap-4 px-4 py-16 text-center">
-      <div className="flex h-14 w-14 items-center justify-center border border-slate-800/80 bg-slate-900/60 text-slate-500">
+    <Card className="my-auto flex w-full flex-col items-center justify-center gap-4 px-4 py-16 text-center">
+      <div className="flex h-14 w-14 items-center justify-center border border-border bg-muted text-muted-foreground">
         <svg
           className="h-7 w-7"
           fill="none"
@@ -24,10 +24,10 @@ export default function EmptyState({ entityName = "Payload" }) {
         </svg>
       </div>
       <div>
-        <h4 className="font-chakra text-lg font-bold uppercase tracking-wider text-white">
+        <h4 className="text-lg font-bold uppercase tracking-wider text-foreground">
           Belum ada data {entityName}
         </h4>
-        <p className="mx-auto mt-1 max-w-sm text-xs text-sublimatio-tertiary">
+        <p className="mx-auto mt-1 max-w-sm text-xs text-muted-foreground">
           Semua item transient sudah tersublimasi karena kedaluwarsa, atau tidak
           ada item yang cocok dengan filter dan pencarian Anda.
         </p>

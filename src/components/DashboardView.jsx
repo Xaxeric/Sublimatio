@@ -75,8 +75,6 @@ export default function DashboardView({
 
   return (
     <div className="relative min-h-screen">
-      <div className="grid-img-decoration mask-img-w-radial" />
-
       <Sidebar
         payloads={payloads}
         isOpen={sidebarOpen}
@@ -111,12 +109,12 @@ export default function DashboardView({
         />
 
         <section className="flex flex-1 flex-col space-y-3">
-          <div className="flex items-center justify-between px-2 font-chakra text-xs uppercase tracking-wider text-sublimatio-tertiary">
+          <div className="flex items-center justify-between px-2 text-xs uppercase tracking-wider text-muted-foreground">
             <span>{ENTITY_NAME} Payload &amp; Origin</span>
             <span>Circular TTL Expiration &amp; Actions</span>
           </div>
 
-          <Separator className="bg-[#0a102e]/60" />
+          <Separator />
 
           <PayloadList
             payloads={visiblePayloads}

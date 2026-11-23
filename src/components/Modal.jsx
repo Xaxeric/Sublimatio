@@ -30,20 +30,20 @@ export default function Modal({
     >
       <DialogContent
         className={cn(
-          "glass-card border-sublimatio-accent p-6 shadow-2xl",
+          "p-6 shadow-2xl",
           maxWidth,
           className,
         )}
       >
-        <DialogHeader className="border-b border-[#0a102e] pb-3 text-left">
+        <DialogHeader className="border-b border-border pb-3 text-left">
           {title && (
-            <DialogTitle className="flex items-center gap-2 font-chakra font-bold uppercase tracking-wider text-white">
+            <DialogTitle className="flex items-center gap-2 font-bold uppercase tracking-wider text-foreground">
               {title}
             </DialogTitle>
           )}
           <DialogDescription
             className={cn(
-              "font-rajdhani text-xs text-sublimatio-tertiary",
+              "text-xs text-muted-foreground",
               !description && "sr-only",
             )}
           >

@@ -32,7 +32,7 @@ export default function AppHeader({
     : "Expand sidebar panel";
 
   return (
-    <div className="flex flex-col justify-between gap-6 border-b border-[#0a102e] pb-6 lg:flex-row lg:items-center">
+    <div className="flex flex-col justify-between gap-6 border-b border-border pb-6 lg:flex-row lg:items-center">
       <div className="flex items-start gap-3">
         {onToggleSidebar && (
           <TooltipProvider>
@@ -44,7 +44,7 @@ export default function AppHeader({
                   size="icon"
                   onClick={onToggleSidebar}
                   aria-label="Toggle sidebar panel"
-                  className="mt-0.5 h-9 w-9 flex-shrink-0 border-[#1a2868] bg-[#0c1333] text-sublimatio-text hover:border-sublimatio-accent hover:bg-[#152052] hover:text-white"
+                  className="mt-0.5 h-9 w-9 flex-shrink-0"
                 >
                   <svg
                     className="h-5 w-5"
@@ -70,17 +70,17 @@ export default function AppHeader({
           </TooltipProvider>
         )}
         <div>
-          <h1 className="font-chakra text-2xl font-bold tracking-wide text-white sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-wide text-foreground sm:text-3xl">
             {title}
           </h1>
-          <p className="mt-1 max-w-2xl font-rajdhani text-sm leading-relaxed text-sublimatio-tertiary">
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {subtitle}
           </p>
         </div>
       </div>
 
       <div className="flex items-center gap-2.5">
-        <Button type="button" onClick={onAction} className="ui-btn-primary px-4 py-2">
+        <Button type="button" onClick={onAction} className="px-4 py-2">
           <Plus className="h-4 w-4" />
           {actionLabel}
         </Button>
