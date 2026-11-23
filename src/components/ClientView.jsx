@@ -164,7 +164,7 @@ export default function ClientView({ pushToast }) {
             />
           </div>
 
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
             <Button variant="link" asChild className="px-0 font-chakra text-xs uppercase tracking-wider text-slate-400 hover:text-white">
               <Link to="/dashboard">&larr; Back to Dashboard</Link>
             </Button>
