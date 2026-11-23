@@ -167,10 +167,10 @@ export default function ConnectView() {
             asChild
             className="px-4 text-[11px] font-semibold uppercase"
           >
-            <Link to="/dashboard">&larr; Return to Dashboard</Link>
+            <Link to="/dashboard">Return to Dashboard</Link>
           </Button>
           <Button variant="default" asChild className="px-4 py-2">
-            <Link to="/client">Go to Client Send &rarr;</Link>
+            <Link to="/client">Go to Client Send</Link>
           </Button>
         </div>
       </Card>

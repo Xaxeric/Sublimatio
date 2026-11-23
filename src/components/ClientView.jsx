@@ -164,7 +164,7 @@ export default function ClientView({ pushToast }) {
 
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
             <Button variant="link" asChild className="px-0 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground">
-              <Link to="/dashboard">&larr; Back to Dashboard</Link>
+              <Link to="/dashboard">Back to Dashboard</Link>
             </Button>
             <Button type="submit" className="px-6 py-2">
               Transmit to Buffer
