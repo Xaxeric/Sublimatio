@@ -1,11 +1,15 @@
 import { useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import TtlRing from "./TtlRing.jsx";
 import { formatTTL, getUrgencyLevel } from "../utils/payload.js";
 
 const TYPE_STYLES = {
   file: {
     badge:
-      "bg-blue-950/80 text-blue-400 border-blue-800/60",
+      "rounded border-blue-800/60 bg-blue-950/80 text-blue-400",
     iconBg: "bg-blue-950/50 border-blue-900/60 text-blue-400",
     icon: (
       <path
@@ -18,7 +22,7 @@ const TYPE_STYLES = {
     label: "FILE",
   },
   link: {
-    badge: "bg-violet-950/80 text-violet-400 border-violet-800/60",
+    badge: "rounded border-violet-800/60 bg-violet-950/80 text-violet-400",
     iconBg: "bg-violet-950/50 border-violet-900/60 text-violet-400",
     icon: (
       <path
@@ -31,7 +35,7 @@ const TYPE_STYLES = {
     label: "LINK",
   },
   text: {
-    badge: "bg-indigo-950/80 text-indigo-400 border-indigo-800/60",
+    badge: "rounded border-indigo-800/60 bg-indigo-950/80 text-indigo-400",
     iconBg: "bg-indigo-950/50 border-indigo-900/60 text-indigo-400",
     icon: (
       <path
@@ -141,10 +145,12 @@ export default function PayloadCard({
   const renderPrimaryAction = () => {
     if (payload.type === "file") {
       return (
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="xs"
           onClick={(event) => handleAction(event, () => onDownload(payload))}
-          className="flex items-center gap-1 rounded border border-blue-800/60 bg-blue-950/50 px-2.5 py-1.5 font-chakra text-xs tracking-wider text-blue-300 transition-all hover:bg-blue-900/70 hover:text-white"
+          className="gap-1 border-blue-800/60 bg-blue-950/50 px-2.5 font-chakra text-xs tracking-wider text-blue-300 hover:bg-blue-900/70 hover:text-white"
           title="Fetch ephemeral payload"
         >
           <svg
@@ -161,14 +167,16 @@ export default function PayloadCard({
             />
           </svg>
           <span className="hidden sm:inline">Fetch</span>
-        </button>
+        </Button>
       );
     }
 
     if (payload.type === "link") {
       return (
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="xs"
           onClick={(event) =>
             handleAction(event, () =>
               onCopy(
@@ -178,7 +186,7 @@ export default function PayloadCard({
               ),
             )
           }
-          className="flex items-center gap-1 rounded border border-violet-800/60 bg-violet-950/50 px-2.5 py-1.5 font-chakra text-xs tracking-wider text-violet-300 transition-all hover:bg-violet-900/70 hover:text-white"
+          className="gap-1 border-violet-800/60 bg-violet-950/50 px-2.5 font-chakra text-xs tracking-wider text-violet-300 hover:bg-violet-900/70 hover:text-white"
           title="Copy URL to clipboard"
         >
           <svg
@@ -195,13 +203,15 @@ export default function PayloadCard({
             />
           </svg>
           <span className="hidden sm:inline">Copy</span>
-        </button>
+        </Button>
       );
     }
 
     return (
-      <button
+      <Button
         type="button"
+        variant="outline"
+        size="xs"
         onClick={(event) =>
           handleAction(event, () =>
             onCopy(
@@ -211,7 +221,7 @@ export default function PayloadCard({
             ),
           )
         }
-        className="flex items-center gap-1 rounded border border-indigo-800/60 bg-indigo-950/50 px-2.5 py-1.5 font-chakra text-xs tracking-wider text-indigo-300 transition-all hover:bg-indigo-900/70 hover:text-white"
+        className="gap-1 border-indigo-800/60 bg-indigo-950/50 px-2.5 font-chakra text-xs tracking-wider text-indigo-300 hover:bg-indigo-900/70 hover:text-white"
         title="Copy text to clipboard"
       >
         <svg
@@ -228,15 +238,15 @@ export default function PayloadCard({
           />
         </svg>
         <span className="hidden sm:inline">Copy</span>
-      </button>
+      </Button>
     );
   };
 
   return (
-    <div
+    <Card
       onClick={() => onInspect(payload.id)}
       className={
-        "glass-card group relative flex cursor-pointer flex-col justify-between gap-4 overflow-hidden rounded-xl p-4 transition-all duration-300 sm:p-5 md:flex-row md:items-center " +
+        "glass-card group relative flex cursor-pointer flex-col justify-between gap-4 overflow-hidden rounded-xl p-4 py-4 transition-all duration-300 sm:p-5 md:flex-row md:items-center " +
         (leaving ? "pointer-events-none animate-fade-sublimate" : "glass-card-hover")
       }
     >
@@ -262,14 +272,15 @@ export default function PayloadCard({
             <h3 className="truncate font-chakra text-sm font-bold tracking-wide text-[#c6cfff] transition-colors group-hover:text-white sm:text-base">
               {payload.name}
             </h3>
-            <span
+            <Badge
+              variant="outline"
               className={
-                "rounded border px-2 py-0.5 font-chakra text-[10px] font-bold uppercase tracking-wider " +
+                "px-2 py-0.5 font-chakra text-[10px] font-bold uppercase tracking-wider " +
                 styles.badge
               }
             >
               {styles.label}
-            </span>
+            </Badge>
             <span className="flex items-center gap-1 font-rajdhani text-[11px] text-sublimatio-muted">
               <svg
                 className="h-3 w-3 text-slate-500"
@@ -317,10 +328,12 @@ export default function PayloadCard({
         <div className="flex flex-shrink-0 items-center gap-1.5">
           {renderPrimaryAction()}
           {onEdit && (
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="icon-xs"
               onClick={(event) => handleAction(event, () => onEdit(payload))}
-              className="rounded border border-amber-700/60 bg-amber-950/50 px-2 py-1.5 text-xs text-amber-300 transition-all hover:bg-amber-900/70 hover:text-white"
+              className="border-amber-700/60 bg-amber-950/50 text-amber-300 hover:bg-amber-900/70 hover:text-white"
               title="Edit / Update payload (PATCH)"
             >
               <svg
@@ -336,12 +349,14 @@ export default function PayloadCard({
                   d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                 />
               </svg>
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="icon-xs"
             onClick={(event) => handleAction(event, () => onInspect(payload.id))}
-            className="rounded border border-slate-700/60 bg-slate-900/80 px-2 py-1.5 text-xs text-slate-300 transition-all hover:bg-slate-800 hover:text-white"
+            className="border-slate-700/60 bg-slate-900/80 text-slate-300 hover:bg-slate-800 hover:text-white"
             title="Inspect payload details"
           >
             <svg
@@ -363,11 +378,13 @@ export default function PayloadCard({
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
               />
             </svg>
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="ghost"
+            size="xs"
             onClick={handleVanish}
-            className="flex items-center gap-1.5 rounded border border-rose-900/50 bg-rose-950/40 px-2.5 py-1.5 font-chakra text-xs uppercase tracking-wider text-sublimatio-red transition-all hover:border-rose-600/70 hover:bg-rose-900/60 hover:text-white"
+            className="gap-1.5 border border-rose-900/50 bg-rose-950/40 px-2.5 font-chakra text-xs uppercase tracking-wider text-sublimatio-red hover:border-rose-600/70 hover:bg-rose-900/60 hover:text-white"
             title="Sublimate immediately (Delete from RAM)"
           >
             <svg
@@ -384,9 +401,9 @@ export default function PayloadCard({
               />
             </svg>
             <span className="hidden sm:inline">Vanish</span>
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

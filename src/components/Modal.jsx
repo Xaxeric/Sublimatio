@@ -1,21 +1,57 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+
 /**
- * Minimal modal shell: dark backdrop, glass card and click-outside / close handling.
+ * Thin shadcn Dialog adapter. The dashboard still conditionally mounts its
+ * modals, so `open` defaults to true and every dismissal route goes through
+ * the existing `onClose` callback.
  */
-export default function Modal({ children, onClose, maxWidth = "max-w-lg" }) {
+export default function Modal({
+  children,
+  onClose,
+  open = true,
+  title,
+  description,
+  maxWidth = "max-w-lg",
+  className,
+}) {
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) onClose?.();
+      }}
     >
-      <div
-        onClick={(event) => event.stopPropagation()}
-        className={
-          "glass-card relative w-full animate-modal-in space-y-5 border border-sublimatio-accent p-6 shadow-2xl " +
-          maxWidth
-        }
+      <DialogContent
+        className={cn(
+          "glass-card border-sublimatio-accent p-6 shadow-2xl",
+          maxWidth,
+          className,
+        )}
       >
+        <DialogHeader className="border-b border-[#0a102e] pb-3 text-left">
+          {title && (
+            <DialogTitle className="flex items-center gap-2 font-chakra font-bold uppercase tracking-wider text-white">
+              {title}
+            </DialogTitle>
+          )}
+          <DialogDescription
+            className={cn(
+              "font-rajdhani text-xs text-sublimatio-tertiary",
+              !description && "sr-only",
+            )}
+          >
+            {description || "Sublimatio ephemeral payload buffer"}
+          </DialogDescription>
+        </DialogHeader>
         {children}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

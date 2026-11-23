@@ -200,6 +200,20 @@
   --normal-text: #c6cfff;
   --normal-border: #0a102e;
   --success: #1a39ed;
+
+  /* Sonner richColors: keep the original status palette (navy / amber / red). */
+  --info-bg: #080f33;
+  --info-border: #1a39ed;
+  --info-text: #c6cfff;
+  --success-bg: #061e1b;
+  --success-border: #10b981;
+  --success-text: #a7f3d0;
+  --warning-bg: #241705;
+  --warning-border: #f59e0b;
+  --warning-text: #fde68a;
+  --error-bg: #2a0813;
+  --error-border: #f43f5e;
+  --error-text: #fecdd3;
 }
 
 @layer base {

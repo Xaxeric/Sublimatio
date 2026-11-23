@@ -1,4 +1,12 @@
 import { useState } from "react";
+
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import Modal from "./Modal.jsx";
 
 /**
@@ -55,117 +63,126 @@ export default function EditPayloadModal({ payload, onUpdatePayload, onClose }) 
     }
   };
 
-  const inputClass =
-    "ui-input px-3.5 py-2 text-sm";
   const labelClass =
     "mb-1 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
 
   return (
-    <Modal onClose={onClose} maxWidth="max-w-lg">
-      <div className="flex items-center justify-between border-b border-[#0a102e] pb-3">
-        <div className="flex items-center gap-2">
+    <Modal
+      onClose={onClose}
+      maxWidth="max-w-lg"
+      description="Perbarui data payload pada backend NestJS"
+      title={
+        <>
           <span className="h-2.5 w-2.5 bg-sublimatio-accent" />
-          <h3 className="font-chakra text-base font-bold uppercase tracking-wider text-white">
-            Ubah Data Payload (PATCH /payloads/:id)
-          </h3>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="p-1 text-xl leading-none text-slate-400 hover:text-white"
-        >
-          &times;
-        </button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+          <span>Ubah Data Payload (PATCH /payloads/:id)</span>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="animate-slide-down rounded border border-red-500/60 bg-red-950/40 p-2.5 font-chakra text-xs text-red-300">
-            {error}
-          </div>
+          <Alert
+            variant="destructive"
+            className="animate-slide-down border-red-500/60 bg-red-950/40 font-chakra text-xs text-red-300"
+          >
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         )}
 
         <div>
-          <label className={labelClass}>
-            Nama Payload <span className="text-indigo-400 font-mono text-[10px]">(min. 3 karakter)</span>
-          </label>
-          <input
+          <Label htmlFor="edit-name" className={labelClass}>
+            Nama Payload <span className="font-mono text-[10px] text-indigo-400">(min. 3 karakter)</span>
+          </Label>
+          <Input
+            id="edit-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className={inputClass}
+            className="ui-input px-3.5 py-2 text-sm"
             required
           />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className={labelClass}>Remaining TTL (detik)</label>
-            <input
+            <Label htmlFor="edit-ttl" className={labelClass}>
+              Remaining TTL (detik)
+            </Label>
+            <Input
+              id="edit-ttl"
               type="number"
               min="1"
               value={remainingTTL}
               onChange={(e) => setRemainingTTL(e.target.value)}
-              className={inputClass}
+              className="ui-input px-3.5 py-2 text-sm"
               required
             />
           </div>
 
           <div>
-            <label className={labelClass}>Status Pin (Proteksi Purge)</label>
-            <div className="flex items-center h-10 px-3 bg-[#080d24] border border-[#0a102e]">
-              <label className="flex items-center gap-2 cursor-pointer font-chakra text-xs text-slate-200">
-                <input
-                  type="checkbox"
-                  checked={isPinned}
-                  onChange={(e) => setIsPinned(e.target.checked)}
-                  className="rounded border-[#0a102e] text-indigo-400 focus:ring-0"
-                />
-                <span>Pinned (Tahan Sublimasi)</span>
-              </label>
+            <Label className={labelClass}>Status Pin (Proteksi Purge)</Label>
+            <div className="flex h-10 items-center gap-2 border border-[#0a102e] bg-[#080d24] px-3">
+              <Switch
+                id="edit-pinned"
+                checked={isPinned}
+                onCheckedChange={setIsPinned}
+              />
+              <Label
+                htmlFor="edit-pinned"
+                className="cursor-pointer font-chakra text-xs text-slate-200"
+              >
+                Pinned (Tahan Sublimasi)
+              </Label>
             </div>
           </div>
         </div>
 
         {payload.type === "link" && (
           <div>
-            <label className={labelClass}>URL Tujuan</label>
-            <input
+            <Label htmlFor="edit-url" className={labelClass}>
+              URL Tujuan
+            </Label>
+            <Input
+              id="edit-url"
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className={inputClass}
+              className="ui-input px-3.5 py-2 text-sm"
             />
           </div>
         )}
 
         {payload.type === "text" && (
           <div>
-            <label className={labelClass}>Konten Snippet Teks</label>
-            <textarea
+            <Label htmlFor="edit-content" className={labelClass}>
+              Konten Snippet Teks
+            </Label>
+            <Textarea
+              id="edit-content"
               rows="3"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className={inputClass}
+              className="ui-input px-3.5 py-2 text-sm"
             />
           </div>
         )}
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#0a102e]">
-          <button
+        <Separator className="bg-[#0a102e]" />
+        <div className="flex items-center justify-end gap-3">
+          <Button
             type="button"
+            variant="ghost"
             onClick={onClose}
-            className="px-4 py-2 font-chakra text-xs uppercase font-bold text-slate-400 hover:text-white"
+            className="px-4 py-2 font-chakra text-xs font-bold uppercase text-slate-400 hover:text-white"
           >
             Batal
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             disabled={submitting}
             className="ui-btn-primary rounded px-5 py-2"
           >
             {submitting ? "Menyimpan (PATCH)..." : "Simpan Perubahan"}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

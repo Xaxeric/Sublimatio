@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import { Separator } from "@/components/ui/separator";
 import { ENTITY_NAME } from "../data/payloads.js";
 import { filterPayloads, sortPayloads } from "../utils/payload.js";
 import AppHeader from "./AppHeader.jsx";
@@ -114,6 +115,8 @@ export default function DashboardView({
             <span>{ENTITY_NAME} Payload &amp; Origin</span>
             <span>Circular TTL Expiration &amp; Actions</span>
           </div>
+
+          <Separator className="bg-[#0a102e]/60" />
 
           <PayloadList
             payloads={visiblePayloads}

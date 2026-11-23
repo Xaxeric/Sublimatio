@@ -1,4 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
+import { ChevronsLeft, LogOut } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 const navItems = [
   {
@@ -180,7 +186,7 @@ export default function Sidebar({
       >
         <div className="flex flex-col overflow-y-auto no-scrollbar">
           {/* Header branding & panel collapse toggle */}
-          <div className="flex items-start justify-between border-b border-[#0a102e]/80 px-6 pt-1 pb-5">
+          <div className="flex items-start justify-between px-6 pt-1 pb-5">
             <div>
               <Link
                 to="/dashboard"
@@ -198,32 +204,23 @@ export default function Sidebar({
 
             {/* Toggle dashboard sidebar panel button */}
             {onToggle && (
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon-sm"
                 onClick={onToggle}
                 title="Collapse sidebar panel"
-                className="flex h-7 w-7 items-center justify-center rounded border border-[#1a2868] bg-[#0c1333] text-sublimatio-subtle transition-all hover:border-sublimatio-accent hover:text-white"
+                className="h-7 w-7 border border-[#1a2868] bg-[#0c1333] text-sublimatio-subtle hover:border-sublimatio-accent hover:text-white"
               >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                  />
-                </svg>
-              </button>
+                <ChevronsLeft className="h-4 w-4" />
+              </Button>
             )}
           </div>
+          <Separator className="bg-[#0a102e]/80" />
 
           {/* Navigation Links */}
           <nav className="mt-4 space-y-1">
-            <span className="px-6 pb-1 block font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary">
+            <span className="block px-6 pb-1 font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary">
               Menu Navigation
             </span>
             {navItems.map((item) => (
@@ -258,74 +255,76 @@ export default function Sidebar({
           </nav>
 
           {/* Connected Device List Section */}
-          <div className="mt-6 border-t border-[#0a102e]/80 px-6 pt-4">
+          <div className="mt-6 px-6 pt-4">
+            <Separator className="mb-2.5 bg-[#0a102e]/80" />
             <div className="flex items-center justify-between pb-2.5">
               <span className="font-chakra text-[10px] font-bold uppercase tracking-wider text-sublimatio-subtle">
                 Connected Devices
               </span>
-              <span className="flex items-center gap-1 rounded border border-indigo-800/40 bg-indigo-950/30 px-1.5 py-0.5 font-mono text-[9px] text-indigo-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+              <Badge
+                variant="outline"
+                className="gap-1 rounded border-indigo-800/40 bg-indigo-950/30 px-1.5 py-0.5 font-mono text-[9px] text-indigo-300"
+              >
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-400" />
                 {deviceList.length} Nodes
-              </span>
+              </Badge>
             </div>
 
-            <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1 no-scrollbar">
-              {deviceList.map((dev) => (
-                <div
-                  key={dev.id}
-                  className="group flex items-center justify-between rounded border border-[#0d163d]/50 bg-[#070b20]/60 p-2 transition-all hover:border-sublimatio-accent/60 hover:bg-[#0c143d]/60"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <DeviceIcon type={dev.type} />
-                    <div className="min-w-0">
-                      <p className="truncate font-chakra text-[11px] font-semibold text-slate-200 group-hover:text-white">
-                        {dev.name}
-                      </p>
-                      <p className="truncate font-mono text-[9px] text-sublimatio-tertiary">
-                        {dev.role} &bull; {dev.ip}
-                      </p>
+            <ScrollArea className="h-[220px] pr-1">
+              <div className="pb-1">
+                <div className="space-y-1.5">
+                  {deviceList.map((dev) => (
+                  <div
+                    key={dev.id}
+                    className="group flex items-center justify-between rounded border border-[#0d163d]/50 bg-[#070b20]/60 p-2 transition-all hover:border-sublimatio-accent/60 hover:bg-[#0c143d]/60"
+                  >
+                    <div className="flex min-w-0 items-center gap-2">
+                      <DeviceIcon type={dev.type} />
+                      <div className="min-w-0">
+                        <p className="truncate font-chakra text-[11px] font-semibold text-slate-200 group-hover:text-white">
+                          {dev.name}
+                        </p>
+                        <p className="truncate font-mono text-[9px] text-sublimatio-tertiary">
+                          {dev.role} &bull; {dev.ip}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-shrink-0 flex-col items-end pl-1.5">
+                      {dev.payloadCount > 0 ? (
+                        <Badge
+                          variant="secondary"
+                          className="rounded bg-sublimatio-accent/30 px-1 py-0 font-mono text-[9px] font-bold text-blue-200"
+                        >
+                          {dev.payloadCount} data
+                        </Badge>
+                      ) : (
+                        <span className="font-mono text-[9px] text-slate-500">
+                          idle
+                        </span>
+                      )}
                     </div>
                   </div>
-
-                  <div className="flex flex-col items-end flex-shrink-0 pl-1.5">
-                    {dev.payloadCount > 0 ? (
-                      <span className="rounded bg-sublimatio-accent/30 px-1 py-0.2 font-mono text-[9px] text-blue-200 font-bold">
-                        {dev.payloadCount} data
-                      </span>
-                    ) : (
-                      <span className="font-mono text-[9px] text-slate-500">
-                        idle
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
+          </ScrollArea>
           </div>
         </div>
 
         {/* Footer actions: Logout */}
-        <div className="border-t border-[#0a102e]/80 px-6 pt-3">
-          <Link
-            to="/"
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-1 py-1.5 font-chakra text-xs uppercase text-sublimatio-red hover:text-sublimatio-red/70 transition-colors"
+        <div className="px-6 pt-3">
+          <Separator className="mb-3 bg-[#0a102e]/80" />
+          <Button
+            variant="ghost"
+            asChild
+            className="justify-start gap-3 px-1 py-1.5 font-chakra text-xs uppercase text-sublimatio-red hover:text-sublimatio-red/70"
           >
-            <svg
-              className="h-4 w-4 text-sublimatio-red"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
-            Logout Node
-          </Link>
+            <Link to="/" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 text-sublimatio-red" />
+              Logout Node
+            </Link>
+          </Button>
         </div>
       </aside>
     </>

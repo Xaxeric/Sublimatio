@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AlertTriangle } from "lucide-react";
+
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Preconfigured authorized credentials
 const MOCK_AUTHORIZED_USERS = [
@@ -134,7 +141,7 @@ export default function LoginView() {
     <div className="relative flex min-h-screen items-center justify-center p-5">
       <div className="grid-img-decoration mask-img-w-radial" />
 
-      <section className="glass-card relative z-10 flex w-full max-w-[432px] flex-col gap-5 p-8 shadow-2xl">
+      <Card className="glass-card relative z-10 flex w-full max-w-[432px] gap-5 p-8 py-8 shadow-2xl">
         <header className="flex w-full flex-col gap-2">
           <h1 className="font-chakra text-2xl font-bold tracking-wide text-sublimatio-text">
             Authentication
@@ -144,38 +151,33 @@ export default function LoginView() {
           </h2>
         </header>
 
-        {/* Show Unauthorized Access specifically when on mobile (mobile UA + mobile screen size) */}
+        {/* Unauthorized Access: only on mobile (mobile UA + mobile screen size) */}
         {isMobile && (
-          <div className="flex items-start gap-3 rounded border border-sublimatio-red/60 bg-sublimatio-red/15 p-3.5 font-chakra text-xs text-sublimatio-red shadow-[0_0_20px_rgba(243,38,38,0.25)]">
-            <svg
-              className="mt-0.5 h-5 w-5 flex-shrink-0 text-sublimatio-red"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
-            <div>
+          <Alert
+            variant="destructive"
+            className="animate-slide-down border-sublimatio-red/60 bg-sublimatio-red/15 font-chakra text-xs text-sublimatio-red shadow-[0_0_20px_rgba(243,38,38,0.25)]"
+          >
+            <AlertTriangle className="h-5 w-5 flex-shrink-0 text-sublimatio-red" />
+            <AlertDescription>
               <p className="text-xs font-bold uppercase tracking-wider">
                 Unauthorized Access
               </p>
               <p className="mt-1 font-rajdhani text-[13px] leading-snug text-slate-300">
-                Mobile client device is not authorized. Please authenticate to authorize this client node and access Client Send.
+                Mobile client device is not authorized. Please authenticate to
+                authorize this client node and access Client Send.
               </p>
-            </div>
-          </div>
+            </AlertDescription>
+          </Alert>
         )}
 
-        {/* Error Alert Box (when credentials fail or empty) */}
+        {/* Error alert when credentials fail or empty */}
         {error && (
-          <div className="flex animate-slide-down items-center rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-2.5 font-chakra text-xs text-sublimatio-red">
-            <span>{error}</span>
-          </div>
+          <Alert
+            variant="destructive"
+            className="animate-slide-down border-sublimatio-red/50 bg-sublimatio-red/20 font-chakra text-xs text-sublimatio-red"
+          >
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
@@ -184,13 +186,13 @@ export default function LoginView() {
           </p>
 
           <div>
-            <label
+            <Label
               htmlFor="username_id"
               className="text-xs font-semibold uppercase text-sublimatio-subtle"
             >
               Username
-            </label>
-            <input
+            </Label>
+            <Input
               id="username_id"
               type="text"
               value={username}
@@ -201,13 +203,13 @@ export default function LoginView() {
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="password_id"
               className="text-xs font-semibold uppercase text-sublimatio-subtle"
             >
               Password
-            </label>
-            <input
+            </Label>
+            <Input
               id="password_id"
               type="password"
               value={password}
@@ -218,23 +220,25 @@ export default function LoginView() {
           </div>
 
           <div className="flex gap-2 pt-2">
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={handleCancel}
-              className="ui-focus min-w-[90px] rounded border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50"
+              className="min-w-[90px] border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow hover:brightness-125 active:brightness-50"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
+              variant="outline"
               disabled={submitting}
-              className="ui-focus min-w-[90px] rounded border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-3 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125 active:brightness-50 disabled:opacity-60"
+              className="min-w-[90px] border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow hover:brightness-125 active:brightness-50 disabled:opacity-60"
             >
               {submitting ? "Authenticating..." : "Login"}
-            </button>
+            </Button>
           </div>
         </form>
-      </section>
+      </Card>
     </div>
   );
 }

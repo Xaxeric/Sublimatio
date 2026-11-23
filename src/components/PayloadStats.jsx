@@ -1,3 +1,5 @@
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { countByType } from "../utils/payload.js";
 
 const STAT_ITEMS = [
@@ -19,13 +21,16 @@ export default function PayloadStats({ payloads }) {
   return (
     <section className="grid grid-cols-2 gap-3 sm:grid-cols-5">
       {STAT_ITEMS.map((item) => (
-        <div
+        <Card
           key={item.key}
-          className="glass-card glass-card-hover rounded-lg p-3.5 text-center"
+          className="glass-card glass-card-hover gap-0 rounded-lg px-3.5 py-3.5 text-center"
         >
-          <span className="block font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary">
+          <Badge
+            variant="ghost"
+            className="block rounded-none px-0 font-chakra text-[10px] uppercase tracking-wider text-sublimatio-tertiary"
+          >
             {item.label}
-          </span>
+          </Badge>
           <span
             className={
               "mt-1 block font-chakra text-2xl font-bold " + item.accent
@@ -33,7 +38,7 @@ export default function PayloadStats({ payloads }) {
           >
             {counts[item.key]}
           </span>
-        </div>
+        </Card>
       ))}
     </section>
   );

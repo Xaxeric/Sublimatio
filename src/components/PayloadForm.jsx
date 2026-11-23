@@ -1,4 +1,19 @@
 import { useRef, useState } from "react";
+import { AlertTriangle } from "lucide-react";
+
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import Modal from "./Modal.jsx";
 import {
   ALLOWED_MIME_TYPES,
@@ -40,6 +55,10 @@ export default function PayloadForm({ onAddPayload, onClose }) {
 
   const update = (field) => (event) => {
     const value = field === "ttl" ? Number(event.target.value) : event.target.value;
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateValue = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -116,160 +135,145 @@ export default function PayloadForm({ onAddPayload, onClose }) {
     onClose();
   };
 
-  const inputClass =
-    "ui-input px-3.5 py-2.5";
   const labelClass =
     "mb-1.5 block font-chakra text-xs font-semibold uppercase tracking-wider text-slate-300";
 
   return (
-    <Modal onClose={onClose}>
-      <div className="flex items-center justify-between border-b border-[#0a102e] pb-3">
-        <div className="flex items-center gap-2">
+    <Modal
+      onClose={onClose}
+      description="Tambahkan payload baru ke buffer ephemeral"
+      title={
+        <>
           <span className="h-2.5 w-2.5 bg-sublimatio-accent shadow-[0_0_8px_#1a39ed]" />
-          <h3 className="font-chakra text-lg font-bold tracking-wider text-white">
-            Transmit New Payload
-          </h3>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="p-1 text-xl leading-none text-slate-400 hover:text-white"
-        >
-          &times;
-        </button>
-      </div>
-
+          <span>Transmit New Payload</span>
+        </>
+      }
+    >
       {error && (
-        <div className="flex animate-slide-down items-center gap-2 rounded border border-sublimatio-red/50 bg-sublimatio-red/20 p-3 font-chakra text-xs text-sublimatio-red">
-          <svg
-            className="h-4 w-4 flex-shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-          <span>{error}</span>
-        </div>
+        <Alert
+          variant="destructive"
+          className="flex animate-slide-down items-center gap-2 border-sublimatio-red/50 bg-sublimatio-red/20 font-chakra text-xs text-sublimatio-red"
+        >
+          <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="add-type" className={labelClass}>
+          <Label htmlFor="add-type" className={labelClass}>
             Payload Type
-          </label>
-          <select
-            id="add-type"
+          </Label>
+          <Select
             value={form.type}
-            onChange={update("type")}
-            className={inputClass + " font-chakra"}
+            onValueChange={(value) => updateValue("type", value)}
           >
-            <option value="text">Text Snippet / Clipboard</option>
-            <option value="link">Web Link / URL</option>
-            <option value="file">File Upload / Transfer</option>
-          </select>
+            <SelectTrigger id="add-type" className="ui-input px-3.5 py-2.5 font-chakra">
+              <SelectValue placeholder="Pilih tipe payload" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="text">Text Snippet / Clipboard</SelectItem>
+              <SelectItem value="link">Web Link / URL</SelectItem>
+              <SelectItem value="file">File Upload / Transfer</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
-          <label htmlFor="add-name" className={labelClass}>
-            Item Identifier / Name{" "}
-            <span className="text-sublimatio-red">*</span>
-          </label>
-          <input
+          <Label htmlFor="add-name" className={labelClass}>
+            Item Identifier / Name <span className="text-sublimatio-red">*</span>
+          </Label>
+          <Input
             id="add-name"
             type="text"
             value={form.name}
             onChange={update("name")}
             placeholder="e.g., API Secret Token, Staging DB URL"
-            className={inputClass}
+            className="ui-input px-3.5 py-2.5"
           />
         </div>
 
         {form.type === "text" && (
           <div>
-            <label htmlFor="add-text-input" className={labelClass}>
-              Text Payload Content{" "}
-              <span className="text-sublimatio-red">*</span>
-            </label>
-            <textarea
+            <Label htmlFor="add-text-input" className={labelClass}>
+              Text Payload Content <span className="text-sublimatio-red">*</span>
+            </Label>
+            <Textarea
               id="add-text-input"
               rows="4"
               value={form.textValue}
               onChange={update("textValue")}
               placeholder="Paste sensitive text, credentials, or notes..."
-              className={inputClass + " font-mono"}
+              className="ui-input px-3.5 py-2.5 font-mono"
             />
           </div>
         )}
 
         {form.type === "link" && (
           <div>
-            <label htmlFor="add-url-input" className={labelClass}>
+            <Label htmlFor="add-url-input" className={labelClass}>
               Target URL <span className="text-sublimatio-red">*</span>
-            </label>
-            <input
+            </Label>
+            <Input
               id="add-url-input"
               type="url"
               value={form.urlValue}
               onChange={update("urlValue")}
               placeholder="https://example.com/temporary-room"
-              className={inputClass + " font-mono"}
+              className="ui-input px-3.5 py-2.5 font-mono"
             />
           </div>
         )}
 
         {form.type === "file" && (
           <div>
-            <label htmlFor="add-file-input" className={labelClass}>
+            <Label htmlFor="add-file-input" className={labelClass}>
               Choose File
-            </label>
-            <input
+            </Label>
+            <Input
               id="add-file-input"
               type="file"
               ref={fileRef}
               accept={ALLOWED_MIME_LABEL}
-              className="w-full border border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-indigo-300"
+              className="h-auto w-full border-[#0a102e] bg-[#080d24] px-3.5 py-2 font-mono text-sm text-slate-400 file:mr-3 file:rounded file:border-0 file:bg-blue-900/60 file:px-3 file:py-1.5 file:font-chakra file:text-xs file:text-indigo-300"
             />
           </div>
         )}
 
         <div>
-          <label htmlFor="add-ttl" className={labelClass}>
+          <Label htmlFor="add-ttl" className={labelClass}>
             TTL Expiration
-          </label>
-          <select
-            id="add-ttl"
-            value={form.ttl}
-            onChange={update("ttl")}
-            className={inputClass + " font-chakra"}
+          </Label>
+          <Select
+            value={String(form.ttl)}
+            onValueChange={(value) => updateValue("ttl", Number(value))}
           >
-            {TTL_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger id="add-ttl" className="ui-input px-3.5 py-2.5 font-chakra">
+              <SelectValue placeholder="Pilih TTL" />
+            </SelectTrigger>
+            <SelectContent>
+              {TTL_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={String(option.value)}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="flex items-center justify-end gap-3 border-t border-[#0a102e] pt-3">
-          <button
+        <Separator className="bg-[#0a102e]" />
+        <div className="flex items-center justify-end gap-3">
+          <Button
             type="button"
+            variant="secondary"
             onClick={onClose}
-            className="ui-focus rounded bg-slate-800 px-4 py-2 font-chakra text-xs uppercase tracking-wider text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+            className="bg-slate-800 px-4 py-2 font-chakra text-xs uppercase tracking-wider text-slate-300 hover:bg-slate-700 hover:text-white"
           >
             Cancel
-          </button>
-          <button
-            type="submit"
-            className="ui-btn-primary rounded px-5 py-2"
-          >
+          </Button>
+          <Button type="submit" className="ui-btn-primary rounded px-5 py-2">
             Tambah Payload
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { toast } from "sonner";
 
 import { INITIAL_LOGS, INITIAL_PAYLOADS } from "./data/payloads.js";
 import {
@@ -12,7 +13,7 @@ import ClientView from "./components/ClientView.jsx";
 import ConnectView from "./components/ConnectView.jsx";
 import DashboardView from "./components/DashboardView.jsx";
 import LoginView from "./components/LoginView.jsx";
-import ToastStack from "./components/ToastStack.jsx";
+import { Toaster } from "@/components/ui/sonner";
 import { tickPayloads } from "./utils/payload.js";
 
 const PENDING_TRANSMIT_KEY = "sublimatio_pending_transmit";
@@ -22,8 +23,6 @@ export default function App() {
   const [payloads, setPayloads] = useState(INITIAL_PAYLOADS);
   // Sublimation history (LOG) records.
   const [logs, setLogs] = useState(INITIAL_LOGS);
-  // Floating notifications.
-  const [toasts, setToasts] = useState([]);
 
   // Mirror of the payload list so callbacks and the 1s timer always read fresh data.
   const payloadsRef = useRef(payloads);
@@ -31,32 +30,18 @@ export default function App() {
     payloadsRef.current = payloads;
   }, [payloads]);
 
-  // A toast plays animate-toast-out (0.25s) before it leaves the DOM, so the
-  // removal is split into "mark as leaving" and "drop". The timer ref keeps the
-  // exit phase idempotent: auto-dismiss and the manual close button race.
-  const toastTimers = useRef(new Set());
-
-  const dismissToast = useCallback((id) => {
-    if (toastTimers.current.has(id)) return;
-    toastTimers.current.add(id);
-    setToasts((prev) =>
-      prev.map((toast) => (toast.id === id ? { ...toast, leaving: true } : toast)),
-    );
-    setTimeout(() => {
-      toastTimers.current.delete(id);
-      setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    }, 250);
+  // Sonner owns toast lifecycle now. The app keeps the same public pushToast
+  // contract (message, type, title) and 4.5s auto-dismiss as the old stack;
+  // "danger" maps to Sonner's "error" type.
+  const pushToast = useCallback((message, type = "info", title = "") => {
+    const sonnerType = type === "danger" ? "error" : type;
+    const options = { type: sonnerType, duration: 4500 };
+    if (title) {
+      toast(title, { ...options, description: message });
+    } else {
+      toast(message, options);
+    }
   }, []);
-
-  const pushToast = useCallback(
-    (message, type = "info", title = "") => {
-      const id =
-        "toast-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-      setToasts((prev) => [...prev, { id, message, type, title }]);
-      setTimeout(() => dismissToast(id), 4500);
-    },
-    [dismissToast],
-  );
 
   // Fetch initial payloads from NestJS backend API on component mount
   useEffect(() => {
@@ -289,7 +274,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <ToastStack toasts={toasts} onDismiss={dismissToast} />
+      <Toaster richColors position="bottom-right" duration={4500} />
     </>
   );
 }

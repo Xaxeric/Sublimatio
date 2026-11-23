@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/card";
+
 /**
  * Conditional rendering target: shown when no payload matches the current view.
  *
@@ -5,7 +7,7 @@
  */
 export default function EmptyState({ entityName = "Payload" }) {
   return (
-    <div className="my-auto flex w-full flex-col items-center justify-center space-y-4 px-4 py-16 text-center">
+    <Card className="glass-card my-auto flex w-full flex-col items-center justify-center gap-4 px-4 py-16 text-center">
       <div className="flex h-14 w-14 items-center justify-center border border-slate-800/80 bg-slate-900/60 text-slate-500">
         <svg
           className="h-7 w-7"
@@ -30,6 +32,6 @@ export default function EmptyState({ entityName = "Payload" }) {
           ada item yang cocok dengan filter dan pencarian Anda.
         </p>
       </div>
-    </div>
+    </Card>
   );
 }

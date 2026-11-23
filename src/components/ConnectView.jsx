@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import QRCode from "qrcode";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import { makeHash } from "../utils/payload.js";
 
 /**
@@ -55,9 +61,9 @@ export default function ConnectView() {
     <div className="relative flex min-h-screen items-center justify-center p-4 sm:p-6">
       <div className="grid-img-decoration mask-img-w-radial" />
 
-      <section className="glass-card relative z-10 flex w-full max-w-[500px] flex-col items-center gap-5 p-6 sm:p-8 shadow-2xl">
-        <header className="text-center space-y-1">
-          <h2 className="font-chakra text-base sm:text-lg font-bold tracking-wide text-sublimatio-text">
+      <Card className="glass-card relative z-10 flex w-full max-w-[500px] flex-col items-center gap-5 p-6 py-6 shadow-2xl sm:p-8">
+        <header className="space-y-1 text-center">
+          <h2 className="font-chakra text-base font-bold tracking-wide text-sublimatio-text sm:text-lg">
             Try to scan this QR image with your phone
           </h2>
           <p className="font-rajdhani text-xs text-sublimatio-muted">
@@ -78,9 +84,9 @@ export default function ConnectView() {
               className="h-[240px] w-[240px] rounded object-contain sm:h-[260px] sm:w-[260px]"
             />
           ) : (
-            <div
+            <Skeleton
               aria-hidden="true"
-              className="h-[240px] w-[240px] animate-pulse bg-[#e8ecff]/5 sm:h-[260px] sm:w-[260px]"
+              className="h-[240px] w-[240px] bg-[#e8ecff]/5 sm:h-[260px] sm:w-[260px]"
             />
           )}
           <div className="absolute top-1 left-1 h-3 w-3 border-t-2 border-l-2 border-sublimatio-accent" />
@@ -95,9 +101,12 @@ export default function ConnectView() {
             <span className="font-chakra text-[10px] font-bold uppercase tracking-wider text-sublimatio-subtle">
               Manual Pairing Fallback
             </span>
-            <span className="font-mono text-[10px] text-indigo-400">
+            <Badge
+              variant="outline"
+              className="border-indigo-800/40 bg-indigo-950/30 font-mono text-[10px] text-indigo-300"
+            >
               Protocol: WebSocket / Mesh
-            </span>
+            </Badge>
           </div>
 
           {/* Connect URL Fallback */}
@@ -106,13 +115,15 @@ export default function ConnectView() {
               <span className="font-chakra text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 Connect URL (Fallback):
               </span>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="xs"
                 onClick={handleCopyUrl}
-                className="font-chakra text-[10px] uppercase text-sublimatio-glow hover:text-white transition-colors"
+                className="font-chakra text-[10px] uppercase text-sublimatio-glow hover:text-white"
               >
                 {copied ? "Copied to Clipboard!" : "Copy URL"}
-              </button>
+              </Button>
             </div>
             <div className="flex items-center justify-between gap-2 rounded border border-[#101b4d] bg-[#040714] px-2.5 py-1.5 font-mono text-xs">
               <Link
@@ -122,12 +133,14 @@ export default function ConnectView() {
               >
                 {connectUrl}
               </Link>
-              <Link
-                to="/client"
-                className="flex-shrink-0 rounded bg-sublimatio-accent/30 px-2 py-0.5 font-chakra text-[10px] uppercase font-bold text-white hover:bg-sublimatio-accent"
+              <Button
+                variant="secondary"
+                size="xs"
+                asChild
+                className="flex-shrink-0 bg-sublimatio-accent/30 font-chakra text-[10px] uppercase font-bold text-white hover:bg-sublimatio-accent"
               >
-                Open
-              </Link>
+                <Link to="/client">Open</Link>
+              </Button>
             </div>
           </div>
 
@@ -146,29 +159,28 @@ export default function ConnectView() {
             <span className="block pb-1 font-chakra text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Host User-Agent:
             </span>
-            <div className="max-h-[60px] overflow-y-auto no-scrollbar rounded border border-[#101b4d] bg-[#040714] p-2 font-mono text-[10px] text-slate-400 leading-tight">
-              {userAgent}
-            </div>
+            <ScrollArea className="h-[60px] rounded border border-[#101b4d] bg-[#040714]">
+              <p className="p-2 font-mono text-[10px] leading-tight text-slate-400">
+                {userAgent}
+              </p>
+            </ScrollArea>
           </div>
         </div>
 
         {/* Navigation Action Buttons */}
         <div className="flex w-full items-center justify-between pt-1">
-          <Link
-            to="/dashboard"
-            className="border border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-4 py-2 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow transition-all hover:brightness-125"
+          <Button
+            variant="outline"
+            asChild
+            className="border-[#1a2868] bg-gradient-to-b from-[#1520522d] to-[#0f227737] px-4 font-chakra text-[11px] font-semibold uppercase text-sublimatio-glow hover:brightness-125"
           >
-            &larr; Return to Dashboard
-          </Link>
-          <Link
-            to="/client"
-            className="border border-blue-400 ui-btn-primary px-4 py-2"
-          >
-            Go to Client Send &rarr;
-          </Link>
+            <Link to="/dashboard">&larr; Return to Dashboard</Link>
+          </Button>
+          <Button variant="default" asChild className="ui-btn-primary border-blue-400 px-4 py-2">
+            <Link to="/client">Go to Client Send &rarr;</Link>
+          </Button>
         </div>
-      </section>
+      </Card>
     </div>
   );
 }
-

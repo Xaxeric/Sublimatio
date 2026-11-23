@@ -1,3 +1,4 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
 import EmptyState from "./EmptyState.jsx";
 import PayloadCard from "./PayloadCard.jsx";
 
@@ -22,18 +23,22 @@ export default function PayloadList({
   }
 
   return (
-    <div className="space-y-3">
-      {payloads.map((payload) => (
-        <PayloadCard
-          key={payload.id}
-          payload={payload}
-          onSublimate={onSublimate}
-          onCopy={onCopy}
-          onDownload={onDownload}
-          onInspect={onInspect}
-          onEdit={onEdit}
-        />
-      ))}
-    </div>
+    <ScrollArea className="max-h-[70vh] pr-2">
+      <div className="pb-2">
+        <div className="space-y-3">
+          {payloads.map((payload) => (
+            <PayloadCard
+              key={payload.id}
+              payload={payload}
+              onSublimate={onSublimate}
+              onCopy={onCopy}
+              onDownload={onDownload}
+              onInspect={onInspect}
+              onEdit={onEdit}
+            />
+          ))}
+        </div>
+      </div>
+    </ScrollArea>
   );
 }
