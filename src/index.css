@@ -1,6 +1,206 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Sublimatio design tokens, ported from the v3 tailwind.config.cjs. */
+@theme {
+  --color-sublimatio-bg: #070b1f;
+  --color-sublimatio-dark: #040714;
+  --color-sublimatio-surface: #080d24;
+  --color-sublimatio-card: rgba(8, 13, 36, 0.65);
+  --color-sublimatio-border: #0a102e;
+  --color-sublimatio-border-glow: #1a2868;
+  --color-sublimatio-accent: #1a39ed;
+  --color-sublimatio-glow: #20348d;
+  --color-sublimatio-text: #c6cfff;
+  --color-sublimatio-subtle: #a1a9d9;
+  --color-sublimatio-muted: #6e78a7;
+  --color-sublimatio-tertiary: #6e78a7;
+  --color-sublimatio-amber: #f59e0b;
+  --color-sublimatio-red: #F32626;
+
+  --font-chakra: "Chakra Petch", sans-serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
+  --font-mono: "Kode Mono", monospace;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-sublimate: sublimate 0.8s ease-out forwards;
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-fade-out: fade-out 0.2s ease-in forwards;
+  --animate-modal-in: modal-in 0.2s ease-out;
+  --animate-modal-out: modal-out 0.2s ease-in forwards;
+  --animate-slide-down: slide-down 0.2s ease-out;
+  --animate-slide-up: slide-up 0.2s ease-in forwards;
+  --animate-toast-in: toast-in 0.25s ease-out;
+  --animate-toast-out: toast-out 0.25s ease-in forwards;
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  @keyframes sublimate {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.98);
+      filter: blur(3px) brightness(1.8);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.9);
+      filter: blur(10px) brightness(2);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes modal-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes toast-out {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+  }
+}
+
+/* shadcn/ui theme contract, wired to the Sublimatio indigo/navy palette. */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: #070b1f;
+  --foreground: #c6cfff;
+  --card: rgba(8, 13, 36, 0.65);
+  --card-foreground: #c6cfff;
+  --popover: #080d24;
+  --popover-foreground: #c6cfff;
+  --primary: #1a39ed;
+  --primary-foreground: #ffffff;
+  --secondary: #0a102e;
+  --secondary-foreground: #c6cfff;
+  --muted: #0a102e;
+  --muted-foreground: #6e78a7;
+  --accent: #1a2868;
+  --accent-foreground: #c6cfff;
+  --destructive: #F32626;
+  --destructive-foreground: #ffffff;
+  --border: #0a102e;
+  --input: #0a102e;
+  --ring: #1a39ed;
+  --chart-1: #1a39ed;
+  --chart-2: #20348d;
+  --chart-3: #1a2868;
+  --chart-4: #f59e0b;
+  --chart-5: #a1a9d9;
+
+  /* shadcn Sonner toast palette */
+  --normal-bg: #080d24;
+  --normal-text: #c6cfff;
+  --normal-border: #0a102e;
+  --success: #1a39ed;
+}
 
 @layer base {
   * {
@@ -28,6 +228,12 @@
   body {
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  /* shadcn components use a bare `border` utility; give it the app border color
+     without painting the body (which would hide the navy gradient above). */
+  * {
+    @apply border-border;
   }
 }
 
