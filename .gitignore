@@ -11,3 +11,9 @@ docs/*-submission.odt
 docs/scripts/
 docs/*-submission.html
 docs/.~lock.*
+
+README.md
+docs/README.md
+backend/AGENTS.md
+backend/README.md
+backend/SECURITY_NOTES.md
