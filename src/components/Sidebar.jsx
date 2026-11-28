@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { ChevronsLeft, LogOut } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -147,14 +147,19 @@ export default function Sidebar({
   isOpen = true,
   onToggle,
   onClose,
+  onLogout,
 }) {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     try {
+      // Clean up the legacy mock-auth key from the mobile-client guard.
       sessionStorage.removeItem("sublimatio_auth");
-      localStorage.removeItem("sublimatio_auth");
     } catch {
       // Ignore storage errors
     }
+    onLogout?.();
+    navigate("/", { replace: true });
   };
 
   // Compute active payload count for each device

@@ -26,6 +26,7 @@ export default function DashboardView({
   onCopy,
   onDownload,
   onConsumePending,
+  onLogout,
 }) {
   const [showForm, setShowForm] = useState(() => {
     if (typeof window !== "undefined") {
@@ -80,6 +81,7 @@ export default function DashboardView({
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen((prev) => !prev)}
         onClose={() => setSidebarOpen(false)}
+        onLogout={onLogout}
       />
 
       <main

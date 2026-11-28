@@ -4,10 +4,14 @@ import { toast } from "sonner";
 
 import { INITIAL_LOGS, INITIAL_PAYLOADS } from "./data/payloads.js";
 import {
+  clearStoredAuth,
   createPayloadApi,
   deletePayloadApi,
   fetchPayloadsApi,
+  getStoredAuth,
+  storeAuth,
   updatePayloadApi,
+  UNAUTHORIZED_EVENT,
 } from "./api/payloads.js";
 import ClientView from "./components/ClientView.jsx";
 import ConnectView from "./components/ConnectView.jsx";
@@ -16,9 +20,49 @@ import LoginView from "./components/LoginView.jsx";
 import { Toaster } from "@/components/ui/sonner";
 import { tickPayloads } from "./utils/payload.js";
 
+function ProtectedRoute({ token, children }) {
+  return token ? children : <Navigate to="/" replace />;
+}
+
 const PENDING_TRANSMIT_KEY = "sublimatio_pending_transmit";
 
 export default function App() {
+  // Auth state is restored from localStorage so a reload keeps the session.
+  const [token, setToken] = useState(() => getStoredAuth().token);
+  const [user, setUser] = useState(() => getStoredAuth().user);
+
+  // LoginView performs the API calls and hands back { accessToken, user }.
+  const login = useCallback((session) => {
+    storeAuth(session);
+    setToken(session.accessToken);
+    setUser(session.user ?? null);
+  }, []);
+
+  // Registration returns only the public user, so LoginView follows up with
+  // loginApi and persists the resulting session through the same callback.
+  const register = useCallback((session) => {
+    storeAuth(session);
+    setToken(session.accessToken);
+    setUser(session.user ?? null);
+  }, []);
+
+  const logout = useCallback(() => {
+    clearStoredAuth();
+    setToken(null);
+    setUser(null);
+  }, []);
+
+  // A 401 from any payload endpoint clears localStorage in the API layer;
+  // mirror that into React state so protected routes redirect immediately.
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setToken(null);
+      setUser(null);
+    };
+    window.addEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+  }, []);
+
   // Main entity state: the list of Payload objects held in the volatile buffer.
   const [payloads, setPayloads] = useState(INITIAL_PAYLOADS);
   // Sublimation history (LOG) records.
@@ -43,8 +87,9 @@ export default function App() {
     }
   }, []);
 
-  // Fetch initial payloads from NestJS backend API on component mount
+  // Fetch initial payloads from NestJS backend API once authenticated.
   useEffect(() => {
+    if (!token) return undefined;
     let mounted = true;
     fetchPayloadsApi()
       .then((data) => {
@@ -66,7 +111,7 @@ export default function App() {
     return () => {
       mounted = false;
     };
-  }, [pushToast]);
+  }, [token, pushToast]);
 
   // Records a payload into the LOG section and shows the purge notification.
   const recordSublimation = useCallback(
@@ -253,24 +298,46 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LoginView />} />
+        <Route
+          path="/"
+          element={
+            <LoginView token={token} login={login} register={register} />
+          }
+        />
         <Route
           path="/dashboard"
           element={
-            <DashboardView
-              payloads={payloads}
-              logs={logs}
-              onAddPayload={addPayload}
-              onUpdatePayload={updatePayload}
-              onSublimate={sublimatePayload}
-              onCopy={copyToClipboard}
-              onDownload={downloadPayload}
-              onConsumePending={consumePendingTransmission}
-            />
+            <ProtectedRoute token={token}>
+              <DashboardView
+                payloads={payloads}
+                logs={logs}
+                onAddPayload={addPayload}
+                onUpdatePayload={updatePayload}
+                onSublimate={sublimatePayload}
+                onCopy={copyToClipboard}
+                onDownload={downloadPayload}
+                onConsumePending={consumePendingTransmission}
+                onLogout={logout}
+              />
+            </ProtectedRoute>
           }
         />
-        <Route path="/connect" element={<ConnectView />} />
-        <Route path="/client" element={<ClientView pushToast={pushToast} />} />
+        <Route
+          path="/connect"
+          element={
+            <ProtectedRoute token={token}>
+              <ConnectView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/client"
+          element={
+            <ProtectedRoute token={token}>
+              <ClientView pushToast={pushToast} />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

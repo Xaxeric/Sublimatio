@@ -2,22 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 
+import { loginApi, registerApi } from "../api/payloads.js";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-// Preconfigured authorized credentials
-const MOCK_AUTHORIZED_USERS = [
-  { username: "admin", password: "password" },
-  { username: "admin", password: "admin" },
-  { username: "client", password: "client" },
-  { username: "client", password: "password" },
-  { username: "user", password: "user" },
-  { username: "user", password: "password" },
-  { username: "sublimatio", password: "sublimatio" },
-];
 
 /**
  * Mobile user-agent detection regex.
@@ -30,15 +20,17 @@ function isMobileUA() {
 }
 
 /**
- * Login view.
- * - Desktop user-agent: automatically shows login-page like normally.
- * - Mobile user-agent + mobile screen size: shows unauthorized access warning.
- * - When mobile logs in and is authorized: straight to client send (/client).
- * - When unauthorized/wrong credentials: denied.
+ * Login / registration view backed by the NestJS auth endpoints.
+ * - Desktop user-agent: shows the login form normally.
+ * - Mobile user-agent + mobile screen size: shows the unauthorized access
+ *   warning and goes straight to Client Send after authenticating.
+ * - Wrong credentials / validation failures are reported from the API.
  */
-export default function LoginView() {
+export default function LoginView({ token, login, register }) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [mode, setMode] = useState("login");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -61,88 +53,72 @@ export default function LoginView() {
 
   const isMobile = isMobileUA() && isMobileScreen;
 
-  // If already authorized in session on mobile device, go straight to client send
+  // Already authenticated (e.g. after a reload): resume the right view.
   useEffect(() => {
-    try {
-      const stored = sessionStorage.getItem("sublimatio_auth");
-      if (stored) {
-        const auth = JSON.parse(stored);
-        if (auth && auth.authorized) {
-          if (isMobile) {
-            navigate("/client");
-          } else {
-            navigate("/dashboard");
-          }
-        }
-      }
-    } catch {
-      // Ignore sessionStorage read errors
+    if (token) {
+      navigate(isMobile ? "/client" : "/dashboard", { replace: true });
     }
-  }, [isMobile, navigate]);
+  }, [token, isMobile, navigate]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Required fields check
-    if (!username.trim() || !password.trim()) {
-      setError("Username and password must be fill before login!");
-      return;
-    }
-
-    // Authorization check
-    const isAuthorized = MOCK_AUTHORIZED_USERS.some(
-      (user) =>
-        user.username.toLowerCase() === username.trim().toLowerCase() &&
-        user.password === password.trim(),
-    );
-
-    if (!isAuthorized) {
-      // Denied when not authorized
-      setError(
-        isMobile
-          ? "Access Denied: Mobile client authorization rejected. Invalid credentials."
-          : "Access Denied: Invalid credentials.",
-      );
-      return;
-    }
-
-    // Authorized
+  const switchMode = () => {
+    setMode((prev) => (prev === "login" ? "register" : "login"));
     setError("");
-    setSubmitting(true);
+    setPassword("");
+  };
 
-    const authData = {
-      username: username.trim(),
-      authorized: true,
-      device: isMobile ? "Mobile (Client Node)" : "Desktop (Workstation)",
-      loginTime: new Date().toISOString(),
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
 
-    try {
-      sessionStorage.setItem("sublimatio_auth", JSON.stringify(authData));
-    } catch (e) {
-      console.warn("Could not save session:", e);
+    if (!email.trim() || !password.trim() || (mode === "register" && !name.trim())) {
+      setError("Email, password dan nama (saat mendaftar) wajib diisi.");
+      return;
     }
 
-    // Mobile goes straight to client send, desktop goes to dashboard
-    if (isMobile) {
-      setTimeout(() => navigate("/client"), 400);
-    } else {
-      setTimeout(() => navigate("/dashboard"), 400);
+    setSubmitting(true);
+    try {
+      if (mode === "register") {
+        // POST /auth/register returns the public user only; exchange the new
+        // credentials for a token through POST /auth/login.
+        await registerApi({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        });
+        register(await loginApi({ email: email.trim(), password }));
+      } else {
+        login(await loginApi({ email: email.trim(), password }));
+      }
+
+      setPassword("");
+      navigate(isMobile ? "/client" : "/dashboard", { replace: true });
+    } catch (err) {
+      setError(
+        err.message ||
+          (isMobile
+            ? "Access Denied: Mobile client authorization rejected. Invalid credentials."
+            : "Access Denied: Invalid credentials."),
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleCancel = () => {
-    setUsername("");
+    setName("");
+    setEmail("");
     setPassword("");
     setError("");
   };
+
+  const isRegister = mode === "register";
 
   return (
     <div className="relative flex min-h-screen items-center justify-center p-5">
       <Card className="relative z-10 flex w-full max-w-[432px] gap-5 p-8 py-8 shadow-2xl">
         <header className="flex w-full flex-col gap-2">
           <h1 className="text-2xl font-bold tracking-wide text-foreground">
-            Authentication
+            {isRegister ? "Create Account" : "Authentication"}
           </h1>
           <h2 className="text-sm font-semibold tracking-wider text-muted-foreground">
             Sublimatio - Sync. Sublimate. Vanish.
@@ -165,7 +141,7 @@ export default function LoginView() {
           </Alert>
         )}
 
-        {/* Error alert when credentials fail or empty */}
+        {/* Error alert when credentials fail or validation rejects input */}
         {error && (
           <Alert variant="destructive" className="text-xs">
             <AlertDescription>{error}</AlertDescription>
@@ -174,22 +150,45 @@ export default function LoginView() {
 
         <form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
           <p className="text-sm font-medium text-muted-foreground">
-            Please use login using your preconfigured credential
+            {isRegister
+              ? "Register a new account to enter the buffer."
+              : "Sign in with your registered account."}
           </p>
+
+          {isRegister && (
+            <div>
+              <Label
+                htmlFor="name_id"
+                className="text-xs font-semibold uppercase text-muted-foreground"
+              >
+                Name
+              </Label>
+              <Input
+                id="name_id"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Input your name"
+                autoComplete="name"
+                className="my-2 p-2 text-[13px] text-foreground"
+              />
+            </div>
+          )}
 
           <div>
             <Label
-              htmlFor="username_id"
+              htmlFor="email_id"
               className="text-xs font-semibold uppercase text-muted-foreground"
             >
-              Username
+              Email
             </Label>
             <Input
-              id="username_id"
-              type="text"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              placeholder="Input your username"
+              id="email_id"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Input your email"
+              autoComplete="email"
               className="my-2 p-2 text-[13px] text-foreground"
             />
           </div>
@@ -207,6 +206,7 @@ export default function LoginView() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Input your password here"
+              autoComplete={isRegister ? "new-password" : "current-password"}
               className="password-masked my-2 p-2 text-[13px] text-foreground"
             />
           </div>
@@ -225,9 +225,26 @@ export default function LoginView() {
               disabled={submitting}
               className="min-w-[90px] text-[11px] font-semibold uppercase disabled:opacity-60"
             >
-              {submitting ? "Authenticating..." : "Login"}
+              {submitting
+                ? isRegister
+                  ? "Registering..."
+                  : "Authenticating..."
+                : isRegister
+                  ? "Register"
+                  : "Login"}
             </Button>
           </div>
+
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={switchMode}
+            className="justify-start px-0 text-[11px] uppercase text-muted-foreground hover:text-foreground"
+          >
+            {isRegister
+              ? "Already registered? Login"
+              : "Need an account? Register"}
+          </Button>
         </form>
       </Card>
     </div>
