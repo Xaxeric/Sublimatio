@@ -9,7 +9,9 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePayloadDto } from './dto/create-payload.dto';
 import { UpdatePayloadDto } from './dto/update-payload.dto';
 import { PayloadsService } from './payloads.service';
@@ -19,6 +21,7 @@ import { PayloadsService } from './payloads.service';
  * Seluruh operasi memanggil PayloadsService via Dependency Injection.
  */
 @Controller('payloads')
+@UseGuards(JwtAuthGuard)
 export class PayloadsController {
   constructor(private readonly payloadsService: PayloadsService) {}
 

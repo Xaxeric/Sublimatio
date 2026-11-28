@@ -33,3 +33,12 @@ model Payload {
 
   @@map("Payload")
 }
+
+/// Registered API user. `password` stores only a bcrypt hash, never plaintext.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+}

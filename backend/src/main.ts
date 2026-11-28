@@ -1,9 +1,16 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  // Load backend/.env (DATABASE_URL, JWT_SECRET) without committing secrets.
+  process.loadEnvFile?.();
+
   const app = await NestFactory.create(AppModule);
+
+  // Helmet sets X-Content-Type-Options, X-Frame-Options, etc. on all responses.
+  app.use(helmet());
 
   // Aktifkan CORS agar frontend Vite (http://localhost:5173) dapat mengakses API
   app.enableCors();
