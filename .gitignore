@@ -6,7 +6,8 @@ Project_Vault_knowledge
 legacy/
 *.tsbuildinfo
 
-docs/week11-submission.pdf
-docs/week11-submission.odt
+docs/*-submission.pdf
+docs/*-submission.odt
 docs/scripts/
-docs/week11-submission.html
+docs/*-submission.html
+docs/.~lock.*
