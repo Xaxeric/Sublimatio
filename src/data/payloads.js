@@ -1,4 +1,4 @@
-// Seed data for the Payload entity — the main data entity of the Sublimatio app.
+// Seed data for the Payload entity - the main data entity of the Sublimatio app.
 // Every payload is a transient file, link, or text snippet stored in the mesh buffer.
 
 export const INITIAL_PAYLOADS = [
@@ -83,7 +83,7 @@ export const INITIAL_LOGS = [
   },
 ];
 
-// Entity attribute descriptors — keeps the dashboard labels in one place.
+// Entity attribute descriptors - keeps the dashboard labels in one place.
 export const PAYLOAD_TYPE_LABELS = {
   file: "FILE",
   link: "LINK",

@@ -182,7 +182,7 @@ export class PayloadsService {
   }
 
   /**
-   * Bonus: advanced query — count payloads, optionally filtered by type.
+   * Bonus: advanced query - count payloads, optionally filtered by type.
    */
   async countByType(type?: Payload['type']): Promise<{ count: number }> {
     const count = type

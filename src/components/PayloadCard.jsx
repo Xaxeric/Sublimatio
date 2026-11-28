@@ -106,7 +106,7 @@ export default function PayloadCard({
           <span className="text-xs text-muted-foreground">
             {payload.size || "0 KB"}
           </span>
-          <span className="text-muted-foreground/60">&bull;</span>
+          <span className="text-muted-foreground/60">|</span>
           <span className="truncate text-xs text-muted-foreground">
             {payload.mime || "application/octet-stream"}
           </span>
@@ -133,7 +133,7 @@ export default function PayloadCard({
         <span className="inline-block max-w-md truncate rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground">
           {payload.content}
         </span>
-        <span className="text-muted-foreground/60">&bull;</span>
+        <span className="text-muted-foreground/60">|</span>
         <span className="text-xs text-muted-foreground">
           {(payload.content || "").length} chars
         </span>

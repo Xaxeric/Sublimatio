@@ -290,7 +290,7 @@ export default function Sidebar({
                           {dev.name}
                         </p>
                         <p className="truncate text-[9px] text-muted-foreground">
-                          {dev.role} &bull; {dev.ip}
+                          {dev.role} | {dev.ip}
                         </p>
                       </div>
                     </div>

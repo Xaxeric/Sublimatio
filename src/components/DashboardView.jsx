@@ -112,8 +112,8 @@ export default function DashboardView({
 
         <section className="flex flex-1 flex-col space-y-3">
           <div className="flex items-center justify-between px-2 text-xs uppercase tracking-wider text-muted-foreground">
-            <span>{ENTITY_NAME} Payload &amp; Origin</span>
-            <span>Circular TTL Expiration &amp; Actions</span>
+            <span>{ENTITY_NAME} Payload and Origin</span>
+            <span>Circular TTL Expiration and Actions</span>
           </div>
 
           <Separator />
